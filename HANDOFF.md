@@ -41,3 +41,8 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 ## Instructions for next agent
 - Đọc kỹ `HANDOFF.md`, `README.md` và kiểm tra `git status` trước khi thực hiện bất kỳ lệnh nào.
 - Khi tiếp nhận viết bài mới, hãy query bảng `brand_voice` trong `brain.db` và tuân thủ checklist y khoa đã thiết lập.
+
+## Architecture Alignment (2026-09-13)
+- Đã đồng bộ triết lý thiết kế dài hạn: 'One Brain. Many Sources. Many Modes. Many Voices. One Safety Layer'.
+- Khẳng định tính khả thi của việc tích hợp vào App / Chatbot / AI Trợ giảng cho lớp học.
+- Cấu trúc hiện tại của brain.db hoàn toàn tương thích và mở rộng được mà không cần đập đi xây lại.
