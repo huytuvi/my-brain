@@ -3,37 +3,43 @@
 Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ Claude Code ↔ Cursor).
 
 ## Current Status
-- **Trạng thái hiện tại**: Đã khởi tạo cấu trúc thư mục và tài liệu nền tảng cho project Second Brain.
+- **Trạng thái hiện tại**: Đã hoàn thành khởi tạo database SQLite `brain.db` và nạp dữ liệu mẫu ban đầu.
 - **Agent thực hiện gần nhất**: Google Antigravity.
 - **Thời gian**: 2026-09-13.
 
 ## What was completed
-- Tạo thư mục `Desktop/my-brain`.
-- Khởi tạo Git repository (`git init`).
-- Tạo đầy đủ 6 file tài liệu nền tảng.
+- Tạo script `scripts/create_db.py` hỗ trợ cơ chế idempotent.
+- Tạo database SQLite `brain.db` tại thư mục gốc của project.
+- Thiết lập 3 bảng: `knowledge`, `business`, `brand_voice`.
+- Nạp 2 dòng dữ liệu mẫu vào mỗi bảng.
+- Chạy kiểm tra truy vấn SQLite3 xác nhận dữ liệu đã được ghi nhận.
 
 ## What was changed
-- Thêm mới các file: `README.md`, `ARCHITECTURE.md`, `CHANGELOG.md`, `TODO.md`, `HANDOFF.md`, `.gitignore`.
+- Thêm mới `scripts/create_db.py`.
+- Thêm mới cơ sở dữ liệu `brain.db`.
+- Cập nhật `CHANGELOG.md`, `TODO.md`, `HANDOFF.md`.
 
 ## Tests performed
-- Kiểm tra tính toàn vẹn của thư mục và cấu trúc Git.
+- Chạy `sqlite3 brain.db ".tables"` -> Trả về đủ 3 bảng: `brand_voice`, `business`, `knowledge`.
+- Chạy `SELECT` trên từng bảng -> Xác nhận dữ liệu mẫu đã hiển thị chính xác.
+- Chạy lại script `create_db.py` lần 2 -> Đảm bảo tính idempotent, không bị nhân đôi dữ liệu.
 
 ## Current state
-- Sẵn sàng bước vào giai đoạn tạo script Python và khởi tạo SQLite `brain.db`.
+- Database sẵn sàng để tiếp nhận Brand Voice và dữ liệu thực tế từ người dùng.
 
 ## Next task
-- Tạo file `scripts/create_db.py`.
-- Chạy tạo database `brain.db` với 3 bảng (`knowledge`, `business`, `brand_voice`).
-- Thêm 2 dòng dữ liệu mẫu cho mỗi bảng.
+- Thu thập Brand Voice thực tế từ người dùng (giọng điệu, từ yêu thích, từ kiêng kỵ, đối tượng đọc, bài viết mẫu).
+- Nạp Brand Voice vào bảng `brand_voice` trong `brain.db`.
+- Thực hiện sinh bài viết Facebook tự động và xuất ra file `post.txt` (và `output/post.txt`).
 
 ## Important decisions
-- Sử dụng SQLite3 vì tính chất nhẹ, không cần server cài đặt phức tạp, dễ dàng sao lưu và đồng bộ.
-- Dùng cơ chế Handoff Markdown để đảm bảo tính liên tục giữa các AI coding agents khác nhau.
+- Giữ nguyên thiết kế bảng với cấu trúc 4 cột cơ bản (`id`, `title`, `content`, `created_at`) theo đúng chuẩn yêu cầu đề bài.
+- Lưu trữ bài viết xuất ra ở cả thư mục gốc (`post.txt`) và thư mục `output/` để vừa tương thích SOP gốc vừa giữ cấu trúc dự án sạch sẽ.
 
 ## Known issues
-- Chưa có.
+- Không có.
 
 ## Instructions for next agent
-- Đọc kỹ `README.md` và `ARCHITECTURE.md`.
-- Thực hiện công việc tiếp theo trong mục **Next task**.
-- Sau khi hoàn thành, nhớ cập nhật lại `CHANGELOG.md` và file `HANDOFF.md` này trước khi kết thúc phiên.
+- Đọc các bản ghi trong bảng `brand_voice` từ `brain.db`.
+- Dựa trên phong cách này để sinh bài viết theo chủ đề mà người dùng chỉ định.
+- Lưu bài viết vào `post.txt` và `output/post.txt`.

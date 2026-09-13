@@ -6,6 +6,12 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.2.0] - 2026-09-13
+### Added
+- Thêm script khởi tạo database `scripts/create_db.py`.
+- Tạo cơ sở dữ liệu SQLite `brain.db` với 3 bảng: `knowledge`, `business`, `brand_voice`.
+- Nạp 2 bản ghi mẫu cho mỗi bảng, hỗ trợ chạy lặp lại an toàn (idempotent).
+
 ## [0.1.0] - 2026-09-13
 ### Added
 - Khởi tạo project Second Brain `my-brain`.
