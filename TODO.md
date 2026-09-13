@@ -6,6 +6,6 @@
 - [x] Viết script `scripts/create_db.py` tạo SQLite `brain.db` với 3 bảng (`knowledge`, `business`, `brand_voice`).
 - [x] Chạy script và kiểm tra dữ liệu database.
 - [x] Commit checkpoint database vào Git.
-- [ ] Thu thập và nạp Brand Voice thật của người dùng vào bảng `brand_voice`.
+- [x] Thu thập và nạp Brand Voice thật của người dùng vào bảng `brand_voice`.
 - [ ] Test AI đọc database và viết bài ra `post.txt` và `output/post.txt`.
 - [ ] Cập nhật `HANDOFF.md` và chuẩn bị dữ liệu nộp bài SOP Ngày 5.

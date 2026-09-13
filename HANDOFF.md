@@ -3,43 +3,33 @@
 Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ Claude Code ↔ Cursor).
 
 ## Current Status
-- **Trạng thái hiện tại**: Đã hoàn thành khởi tạo database SQLite `brain.db` và nạp dữ liệu mẫu ban đầu.
+- **Trạng thái hiện tại**: Đã nạp và huấn luyện thành công Brand Voice Simon Center (2 Giọng: Tư vấn 1-1 & Giảng học thuật) vào database `brain.db`.
 - **Agent thực hiện gần nhất**: Google Antigravity.
 - **Thời gian**: 2026-09-13.
 
 ## What was completed
-- Tạo script `scripts/create_db.py` hỗ trợ cơ chế idempotent.
-- Tạo database SQLite `brain.db` tại thư mục gốc của project.
-- Thiết lập 3 bảng: `knowledge`, `business`, `brand_voice`.
-- Nạp 2 dòng dữ liệu mẫu vào mỗi bảng.
-- Chạy kiểm tra truy vấn SQLite3 xác nhận dữ liệu đã được ghi nhận.
-
-## What was changed
-- Thêm mới `scripts/create_db.py`.
-- Thêm mới cơ sở dữ liệu `brain.db`.
-- Cập nhật `CHANGELOG.md`, `TODO.md`, `HANDOFF.md`.
+- Lưu trữ file Brand Voice gốc tại `data/brand_voice/simon_center_brand_voice.md`.
+- Cập nhật bảng `brand_voice` trong `brain.db` với 4 module:
+  1. Nền tảng chung & Ranh giới Y khoa (Phần 0: Bốn chữ KHÔNG).
+  2. Giọng 1: Tư vấn & Chuyên khoa (Hong Van + Gabor Maté + BS Trần Văn Phúc).
+  3. Giọng 2: Giảng kiến thức học thuật (Doctor Mike + Elon Musk).
+  4. Quy tắc chọn giọng & Checklist kiểm duyệt 6 điểm.
+- Cập nhật thông tin nhận diện Simon Center vào bảng `business`.
 
 ## Tests performed
-- Chạy `sqlite3 brain.db ".tables"` -> Trả về đủ 3 bảng: `brand_voice`, `business`, `knowledge`.
-- Chạy `SELECT` trên từng bảng -> Xác nhận dữ liệu mẫu đã hiển thị chính xác.
-- Chạy lại script `create_db.py` lần 2 -> Đảm bảo tính idempotent, không bị nhân đôi dữ liệu.
+- Truy vấn SQLite `SELECT id, title FROM brand_voice` -> Xác nhận toàn bộ 4 module Brand Voice đã được lưu trữ hoàn chỉnh.
+- Kiểm tra tính toàn vẹn của dữ liệu trong database `brain.db`.
 
 ## Current state
-- Database sẵn sàng để tiếp nhận Brand Voice và dữ liệu thực tế từ người dùng.
+- Database `brain.db` đã mang đầy đủ trí tuệ và linh hồn thương hiệu của Simon Center.
+- Sẵn sàng để thực hiện bước test viết bài ra file `post.txt` và `output/post.txt`.
 
 ## Next task
-- Thu thập Brand Voice thực tế từ người dùng (giọng điệu, từ yêu thích, từ kiêng kỵ, đối tượng đọc, bài viết mẫu).
-- Nạp Brand Voice vào bảng `brand_voice` trong `brain.db`.
-- Thực hiện sinh bài viết Facebook tự động và xuất ra file `post.txt` (và `output/post.txt`).
-
-## Important decisions
-- Giữ nguyên thiết kế bảng với cấu trúc 4 cột cơ bản (`id`, `title`, `content`, `created_at`) theo đúng chuẩn yêu cầu đề bài.
-- Lưu trữ bài viết xuất ra ở cả thư mục gốc (`post.txt`) và thư mục `output/` để vừa tương thích SOP gốc vừa giữ cấu trúc dự án sạch sẽ.
-
-## Known issues
-- Không có.
+- Nhận chủ đề bài viết từ người dùng.
+- AI đọc nội dung từ `brand_voice` trong `brain.db`, chọn giọng phù hợp (Giọng 1 hoặc Giọng 2) và tuân thủ tuyệt đối ranh giới y khoa.
+- Viết bài và xuất file ra `post.txt` và `output/post.txt`.
+- Chuẩn bị nội dung hoàn tất bài nộp SOP Day 5.
 
 ## Instructions for next agent
-- Đọc các bản ghi trong bảng `brand_voice` từ `brain.db`.
-- Dựa trên phong cách này để sinh bài viết theo chủ đề mà người dùng chỉ định.
-- Lưu bài viết vào `post.txt` và `output/post.txt`.
+- Khi nhận yêu cầu viết bài, bắt buộc truy vấn bảng `brand_voice` trong `brain.db`.
+- Luôn kiểm tra 6 tiêu chí checklist trong module 4 trước khi xuất bản nội dung y khoa.
