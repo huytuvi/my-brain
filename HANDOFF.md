@@ -3,33 +3,41 @@
 Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ Claude Code ↔ Cursor).
 
 ## Current Status
-- **Trạng thái hiện tại**: Đã nạp và huấn luyện thành công Brand Voice Simon Center (2 Giọng: Tư vấn 1-1 & Giảng học thuật) vào database `brain.db`.
+- **Trạng thái hiện tại**: Đã hoàn thành 100% mục tiêu của SOP Ngày 5 - Xây dựng Bộ Não Thứ 2 (Second Brain).
 - **Agent thực hiện gần nhất**: Google Antigravity.
 - **Thời gian**: 2026-09-13.
 
 ## What was completed
-- Lưu trữ file Brand Voice gốc tại `data/brand_voice/simon_center_brand_voice.md`.
-- Cập nhật bảng `brand_voice` trong `brain.db` với 4 module:
-  1. Nền tảng chung & Ranh giới Y khoa (Phần 0: Bốn chữ KHÔNG).
-  2. Giọng 1: Tư vấn & Chuyên khoa (Hong Van + Gabor Maté + BS Trần Văn Phúc).
-  3. Giọng 2: Giảng kiến thức học thuật (Doctor Mike + Elon Musk).
-  4. Quy tắc chọn giọng & Checklist kiểm duyệt 6 điểm.
-- Cập nhật thông tin nhận diện Simon Center vào bảng `business`.
+- Khởi tạo thư mục và Git version control (`my-brain`).
+- Thiết lập đầy đủ bộ tài liệu chuẩn: `README.md`, `ARCHITECTURE.md`, `CHANGELOG.md`, `TODO.md`, `HANDOFF.md`, `.gitignore`.
+- Tạo cơ sở dữ liệu SQLite `brain.db` bằng script `scripts/create_db.py` (đảm bảo tính idempotent).
+- Huấn luyện và nạp toàn bộ tài liệu Brand Voice của Simon Center vào bảng `brand_voice` (gồm Nền tảng chung, Giọng 1 Tư vấn 1-1, Giọng 2 Giảng học thuật, và Quy tắc chọn giọng / Checklist kiểm duyệt).
+- Sinh thành công 2 bài viết mẫu theo đúng 2 tone voice ra file `post.txt` và `output/post.txt`.
+
+## What was changed
+- Thêm file `post.txt` tại gốc và các bài viết riêng biệt trong `output/`.
+- Cập nhật `CHANGELOG.md`, `TODO.md`, `HANDOFF.md`.
 
 ## Tests performed
-- Truy vấn SQLite `SELECT id, title FROM brand_voice` -> Xác nhận toàn bộ 4 module Brand Voice đã được lưu trữ hoàn chỉnh.
-- Kiểm tra tính toàn vẹn của dữ liệu trong database `brain.db`.
+- Truy vấn bảng `brand_voice` từ SQLite `brain.db` để lấy dữ liệu giọng văn.
+- Kiểm tra 6 tiêu chí y khoa trước khi xuất bản (xưng hô chuẩn lễ nghi, 4 chữ KHÔNG, dặn khám trực tiếp khi có dấu hiệu cờ đỏ, câu miễn trừ trách nhiệm y khoa).
+- File `post.txt` đã được ghi thành công với dung lượng đầy đủ.
 
 ## Current state
-- Database `brain.db` đã mang đầy đủ trí tuệ và linh hồn thương hiệu của Simon Center.
-- Sẵn sàng để thực hiện bước test viết bài ra file `post.txt` và `output/post.txt`.
+- Dự án đã hoàn tất trọn vẹn, sẵn sàng nộp bài SOP Ngày 5 hoặc tiếp tục phát triển mở rộng (RAG, Semantic Search, Agent luân chuyển).
 
 ## Next task
-- Nhận chủ đề bài viết từ người dùng.
-- AI đọc nội dung từ `brand_voice` trong `brain.db`, chọn giọng phù hợp (Giọng 1 hoặc Giọng 2) và tuân thủ tuyệt đối ranh giới y khoa.
-- Viết bài và xuất file ra `post.txt` và `output/post.txt`.
-- Chuẩn bị nội dung hoàn tất bài nộp SOP Day 5.
+- Người dùng review nội dung trong `post.txt` để đánh giá độ giống giọng văn.
+- Chụp ảnh màn hình terminal / agent để làm bằng chứng nộp bài.
+- Có thể test tính năng chuyển giao sang Claude Code theo Bước 13 của tài liệu `Bai 5.docx`.
+
+## Important decisions
+- Duy trì 2 giọng văn song song trong cùng một Second Brain: một giọng cho đồng hành trị liệu (1-1) và một giọng cho giáo dục đại chúng (community).
+- Lưu giữ nguyên tắc y khoa bất biến làm 'lan can an toàn' (guardrail) cho mọi câu trả lời của AI trong tương lai.
+
+## Known issues
+- Không có.
 
 ## Instructions for next agent
-- Khi nhận yêu cầu viết bài, bắt buộc truy vấn bảng `brand_voice` trong `brain.db`.
-- Luôn kiểm tra 6 tiêu chí checklist trong module 4 trước khi xuất bản nội dung y khoa.
+- Đọc kỹ `HANDOFF.md`, `README.md` và kiểm tra `git status` trước khi thực hiện bất kỳ lệnh nào.
+- Khi tiếp nhận viết bài mới, hãy query bảng `brand_voice` trong `brain.db` và tuân thủ checklist y khoa đã thiết lập.

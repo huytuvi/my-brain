@@ -6,6 +6,15 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.4.0] - 2026-09-13
+### Added
+- Hoàn thành bài test sinh nội dung tự động từ `brand_voice` trong `brain.db`.
+- Tạo thành công 2 bài viết mẫu chuyên nghiệp:
+  + Bài 1 (Giọng 1: Tư vấn 1-1 thấu cảm): 'Thoát vị đĩa đệm: Có phải cứ đau là phải nghĩ đến phẫu thuật?'.
+  + Bài 2 (Giọng 2: Giảng học thuật & đại chúng - First Principles): 'Tiếng kêu lục khục/rắc ở cổ và lưng: Khi nào là bình thường, khi nào là báo động?'.
+- Xuất dữ liệu ra file `post.txt` tại thư mục gốc và thư mục `output/`.
+- Kiểm tra toàn diện checklist 6 điểm chuẩn y khoa (tuân thủ Bốn chữ KHÔNG, sạch thương mại, có cảnh báo tham khảo).
+
 ## [0.3.0] - 2026-09-13
 ### Added
 - Đào tạo và nạp toàn bộ Brand Voice chuẩn của Simon Center vào `brain.db`.
