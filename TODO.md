@@ -1,0 +1,11 @@
+# TODO List
+
+- [x] Tạo cấu trúc thư mục `my-brain`.
+- [x] Khởi tạo Git repository.
+- [x] Tạo bộ tài liệu nền tảng (`README.md`, `ARCHITECTURE.md`, `CHANGELOG.md`, `TODO.md`, `HANDOFF.md`, `.gitignore`).
+- [ ] Viết script `scripts/create_db.py` tạo SQLite `brain.db` với 3 bảng (`knowledge`, `business`, `brand_voice`).
+- [ ] Chạy script và kiểm tra dữ liệu database.
+- [ ] Commit checkpoint database vào Git.
+- [ ] Thu thập và nạp Brand Voice thật của người dùng vào bảng `brand_voice`.
+- [ ] Test AI đọc database và viết bài ra `post.txt` và `output/post.txt`.
+- [ ] Cập nhật `HANDOFF.md` và chuẩn bị dữ liệu nộp bài SOP Ngày 5.

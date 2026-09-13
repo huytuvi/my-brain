@@ -1,0 +1,13 @@
+# Changelog
+
+Tất cả những thay đổi quan trọng của project sẽ được ghi lại trong tài liệu này.
+
+## [Unreleased]
+- Chuẩn bị nạp Brand Voice thực tế từ người dùng.
+- Sinh bài viết Facebook post mẫu theo Brand Voice.
+
+## [0.1.0] - 2026-09-13
+### Added
+- Khởi tạo project Second Brain `my-brain`.
+- Thiết lập hệ thống tài liệu: `README.md`, `ARCHITECTURE.md`, `CHANGELOG.md`, `TODO.md`, `HANDOFF.md`, `.gitignore`.
+- Cấu hình quản lý phiên bản Git.
