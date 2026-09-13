@@ -6,6 +6,15 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.5.0] - 2026-09-14
+### Added
+- Đào tạo và cập nhật trọn bộ **3 Tone Brand Voice** vào `brain.db`:
+  + Giọng 1: Tư vấn & Chuyên khoa (thấu cảm, đồng hành 1-1).
+  + Giọng 2: Giảng kiến thức học thuật & Đại chúng (First Principles, lôi cuốn).
+  + Giọng 3: Sale & Chốt deal chuẩn Y đức ('Bán hàng có tâm', Feel-Felt-Found, sức khỏe trước doanh số).
+- Thêm bài viết mẫu thực tế cho Giọng 3: Xử lý từ chối về chi phí liệu trình và chốt buổi đánh giá 1-1.
+- Cập nhật toàn bộ file tài liệu nguồn `simon_center_brand_voice.md`, `post.txt` và sổ bàn giao `HANDOFF.md`.
+
 ## [0.4.0] - 2026-09-13
 ### Added
 - Hoàn thành bài test sinh nội dung tự động từ `brand_voice` trong `brain.db`.

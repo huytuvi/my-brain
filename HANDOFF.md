@@ -46,3 +46,8 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 - Đã đồng bộ triết lý thiết kế dài hạn: 'One Brain. Many Sources. Many Modes. Many Voices. One Safety Layer'.
 - Khẳng định tính khả thi của việc tích hợp vào App / Chatbot / AI Trợ giảng cho lớp học.
 - Cấu trúc hiện tại của brain.db hoàn toàn tương thích và mở rộng được mà không cần đập đi xây lại.
+
+## Update 3 Brand Voices (2026-09-14)
+- Bổ sung hoàn chỉnh Giọng 3 (Sale y đức) vào bảng `brand_voice` trong `brain.db`.
+- Đã xuất bản bài viết mẫu `output/bai_3_tu_van_chot_deal_giong_3.txt`.
+- Toàn bộ 3 giọng đã sẵn sàng phục vụ cho Chatbot phòng khám, Trợ giảng lớp học và Nhân viên tư vấn dịch vụ.
