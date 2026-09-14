@@ -89,3 +89,6 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 ## Gemini API Live Integration (2026-09-15)
 - Hệ thống hiện đã có thể gọi trực tiếp Gemini 1.5 Flash API từ Google AI Studio bằng tài khoản Google có sẵn của người dùng.
 - Hỗ trợ triển khai đa môi trường: Local (máy Mac), GitHub Pages hoặc Cloud Hosting kết nối tên miền `brain.chiro.vn`.
+
+## Gemini API Key UI Added to Header & Sidebar (2026-09-15)
+- Đã khắc phục việc ô nhập API Key bị thiếu trong giao diện. Giờ đây người dùng thấy rõ ô nhập ngay ở thanh trên cùng và hộp đầu cột trái.

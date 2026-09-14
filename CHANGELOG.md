@@ -6,6 +6,14 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.15.0] - 2026-09-15
+### Added & Enhanced
+- **Bổ sung ô nhập Gemini API Key cực kỳ trực quan và nổi bật:**
+  + Xuất hiện ở 2 vị trí dễ thấy nhất:
+    1. **Trên thanh Menu trên cùng** (bên phải nút Kế Hoạch 21 Bài).
+    2. **Hộp thông tin riêng biệt ở đầu cột bên trái** (kèm đường link bấm thẳng tới `aistudio.google.com` và huy hiệu trạng thái: 'Chưa kết nối' hoặc 'Đã kết nối Gemini AI').
+  + Tự động đồng bộ giữa 2 ô nhập và lưu vĩnh viễn vào `localStorage` của trình duyệt.
+
 ## [0.14.0] - 2026-09-15
 ### Added
 - **Tích hợp Google Gemini API trực tiếp vào Web Dashboard:**
