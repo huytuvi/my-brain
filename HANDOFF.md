@@ -56,3 +56,7 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 - Đã hoàn thành kế hoạch Content 7 ngày kéo danh sách chờ tại `plan.md`.
 - Đã ánh xạ 21 chủ đề cụ thể tương ứng với từng giai đoạn tâm lý khách hàng và phân bổ vào 3 kênh truyền thông chính.
 - Toàn bộ nội dung tuân thủ nguyên tắc y khoa và định vị thương hiệu Simon Center.
+
+## Brain Score Tracker Added (2026-09-14)
+- Đã thêm file `brain_score.md` để người dùng theo dõi và đánh giá độ tiến hóa của bộ não thứ 2 sau mỗi ngày đăng bài.
+- Giúp quy trình cải tiến vòng lặp (Feedback Loop) hoạt động bền vững: Viết bài -> Đo lường -> Bổ sung Brand Voice vào DB -> AI thông minh hơn.

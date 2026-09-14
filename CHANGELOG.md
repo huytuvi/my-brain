@@ -6,6 +6,12 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.7.0] - 2026-09-14
+### Added
+- Tạo bảng theo dõi đo lường chất lượng `brain_score.md` trong 7 ngày.
+- Thiết lập 4 chỉ số cốt lõi: Điểm giống giọng (1-10), Phản hồi người xem, Dữ liệu bổ sung vào Brand Voice, Nhận xét ngắn.
+- Thêm phần tổng kết định lượng so sánh tiến hóa giữa Ngày 1 và Ngày 7.
+
 ## [0.6.0] - 2026-09-14
 ### Added
 - Đọc dữ liệu Brand Voice 3 giọng từ `brain.db` để lập **Kế hoạch Content 7 ngày kéo danh sách chờ (Waitlist)**.
