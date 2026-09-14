@@ -6,6 +6,14 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.14.0] - 2026-09-15
+### Added
+- **Tích hợp Google Gemini API trực tiếp vào Web Dashboard:**
+  + Thêm ô nhập mã `Gemini API Key` trên thanh tiêu đề, tự động lưu vào `localStorage` trên trình duyệt.
+  + Khi có API Key: Nút 'Sinh Lại Bài Viết' sẽ trực tiếp gọi mô hình `gemini-1.5-flash` để suy luận thời gian thực từ kho tri thức `brain.db`.
+  + Nâng cấp máy chủ `scripts/run_app.py` hỗ trợ endpoint `/api/generate` và `/api/evaluate` đồng bộ SQLite.
+- Hỗ trợ triển khai lên Subdomain `brain.chiro.vn` (hoặc hosting GitHub / Render / Cloudflare).
+
 ## [0.13.0] - 2026-09-15
 ### Fixed
 - **Sửa triệt để lỗi JavaScript trong dashboard.html:** Đã xử lý lỗi escape ký tự xuống dòng trong chuỗi tạo nội dung, giúp toàn bộ script được biên dịch hoàn hảo.

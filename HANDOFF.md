@@ -85,3 +85,7 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 ## Dashboard Bugfix & Full Verification (2026-09-15)
 - Đã sửa triệt để lỗi parse JavaScript trong `dashboard.html`.
 - Xác nhận kiểm thử tự động: Chuyển Voice, Lịch nội dung, Random đề tài, Xem 21 bài viết và Chấm điểm Brain Score đều hoạt động hoàn hảo 100%.
+
+## Gemini API Live Integration (2026-09-15)
+- Hệ thống hiện đã có thể gọi trực tiếp Gemini 1.5 Flash API từ Google AI Studio bằng tài khoản Google có sẵn của người dùng.
+- Hỗ trợ triển khai đa môi trường: Local (máy Mac), GitHub Pages hoặc Cloud Hosting kết nối tên miền `brain.chiro.vn`.
