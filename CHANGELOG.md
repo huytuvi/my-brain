@@ -6,6 +6,13 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.16.0] - 2026-09-15
+### Security & Deployment
+- **Tính năng Bảo Mật Tự Động Ẩn API Key:** Ngay khi người dùng lưu mã Gemini API Key, cả ô nhập lẫn nút bấm 'Lưu Key' đều tự động biến mất và thay thế bằng huy hiệu bảo mật `🔒 Gemini AI Đã Khóa Bảo Mật`. Chỉ người sở hữu bấm nút 'Đổi Key' mới có thể mở khóa.
+- **Chuẩn bị hạ tầng triển khai GitHub Pages:**
+  + Tạo file `index.html` chuẩn làm trang đích mặc định.
+  + Tạo file `CNAME` trỏ về tên miền phụ `brain.chiro.vn`.
+
 ## [0.15.0] - 2026-09-15
 ### Added & Enhanced
 - **Bổ sung ô nhập Gemini API Key cực kỳ trực quan và nổi bật:**

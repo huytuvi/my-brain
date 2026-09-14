@@ -92,3 +92,7 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 
 ## Gemini API Key UI Added to Header & Sidebar (2026-09-15)
 - Đã khắc phục việc ô nhập API Key bị thiếu trong giao diện. Giờ đây người dùng thấy rõ ô nhập ngay ở thanh trên cùng và hộp đầu cột trái.
+
+## Deployment Ready (2026-09-15)
+- Đã kích hoạt tính năng tự động ẩn API Key sau khi lưu để bảo mật tuyệt đối.
+- Đã sẵn sàng đẩy lên GitHub Pages với file `CNAME` (`brain.chiro.vn`) và file `index.html`.
