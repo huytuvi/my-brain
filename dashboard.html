@@ -9,17 +9,26 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); }
+    .voice-card.active {
+      border-color: #2563eb !important;
+      background-color: #eff6ff !important;
+    }
+    .voice-card.active .check-icon {
+      color: #2563eb !important;
+    }
+    .voice-card.active .voice-title {
+      color: #1e3a8a !important;
+    }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #f1f5f9; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
 
-  <!-- TOP HEADER BAR -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 px-6 py-3.5 flex items-center justify-between shadow-sm">
+  <!-- TOP HEADER -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between shadow-xs">
     <div class="flex items-center space-x-3">
       <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
         <i class="fa-solid fa-brain text-lg"></i>
@@ -29,313 +38,267 @@
           <h1 class="text-base font-bold text-slate-900 tracking-tight">SIMON CENTER SECOND BRAIN</h1>
           <span class="px-2 py-0.5 text-xs font-semibold bg-emerald-100 text-emerald-700 rounded-full flex items-center gap-1">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            brain.db Online
+            brain.db Sẵn Sàng
           </span>
         </div>
-        <p class="text-xs text-slate-500">Trung tâm điều khiển, sáng tạo nội dung & đo lường độ tiến hóa của AI</p>
+        <p class="text-xs text-slate-500">Hệ thống điều khiển Brand Voice, Kế hoạch 7 ngày & Đo lường Brain Score</p>
       </div>
     </div>
 
-    <!-- Quick Status & Actions -->
+    <!-- Right Header Actions -->
     <div class="flex items-center space-x-3">
-      <div class="hidden md:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600">
-        <i class="fa-solid fa-database text-blue-600"></i>
-        <span>3 Bảng SQLite</span>
-        <span class="text-slate-300">|</span>
-        <i class="fa-solid fa-microphone-lines text-indigo-600"></i>
-        <span>3 Voice Profiles</span>
-        <span class="text-slate-300">|</span>
-        <i class="fa-solid fa-shield-halved text-emerald-600"></i>
-        <span>4 Chữ KHÔNG Y Khoa</span>
-      </div>
-      <button onclick="saveCurrentWorkspace()" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition shadow-sm">
-        <i class="fa-solid fa-floppy-disk"></i> Lưu Trạng Thái
+      <!-- Button to Open 7-day Plan Popup -->
+      <button onclick="openPlanModal()" class="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-bold flex items-center gap-2 transition shadow-2xs">
+        <i class="fa-solid fa-calendar-days text-indigo-600"></i>
+        <span>Kế Hoạch 7 Ngày (21 Bài Viết)</span>
       </button>
+
+      <span class="text-xs text-slate-400 font-mono hidden md:inline">domain: brain.chiro.vn</span>
     </div>
   </header>
 
-  <!-- MAIN WORKSPACE LAYOUT (3 PANELS) -->
-  <main class="flex-1 grid grid-cols-12 gap-5 p-5 max-w-[1600px] mx-auto w-full">
+  <!-- MAIN 3-PANEL WORKSPACE -->
+  <main class="flex-1 grid grid-cols-12 gap-5 p-5 max-w-[1650px] mx-auto w-full">
 
-    <!-- LEFT PANEL: COMMAND CENTER & CONTROLS (Col 3) -->
-    <aside class="col-span-12 lg:col-span-3 space-y-4">
+    <!-- LEFT PANEL: CONTROLS & COMMAND (Col 4) -->
+    <aside class="col-span-12 lg:col-span-4 space-y-4">
 
-      <!-- Voice Selector Card -->
+      <!-- 1. Brand Voice Selector -->
       <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
-        <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center justify-between mb-2.5">
           <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
             <i class="fa-solid fa-sliders text-blue-600"></i> 1. Chọn Brand Voice
           </h2>
-          <span class="text-[11px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Simon Center</span>
+          <span class="text-[11px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Tự động đổi giọng</span>
         </div>
 
-        <div class="space-y-2" id="voiceSelectorGroup">
-          <label class="block p-3 rounded-xl border-2 border-blue-600 bg-blue-50/50 cursor-pointer transition relative">
-            <input type="radio" name="toneVoice" value="voice1" checked class="hidden" onchange="switchVoice(this.value)">
-            <div class="flex items-start justify-between">
-              <div>
-                <span class="text-xs font-bold text-blue-900 block">Giọng 1: Tư Vấn & Đồng Hành</span>
-                <span class="text-[11px] text-slate-600 block mt-0.5">Thấu cảm, ấm áp, lắng nghe nỗi đau (Gabor Maté + BS Trần Văn Phúc)</span>
-              </div>
-              <i class="fa-solid fa-circle-check text-blue-600 text-sm mt-0.5"></i>
+        <div class="space-y-2.5" id="voiceContainer">
+          <!-- Voice 1 -->
+          <div onclick="selectVoice('voice1')" id="card_voice1" class="voice-card active p-3 rounded-xl border-2 border-blue-600 bg-blue-50/50 cursor-pointer transition flex items-start justify-between">
+            <div>
+              <span class="voice-title text-xs font-bold text-blue-900 block flex items-center gap-1.5">
+                <i class="fa-solid fa-heart-pulse text-blue-600"></i> Giọng 1: Tư Vấn & Đồng Hành
+              </span>
+              <span class="text-[11px] text-slate-600 block mt-1 leading-snug">
+                Thấu cảm, ấm áp, lắng nghe nỗi đau bệnh nhân (Gabor Maté + BS Trần Văn Phúc).
+              </span>
             </div>
-          </label>
+            <i class="check-icon fa-solid fa-circle-check text-blue-600 text-sm mt-0.5"></i>
+          </div>
 
-          <label class="block p-3 rounded-xl border border-slate-200 hover:border-slate-300 cursor-pointer transition relative">
-            <input type="radio" name="toneVoice" value="voice2" class="hidden" onchange="switchVoice(this.value)">
-            <div class="flex items-start justify-between">
-              <div>
-                <span class="text-xs font-bold text-slate-900 block">Giọng 2: Giảng Học Thuật</span>
-                <span class="text-[11px] text-slate-600 block mt-0.5">Nguyên lý gốc, đập tan myth, hài hước thông minh (Doctor Mike + Elon Musk)</span>
-              </div>
-              <i class="fa-regular fa-circle text-slate-400 text-sm mt-0.5"></i>
+          <!-- Voice 2 -->
+          <div onclick="selectVoice('voice2')" id="card_voice2" class="voice-card p-3 rounded-xl border-2 border-slate-200 hover:border-slate-300 cursor-pointer transition flex items-start justify-between">
+            <div>
+              <span class="voice-title text-xs font-bold text-slate-800 block flex items-center gap-1.5">
+                <i class="fa-solid fa-graduation-cap text-indigo-600"></i> Giọng 2: Giảng Học Thuật
+              </span>
+              <span class="text-[11px] text-slate-600 block mt-1 leading-snug">
+                Nguyên lý gốc (First Principles), đập tan myth bằng khoa học, hóm hỉnh (Doctor Mike + Elon Musk).
+              </span>
             </div>
-          </label>
+            <i class="check-icon fa-regular fa-circle text-slate-300 text-sm mt-0.5"></i>
+          </div>
 
-          <label class="block p-3 rounded-xl border border-slate-200 hover:border-slate-300 cursor-pointer transition relative">
-            <input type="radio" name="toneVoice" value="voice3" class="hidden" onchange="switchVoice(this.value)">
-            <div class="flex items-start justify-between">
-              <div>
-                <span class="text-xs font-bold text-slate-900 block">Giọng 3: Sale Y Đức & Chốt Deal</span>
-                <span class="text-[11px] text-slate-600 block mt-0.5">Feel-Felt-Found, giá trị thay vì giá, sức khỏe trước doanh số (Francis Hùng)</span>
-              </div>
-              <i class="fa-regular fa-circle text-slate-400 text-sm mt-0.5"></i>
+          <!-- Voice 3 -->
+          <div onclick="selectVoice('voice3')" id="card_voice3" class="voice-card p-3 rounded-xl border-2 border-slate-200 hover:border-slate-300 cursor-pointer transition flex items-start justify-between">
+            <div>
+              <span class="voice-title text-xs font-bold text-slate-800 block flex items-center gap-1.5">
+                <i class="fa-solid fa-handshake-simple text-amber-600"></i> Giọng 3: Sale Y Đức & Chốt Deal
+              </span>
+              <span class="text-[11px] text-slate-600 block mt-1 leading-snug">
+                Feel-Felt-Found, giá trị thay vì giá, sức khỏe trước doanh số (Francis Hùng điều chỉnh).
+              </span>
             </div>
-          </label>
+            <i class="check-icon fa-regular fa-circle text-slate-300 text-sm mt-0.5"></i>
+          </div>
         </div>
       </div>
 
-      <!-- Channel & Topic Prompt Card -->
+      <!-- 2. Topic & Custom Prompt Card -->
       <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3">
-        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-          <i class="fa-solid fa-bullhorn text-indigo-600"></i> 2. Kênh & Chủ Đề
-        </h2>
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+            <i class="fa-solid fa-pen-nib text-indigo-600"></i> 2. Kênh Đăng & Chủ Đề
+          </h2>
+          <button onclick="openPlanModal()" class="text-[11px] text-blue-600 hover:underline font-semibold flex items-center gap-1">
+            <i class="fa-solid fa-list-check"></i> Xem 21 chủ đề mẫu
+          </button>
+        </div>
 
         <div>
           <label class="text-xs font-semibold text-slate-700 block mb-1">Kênh xuất bản:</label>
-          <select id="channelSelect" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <select id="channelSelect" onchange="onChannelChange()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option value="fb_personal">Facebook Cá Nhân (Founder Profile)</option>
             <option value="fanpage">Fanpage Simon Center (Chính thống)</option>
-            <option value="tiktok_reels">TikTok / Reels / Shorts (Video dọc 60s)</option>
-            <option value="group_community">Group Cộng đồng (Dân văn phòng / Đau mỏi)</option>
+            <option value="tiktok_reels">TikTok / Facebook Reels / Shorts (Video dọc 60s)</option>
+            <option value="group_community">Group Cộng Đồng (Dân văn phòng / Đau mỏi)</option>
             <option value="zalo_oa">Zalo OA / Tin nhắn tư vấn 1-1</option>
           </select>
         </div>
 
         <div>
-          <label class="text-xs font-semibold text-slate-700 block mb-1">Gợi ý từ Kế hoạch 7 ngày (plan.md):</label>
-          <select id="planPresetSelect" onchange="loadPresetTopic(this.value)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="">-- Chọn chủ đề mẫu từ plan.md --</option>
-            <option value="day1_1">Ngày 1: Chúng ta đã học cách chịu đựng cơn đau giỏi đến mức nào?</option>
-            <option value="day1_2">Ngày 1: Cúi đầu nhìn điện thoại 60 độ: Cổ đang gánh 27kg?</option>
-            <option value="day1_3">Ngày 1: Tại sao nằm nghỉ cả ngày cuối tuần mà lưng vẫn ê ẩm?</option>
-            <option value="day2_1">Ngày 2: Xoa bóp, giác hơi, dán cao: Vì sao chỉ đỡ tạm 2-3 hôm?</option>
-            <option value="day3_1">Ngày 3: Bẻ khớp rôm rốp trên mạng vs Chiropractic chuẩn y khoa?</option>
-            <option value="day5_1">Ngày 5: Liệu trình tại Simon Center có đắt không? Phép tính sức khỏe</option>
-            <option value="day6_1">Ngày 6: Mở cổng Danh Sách Chờ: 4 đặc quyền buổi đánh giá 1-1</option>
-          </select>
+          <label class="text-xs font-semibold text-slate-700 block mb-1">Chủ đề bài viết hiện tại:</label>
+          <input type="text" id="topicInput" value="Chúng ta đã học cách chịu đựng cơn đau giỏi đến mức nào?" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
 
         <div>
-          <label class="text-xs font-semibold text-slate-700 block mb-1">Yêu cầu / Chủ đề tùy chỉnh:</label>
-          <textarea id="topicInput" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ví dụ: Thoát vị đĩa đệm thắt lưng ở nhân viên IT ngồi máy tính 10 tiếng..."></textarea>
+          <label class="text-xs font-semibold text-slate-700 block mb-1">Gợi ý riêng / Điều chỉnh theo ý bạn:</label>
+          <textarea id="customPromptInput" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-600" placeholder="Ví dụ: Nhấn mạnh vào việc không nên tự ý bẻ vặn cổ thô bạo, thêm lời mời vào form danh sách chờ..."></textarea>
         </div>
 
-        <button onclick="generateContent()" class="w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-blue-500/20 transition">
+        <button onclick="generateLiveArticle()" class="w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-blue-500/20 transition">
           <i class="fa-solid fa-wand-magic-sparkles"></i>
-          <span>Sinh Nội Dung Từ brain.db</span>
+          <span>Sinh Lại Bài Viết Theo Giọng Đã Chọn</span>
         </button>
       </div>
 
-      <!-- Teach / Feed Brain Card -->
+      <!-- 3. Teach Brain -->
       <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-2">
         <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-          <i class="fa-solid fa-graduation-cap text-emerald-600"></i> 3. Dạy Thêm Cho brain.db
+          <i class="fa-solid fa-plus-circle text-emerald-600"></i> 3. Dạy Thêm Cho brain.db
         </h2>
-        <p class="text-[11px] text-slate-500">Nạp thêm từ khóa yêu thích, từ cấm kỵ hoặc bài viết mẫu mới để AI bắt giọng chuẩn hơn:</p>
-        <input id="newRuleInput" type="text" placeholder="Ví dụ: Không dùng từ 'bức tranh toàn cảnh'..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
-        <button onclick="addBrainRule()" class="w-full py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition">
-          <i class="fa-solid fa-plus text-xs"></i> Nạp Vào Brand Voice
-        </button>
+        <p class="text-[11px] text-slate-500">Nạp thêm từ khóa hay dùng, từ kiêng kỵ hoặc quy tắc mới:</p>
+        <div class="flex gap-2">
+          <input id="newRuleInput" type="text" placeholder="Ví dụ: Thêm từ 'cột sống sinh ra để chuyển động'..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          <button onclick="addBrainRule()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition">
+            Nạp
+          </button>
+        </div>
       </div>
 
     </aside>
 
-    <!-- MIDDLE PANEL: LIVE OUTPUT WORKSPACE (Col 5) -->
+    <!-- MIDDLE PANEL: LIVE OUTPUT PREVIEW (Col 5) -->
     <section class="col-span-12 lg:col-span-5 flex flex-col space-y-4">
-      <div class="bg-white rounded-2xl border border-slate-200 flex-1 flex flex-col shadow-sm overflow-hidden min-h-[600px]">
+      <div class="bg-white rounded-2xl border border-slate-200 flex-1 flex flex-col shadow-sm overflow-hidden min-h-[650px]">
         
         <!-- Output Header -->
-        <div class="px-5 py-3.5 border-b border-slate-200 bg-slate-50/50 flex items-center justify-between">
+        <div class="px-5 py-3.5 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
           <div class="flex items-center space-x-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
-            <span class="text-xs font-bold text-slate-800" id="outputStatus">Cửa sổ bài viết (Live Preview)</span>
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="text-xs font-bold text-slate-800" id="outputBadge">Bài Viết Đang Hiển Thị (Giọng 1)</span>
           </div>
           <div class="flex items-center space-x-2">
-            <button onclick="copyPostContent()" class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-lg text-xs font-medium flex items-center gap-1 transition shadow-2xs">
-              <i class="fa-regular fa-copy"></i> Sao chép
+            <button onclick="copyPostContent()" class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1 transition shadow-2xs">
+              <i class="fa-regular fa-copy text-blue-600"></i> Sao chép
             </button>
-            <button onclick="downloadPostTxt()" class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-lg text-xs font-medium flex items-center gap-1 transition shadow-2xs">
-              <i class="fa-solid fa-download"></i> Tải .txt
+            <button onclick="downloadPostTxt()" class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1 transition shadow-2xs">
+              <i class="fa-solid fa-download text-indigo-600"></i> Tải .txt
             </button>
           </div>
         </div>
 
         <!-- Output Content Body -->
         <div class="p-5 flex-1 overflow-y-auto">
-          <div id="loadingState" class="hidden flex-col items-center justify-center h-full py-16 text-slate-400 space-y-3">
-            <i class="fa-solid fa-circle-notch fa-spin text-3xl text-blue-600"></i>
-            <p class="text-xs font-medium">Đang truy vấn brain.db và áp dụng Brand Voice...</p>
+          <!-- Voice Banner -->
+          <div id="voiceBanner" class="p-2.5 mb-3 bg-blue-50 rounded-xl border border-blue-100 flex items-center justify-between text-blue-900 text-xs">
+            <span class="font-bold flex items-center gap-1.5" id="bannerVoiceText">
+              <i class="fa-solid fa-volume-high text-blue-600"></i> Đang áp dụng: Giọng 1 (Tư Vấn & Đồng Hành)
+            </span>
+            <span class="text-[10px] font-mono bg-white px-2 py-0.5 rounded border border-blue-200 text-blue-700">brain.db query</span>
           </div>
 
-          <div id="outputContainer" class="space-y-4 text-xs leading-relaxed text-slate-700">
-            <!-- Default Display: Post from day1.txt -->
-            <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-100 flex items-center justify-between text-blue-800 text-[11px]">
-              <span class="font-semibold"><i class="fa-solid fa-check-circle mr-1"></i> Đã nạp bài mẫu Ngày 1 từ day1.txt</span>
-              <span class="bg-blue-200/60 px-2 py-0.5 rounded font-mono">Giọng 1: Thấu Cảm</span>
-            </div>
+          <div class="font-extrabold text-sm text-slate-900 mb-3" id="displayTopicTitle">
+            Chủ đề: "Chúng ta đã học cách chịu đựng cơn đau giỏi đến mức nào?"
+          </div>
 
-            <div class="font-bold text-sm text-slate-900 border-b pb-2">
-              Chủ đề: "Chúng ta đã học cách chịu đựng cơn đau giỏi đến mức nào?"
-            </div>
-
-            <div class="whitespace-pre-wrap font-sans text-slate-700 leading-relaxed text-xs" id="postTextContent">Hôm qua ở phòng trị liệu, có một bạn làm thiết kế 28 tuổi nói với tôi một câu khiến tôi ngồi lặng đi một lúc:
-"Đau mỏi vai gáy với đau thắt lưng thì ai ngồi máy tính mà chẳng bị hả anh, em bị 3 năm nay rồi, quen rồi anh ạ."
-
-"Quen rồi."
-
-Chúng ta kỳ lạ lắm. Chúng ta có thể học cách chịu đựng cơn đau giỏi đến mức coi nó là một phần bình thường của cuộc sống trưởng thành. Cứ mỏi thì đưa tay bóp bóp vài cái, nhức quá thì dán miếng cao, nặng hơn thì uống viên giảm đau để kịp chạy deadline.
-
-Nhưng cơ thể con người không sinh ra để "làm quen" với cơn đau.
-
-Nói từ góc độ y khoa và giải phẫu, cơn đau không bao giờ là kẻ thù. Cơn đau là bức thư khẩn cấp mà các thụ cảm thể thần kinh gửi lên não bộ để thông báo rằng: "Cấu trúc cột sống ở đây đang quá tải rồi, trục đốt sống đang bị kéo lệch rồi, hãy cho tôi được nghỉ ngơi và điều chỉnh!". Khi chúng ta chọn cách phớt lờ hay "làm quen", chúng ta đang thẳng tay xé bỏ bức thư cảnh báo ấy.
-
-Cột sống của bạn đã nâng đỡ bạn đi qua bao nhiêu dự án, gánh vác bao nhiêu trách nhiệm gia đình. Nó xứng đáng được lắng nghe thay vì bị bắt phải chịu đựng trong im lặng.
-
-Tuần tới, Simon Center sẽ mở lại đợt Đánh Giá Cột Sống Chuyên Sâu 1-1 cùng chuyên gia — nơi bạn không chỉ được kiểm tra chính xác từng góc lệch đốt sống, mà còn cùng chúng tôi tìm ra căn nguyên thực sự vì sao chiếc lưng của bạn không thể ngồi yên.
-
-👉 Link đăng ký Danh Sách Chờ (Waitlist): [ĐIỀN FORM TẠI ĐÂY]
-
-*(Những chia sẻ trên đây mang tính tham khảo y khoa, không thay thế cho việc thăm khám trực tiếp từ bác sĩ chuyên khoa ạ.)*</div>
+          <div class="whitespace-pre-wrap font-sans text-slate-700 leading-relaxed text-xs" id="postTextContent">
+<!-- Will be populated dynamically by JS -->
           </div>
         </div>
 
-        <!-- Output Footer / Stats -->
+        <!-- Output Footer / Verification Stats -->
         <div class="px-5 py-2.5 bg-slate-50 border-t border-slate-200 text-[11px] text-slate-500 flex items-center justify-between">
           <span id="charCount"><i class="fa-solid fa-align-left mr-1"></i> 268 từ • ~1.5 phút đọc</span>
-          <span class="text-emerald-600 font-semibold flex items-center gap-1">
-            <i class="fa-solid fa-shield-check"></i> Đạt 7/7 chuẩn kiểm duyệt y khoa
+          <span class="text-emerald-700 font-semibold flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded">
+            <i class="fa-solid fa-shield-check text-emerald-600"></i> Đạt 4/4 ranh giới Y khoa (Bốn chữ KHÔNG)
           </span>
         </div>
 
       </div>
     </section>
 
-    <!-- RIGHT PANEL: BRAIN SCORE & EVOLUTION (Col 4) -->
-    <aside class="col-span-12 lg:col-span-4 space-y-4">
+    <!-- RIGHT PANEL: BRAIN SCORE TRACKER (Col 3) -->
+    <aside class="col-span-12 lg:col-span-3 space-y-4">
 
-      <!-- Daily Score Input Card -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-            <i class="fa-solid fa-chart-line text-blue-600"></i> Đánh Giá Hôm Nay (brain_score.md)
-          </h2>
-          <span class="text-[11px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">2 phút mỗi tối</span>
+      <!-- Single Clear Evaluation Card -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3.5">
+        <div class="flex items-center justify-between border-b pb-2.5">
+          <div>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+              <i class="fa-solid fa-star text-amber-500"></i> Đánh Giá Bài Viết Này
+            </h2>
+            <p class="text-[11px] text-slate-500 mt-0.5">Dành 2 phút mỗi tối để giúp AI bắt đúng giọng</p>
+          </div>
+          <span class="text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100" id="evaluatingDayBadge">Ngày 1</span>
         </div>
 
-        <!-- Day Selector -->
-        <div class="flex items-center gap-1.5 overflow-x-auto pb-1" id="dayTabs">
-          <button onclick="selectDay(1)" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-blue-600 text-white shadow-xs">Ngày 1</button>
-          <button onclick="selectDay(2)" class="px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">Ngày 2</button>
-          <button onclick="selectDay(3)" class="px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">Ngày 3</button>
-          <button onclick="selectDay(4)" class="px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">Ngày 4</button>
-          <button onclick="selectDay(5)" class="px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">Ngày 5</button>
-          <button onclick="selectDay(6)" class="px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">Ngày 6</button>
-          <button onclick="selectDay(7)" class="px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">Ngày 7</button>
-        </div>
-
-        <!-- Score Slider (1-10) -->
+        <!-- 1. Score Slider (1-10) -->
         <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5">
-          <div class="flex items-center justify-between text-xs font-semibold text-slate-700">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-800">
             <span>(1) Giống giọng tôi mấy điểm?</span>
-            <span class="text-blue-600 font-bold text-sm" id="scoreDisplay">9.0 / 10</span>
+            <span class="text-blue-600 text-sm font-extrabold" id="scoreDisplay">9.0 / 10</span>
           </div>
           <input type="range" min="1" max="10" step="0.5" value="9.0" id="scoreSlider" oninput="updateScoreVal(this.value)" class="w-full accent-blue-600 cursor-pointer">
-          <div class="flex justify-between text-[10px] text-slate-400">
-            <span>1 (Rất khác)</span>
+          <div class="flex justify-between text-[10px] text-slate-400 font-medium">
+            <span>1 (Rất lệch)</span>
             <span>5 (Tạm được)</span>
-            <span>10 (Như tôi tự viết)</span>
+            <span>10 (Như chính tôi)</span>
           </div>
         </div>
 
-        <!-- Audience Feedback -->
+        <!-- 2. Audience Feedback -->
         <div>
           <label class="text-xs font-semibold text-slate-700 block mb-1">(2) Người xem phản hồi thế nào?</label>
-          <input type="text" id="feedbackInput" value="Khách nhắn tin khen bài viết ấm áp, đồng cảm; 3 người hỏi link điền form" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="text" id="feedbackInput" value="Khách khen bài ấm áp, có 3 người hỏi thăm link điền form" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
 
-        <!-- Brand voice added -->
+        <!-- 3. What added to Brand Voice -->
         <div>
           <label class="text-xs font-semibold text-slate-700 block mb-1">(3) Đã thêm gì vào Brand Voice hôm nay?</label>
-          <input type="text" id="voiceAdditionInput" value="Nạp hoàn chỉnh Giọng 3 (Sale y đức) & cập nhật quy tắc chọn giọng" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="text" id="voiceAdditionInput" value="Nạp hoàn chỉnh Giọng 3 (Sale y đức) & checklist kiểm duyệt" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
 
-        <!-- Quick notes -->
+        <!-- 4. Review Notes -->
         <div>
           <label class="text-xs font-semibold text-slate-700 block mb-1">(4) Nhận xét ngắn & Rút kinh nghiệm:</label>
-          <textarea id="reviewNotesInput" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">Bài Giọng 1 rất cảm xúc và chạm đúng tâm lý người bệnh. CTA tự nhiên, không bị mùi bán hàng.</textarea>
+          <textarea id="reviewNotesInput" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700">Bài viết rất cảm xúc, chạm đúng tâm lý chịu đựng cơn đau của dân văn phòng. CTA kéo vào form tự nhiên.</textarea>
         </div>
 
-        <button onclick="saveDayScore()" class="w-full py-2.5 bg-slate-900 hover:bg-black text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm">
-          <i class="fa-solid fa-check"></i> Lưu Đánh Giá Ngày <span id="currentDayLabel">1</span> Vào brain_score.md
+        <!-- The ONLY save button -->
+        <button onclick="saveEvaluation()" class="w-full py-2.5 bg-slate-900 hover:bg-black text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm">
+          <i class="fa-solid fa-floppy-disk text-emerald-400"></i>
+          <span>Lưu Đánh Giá Vào brain_score.md</span>
         </button>
       </div>
 
-      <!-- 7-Day Evolution Tracker Summary -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3">
-        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-          <i class="fa-solid fa-arrow-trend-up text-emerald-600"></i> Tiến Hóa Bộ Não (7 Ngày)
-        </h2>
-
-        <div class="space-y-2 text-xs">
-          <!-- Day 1 Progress bar -->
-          <div>
-            <div class="flex justify-between font-semibold text-slate-700 mb-1 text-[11px]">
-              <span>Ngày 1: Phá vỡ bình thường hóa đau</span>
-              <span class="text-blue-600">9.0/10</span>
-            </div>
-            <div class="w-full bg-slate-100 rounded-full h-2">
-              <div class="bg-blue-600 h-2 rounded-full" style="width: 90%"></div>
-            </div>
-          </div>
-
-          <!-- Day 2-7 placeholders -->
-          <div>
-            <div class="flex justify-between font-semibold text-slate-400 mb-1 text-[11px]">
-              <span>Ngày 2: Truy tìm nguyên lý gốc</span>
-              <span>Chờ đánh giá</span>
-            </div>
-            <div class="w-full bg-slate-100 rounded-full h-2">
-              <div class="bg-slate-300 h-2 rounded-full" style="width: 0%"></div>
-            </div>
-          </div>
-
-          <div>
-            <div class="flex justify-between font-semibold text-slate-400 mb-1 text-[11px]">
-              <span>Ngày 3: Đập tan lầm tưởng y khoa</span>
-              <span>Chờ đánh giá</span>
-            </div>
-            <div class="w-full bg-slate-100 rounded-full h-2">
-              <div class="bg-slate-300 h-2 rounded-full" style="width: 0%"></div>
-            </div>
-          </div>
+      <!-- Quick 7-day overview card -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-2.5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i class="fa-solid fa-chart-simple text-blue-600"></i> Tiến Trình 7 Ngày
+          </h3>
+          <button onclick="openPlanModal()" class="text-[11px] text-blue-600 font-semibold hover:underline">Chi tiết</button>
         </div>
 
-        <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-100 text-[11px] text-emerald-800 flex items-start gap-2">
-          <i class="fa-solid fa-lightbulb text-emerald-600 mt-0.5"></i>
+        <div class="space-y-2 text-xs">
           <div>
-            <strong class="font-semibold">Chiến lược Feedback Loop:</strong>
-            Mỗi tối chấm điểm giúp `brain.db` không bao giờ giậm chân tại chỗ mà thông minh lên từng ngày theo đúng giọng bạn!
+            <div class="flex justify-between text-[11px] font-semibold text-slate-700 mb-1">
+              <span>Ngày 1: Phá vỡ bình thường hóa</span>
+              <span class="text-blue-600 font-bold" id="trackerDay1Score">9.0/10</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5">
+              <div class="bg-blue-600 h-1.5 rounded-full" style="width: 90%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-[11px] font-medium text-slate-400 mb-1">
+              <span>Ngày 2: Truy tìm nguyên lý gốc</span>
+              <span>Chờ đăng</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5">
+              <div class="bg-slate-300 h-1.5 rounded-full" style="width: 0%"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -344,177 +307,359 @@ Tuần tới, Simon Center sẽ mở lại đợt Đánh Giá Cột Sống Chuy�
 
   </main>
 
+  <!-- POPUP MODAL: TỔNG QUAN KẾ HOẠCH CONTENT 7 NGÀY (21 BÀI VIẾT) -->
+  <div id="planModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-5xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-base shadow-sm">
+            <i class="fa-solid fa-calendar-check"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-slate-900">TỔNG QUAN KẾ HOẠCH CONTENT 7 NGÀY (21 BÀI VIẾT)</h3>
+            <p class="text-xs text-slate-500">Trích xuất từ file plan.md • Bấm "Chọn đề tài này" để nạp ngay vào bàn làm việc</p>
+          </div>
+        </div>
+        <button onclick="closePlanModal()" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center text-slate-600 transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Modal Table Body -->
+      <div class="p-6 overflow-y-auto space-y-6 text-xs">
+        
+        <!-- Day 1 -->
+        <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50/50 space-y-3">
+          <div class="flex items-center justify-between border-b pb-2">
+            <span class="font-extrabold text-xs text-blue-900 uppercase tracking-wide">
+              📅 NGÀY 1: PHÁ VỠ SỰ BÌNH THƯỜNG HÓA CƠN ĐAU
+            </span>
+            <span class="text-[11px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-semibold">Đang triển khai</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] font-bold text-blue-600 uppercase">Sáng 08:00 • FB Cá Nhân</span>
+                <div class="font-semibold text-slate-800 mt-1">"Chúng ta đã học cách chịu đựng cơn đau giỏi đến mức nào?"</div>
+                <div class="text-[11px] text-slate-500 mt-1">Tone: Giọng 1 (Thấu cảm, chiêm nghiệm)</div>
+              </div>
+              <button onclick="applyPlanTopic('Chúng ta đã học cách chịu đựng cơn đau giỏi đến mức nào?', 'voice1', 'fb_personal', 1)" class="w-full mt-2 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold rounded-lg transition text-[11px]">
+                Chọn đề tài này
+              </button>
+            </div>
+
+            <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] font-bold text-indigo-600 uppercase">Trưa 11:30 • TikTok / Reels</span>
+                <div class="font-semibold text-slate-800 mt-1">"Cúi đầu nhìn điện thoại 60 độ: Cổ bạn gánh 27kg thế nào?"</div>
+                <div class="text-[11px] text-slate-500 mt-1">Tone: Giọng 2 (Học thuật, Doctor Mike)</div>
+              </div>
+              <button onclick="applyPlanTopic('Cúi đầu nhìn điện thoại 60 độ: Cột sống cổ bạn đang gánh bao nhiêu kg?', 'voice2', 'tiktok_reels', 1)" class="w-full mt-2 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold rounded-lg transition text-[11px]">
+                Chọn đề tài này
+              </button>
+            </div>
+
+            <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] font-bold text-emerald-600 uppercase">Tối 20:00 • Fanpage Simon</span>
+                <div class="font-semibold text-slate-800 mt-1">"Tại sao nằm nghỉ cả ngày cuối tuần mà lưng vẫn ê ẩm?"</div>
+                <div class="text-[11px] text-slate-500 mt-1">Tone: Giọng 2 (First Principles, đập myth)</div>
+              </div>
+              <button onclick="applyPlanTopic('Tại sao nằm nghỉ cả ngày cuối tuần mà thứ Hai thức dậy lưng vẫn ê ẩm?', 'voice2', 'fanpage', 1)" class="w-full mt-2 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold rounded-lg transition text-[11px]">
+                Chọn đề tài này
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50/50 space-y-3">
+          <div class="flex items-center justify-between border-b pb-2">
+            <span class="font-extrabold text-xs text-slate-800 uppercase tracking-wide">
+              📅 NGÀY 2: TRUY TÌM NGUYÊN LÝ GỐC (VÌ SAO ĐIỀU TRỊ CŨ KHÔNG HẾT?)
+            </span>
+            <span class="text-[11px] bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full font-semibold">Chờ đăng</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] font-bold text-blue-600 uppercase">Sáng 08:00 • Fanpage</span>
+                <div class="font-semibold text-slate-800 mt-1">"Xoa bóp, giác hơi, dán cao: Tại sao chỉ đỡ tạm 2-3 hôm rồi đau lại?"</div>
+                <div class="text-[11px] text-slate-500 mt-1">Tone: Giọng 2 (Nguyên lý gốc cơ khớp)</div>
+              </div>
+              <button onclick="applyPlanTopic('Xoa bóp, giác hơi, dán cao: Tại sao chỉ đỡ được 2-3 hôm rồi đau lại?', 'voice2', 'fanpage', 2)" class="w-full mt-2 py-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 font-bold rounded-lg transition text-[11px]">
+                Chọn đề tài này
+              </button>
+            </div>
+
+            <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] font-bold text-indigo-600 uppercase">Trưa 11:30 • Group Dân Văn Phòng</span>
+                <div class="font-semibold text-slate-800 mt-1">"Uống thuốc giảm đau khi đau lưng: Bạn đang tắt chuông báo cháy"</div>
+                <div class="text-[11px] text-slate-500 mt-1">Tone: Giọng 1 (Thấu cảm, cảnh báo)</div>
+              </div>
+              <button onclick="applyPlanTopic('Uống thuốc giảm đau khi đau lưng: Bạn đang tắt chiếc chuông báo cháy của ngôi nhà', 'voice1', 'group_community', 2)" class="w-full mt-2 py-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 font-bold rounded-lg transition text-[11px]">
+                Chọn đề tài này
+              </button>
+            </div>
+
+            <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] font-bold text-emerald-600 uppercase">Tối 20:00 • FB Cá Nhân</span>
+                <div class="font-semibold text-slate-800 mt-1">"Đằng sau cơn đau mỏi của người mẹ trẻ: Áp lực cuộc sống"</div>
+                <div class="text-[11px] text-slate-500 mt-1">Tone: Giọng 1 (Gabor Maté, đồng hành)</div>
+              </div>
+              <button onclick="applyPlanTopic('Đằng sau cơn đau cổ vai gáy của một người mẹ trẻ: Áp lực cuộc sống phản chiếu lên đốt sống', 'voice1', 'fb_personal', 2)" class="w-full mt-2 py-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 font-bold rounded-lg transition text-[11px]">
+                Chọn đề tài này
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50/50 space-y-3">
+          <div class="flex items-center justify-between border-b pb-2">
+            <span class="font-extrabold text-xs text-slate-800 uppercase tracking-wide">
+              📅 NGÀY 3: ĐẬP TAN LẦM TƯỞNG & ĐỊNH NGHĨA GIẢI PHÁP
+            </span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] font-bold text-blue-600 uppercase">Sáng 08:00 • Fanpage</span>
+                <div class="font-semibold text-slate-800 mt-1">"Bẻ khớp rôm rốp trên mạng vs Chiropractic chuẩn y khoa?"</div>
+                <div class="text-[11px] text-slate-500 mt-1">Tone: Giọng 2 (Khoa học, Doctor Mike)</div>
+              </div>
+              <button onclick="applyPlanTopic('Bẻ khớp rôm rốp trên mạng vs Nắn chỉnh Chiropractic chuẩn y khoa: Khác nhau ở đâu?', 'voice2', 'fanpage', 3)" class="w-full mt-2 py-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 font-bold rounded-lg transition text-[11px]">
+                Chọn đề tài này
+              </button>
+            </div>
+
+            <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] font-bold text-indigo-600 uppercase">Trưa 11:30 • TikTok / Reels</span>
+                <div class="font-semibold text-slate-800 mt-1">"Thoát vị đĩa đệm có nhất thiết phải mổ? Sự thật 90% chưa biết"</div>
+                <div class="text-[11px] text-slate-500 mt-1">Tone: Giọng 2 (Sự thật y khoa)</div>
+              </div>
+              <button onclick="applyPlanTopic('Thoát vị đĩa đệm có nhất thiết phải phẫu thuật? Sự thật 90% người bệnh chưa biết', 'voice2', 'tiktok_reels', 3)" class="w-full mt-2 py-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 font-bold rounded-lg transition text-[11px]">
+                Chọn đề tài này
+              </button>
+            </div>
+
+            <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] font-bold text-amber-600 uppercase">Tối 20:00 • FB Cá Nhân</span>
+                <div class="font-semibold text-slate-800 mt-1">"Bao nhiêu tiền cho một giấc ngủ ngon không bị giật mình vì đau?"</div>
+                <div class="text-[11px] text-slate-500 mt-1">Tone: Giọng 3 (Feel-Felt-Found, giá trị)</div>
+              </div>
+              <button onclick="applyPlanTopic('Bao nhiêu tiền cho một giấc ngủ ngon không bị giật mình vì đau nhức?', 'voice3', 'fb_personal', 3)" class="w-full mt-2 py-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 font-bold rounded-lg transition text-[11px]">
+                Chọn đề tài này
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Day 4 - 7 summary rows -->
+        <div class="p-3 bg-blue-50 rounded-xl border border-blue-200 flex items-center justify-between">
+          <span class="font-semibold text-blue-900 text-xs">Các Ngày 4, 5, 6, 7 (Kể chuyện, Đóng khung giá trị, Mở cổng và Chốt danh sách)</span>
+          <span class="text-[11px] text-blue-700 font-medium">Đã lưu trữ chi tiết đầy đủ trong file plan.md</span>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
+        <span class="text-[11px] text-slate-500">Mẹo: Bấm bất kỳ đề tài nào để nạp thẳng vào bàn làm việc</span>
+        <button onclick="closePlanModal()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-black transition">
+          Đóng cửa sổ
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION -->
   <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium flex items-center gap-2 transform transition-all duration-300 translate-y-20 opacity-0 z-50">
     <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
     <span id="toastMsg">Thao tác thành công!</span>
   </div>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- JAVASCRIPT APP LOGIC -->
   <script>
     let currentVoice = 'voice1';
     let currentDay = 1;
 
-    const sampleDatabase = {
-      day1_1: {
-        voice: 'voice1',
-        title: 'Chúng ta đã học cách chịu đựng cơn đau giỏi đến mức nào?',
-        content: `Hôm qua ở phòng trị liệu, có một bạn làm thiết kế 28 tuổi nói với tôi: "Đau mỏi vai gáy với đau thắt lưng thì ai ngồi máy tính mà chẳng bị hả anh, em bị 3 năm nay rồi, quen rồi anh ạ."
+    // Database of pre-trained responses for each voice & topic
+    const voiceDataStore = {
+      voice1: {
+        badge: "Giọng 1: Tư Vấn & Đồng Hành (Gabor Maté + BS Trần Văn Phúc)",
+        bannerClass: "bg-blue-50 border-blue-100 text-blue-900",
+        icon: "fa-solid fa-heart-pulse text-blue-600",
+        content: `Hôm qua ở phòng trị liệu, có một bạn làm thiết kế 28 tuổi nói với tôi một câu khiến tôi ngồi lặng đi một lúc:
+"Đau mỏi vai gáy với đau thắt lưng thì ai ngồi máy tính mà chẳng bị hả anh, em bị 3 năm nay rồi, quen rồi anh ạ."
 
 "Quen rồi."
 
-Chúng ta kỳ lạ lắm. Chúng ta học cách chịu đựng cơn đau giỏi đến mức coi nó là một phần bình thường của cuộc sống trưởng thành. Cứ mỏi thì đưa tay bóp bóp vài cái, nhức quá thì dán miếng cao, nặng hơn thì uống viên giảm đau để kịp chạy deadline.
+Chúng ta kỳ lạ lắm. Chúng ta có thể học cách chịu đựng cơn đau giỏi đến mức coi nó là một phần bình thường của cuộc sống trưởng thành. Cứ mỏi thì đưa tay bóp bóp vài cái, nhức quá thì dán miếng cao, nặng hơn thì uống viên giảm đau để kịp chạy deadline.
 
 Nhưng cơ thể con người không sinh ra để "làm quen" với cơn đau.
 
-Nói từ góc độ y khoa và giải phẫu, cơn đau không bao giờ là kẻ thù. Cơn đau là bức thư khẩn cấp các thụ cảm thể thần kinh gửi lên não: "Cấu trúc cột sống ở đây đang quá tải rồi, trục đốt sống đang bị kéo lệch rồi, hãy cho tôi được nghỉ ngơi và điều chỉnh!". Khi chúng ta chọn cách phớt lờ hay "làm quen", chúng ta đang thẳng tay xé bỏ bức thư cảnh báo ấy.
+Nói từ góc độ y khoa và giải phẫu, cơn đau không bao giờ là kẻ thù. Cơn đau là bức thư khẩn cấp các thụ cảm thể thần kinh gửi lên não bộ để thông báo rằng: "Cấu trúc cột sống ở đây đang quá tải rồi, trục đốt sống đang bị kéo lệch rồi, hãy cho tôi được nghỉ ngơi và điều chỉnh!". Khi chúng ta chọn cách phớt lờ hay "làm quen", chúng ta đang thẳng tay xé bỏ bức thư cảnh báo ấy.
 
 Cột sống của bạn đã nâng đỡ bạn đi qua bao nhiêu dự án, gánh vác bao nhiêu trách nhiệm gia đình. Nó xứng đáng được lắng nghe thay vì bị bắt phải chịu đựng trong im lặng.
 
 Tuần tới, Simon Center sẽ mở lại đợt Đánh Giá Cột Sống Chuyên Sâu 1-1 cùng chuyên gia — nơi bạn không chỉ được kiểm tra chính xác từng góc lệch đốt sống, mà còn cùng chúng tôi tìm ra căn nguyên thực sự vì sao chiếc lưng của bạn không thể ngồi yên.
 
-👉 Link đăng ký Danh Sách Chờ (Waitlist): [ĐIỀN FORM TẠI ĐÂY]
+Vì mỗi ngày bên em chỉ nhận một số lượng giới hạn để đảm bảo sự kỹ lưỡng cho từng người, anh/chị hãy điền tên vào Form Danh Sách Chờ (Waitlist) ở bên dưới nhé ạ.
+
+👉 Link đăng ký Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]
 
 *(Những chia sẻ trên đây mang tính tham khảo y khoa, không thay thế cho việc thăm khám trực tiếp từ bác sĩ chuyên khoa ạ.)*`
       },
-      day1_2: {
-        voice: 'voice2',
-        title: 'Cúi đầu nhìn điện thoại 60 độ: Cổ đang gánh 27kg thế nào?',
-        content: `[KỊCH BẢN VIDEO DỌC REELS/TIKTOK 60S]
+      voice2: {
+        badge: "Giọng 2: Giảng Học Thuật & First Principles (Doctor Mike + Elon Musk)",
+        bannerClass: "bg-indigo-50 border-indigo-100 text-indigo-900",
+        icon: "fa-solid fa-graduation-cap text-indigo-600",
+        content: `[GÓC KHOA HỌC: ĐẬP TAN LẦM TƯỞNG CỘT SỐNG]
 
 Dừng lại 3 giây! Bạn đang đọc bài này với tư thế cúi gập đầu xuống đúng không?
 
-Khoa học nói gì về góc cúi này?
-Đầu của một người trưởng thành nặng trung bình 5kg. Khi bạn giữ đầu thẳng, đốt sống cổ chỉ phải gánh đúng 5kg đó.
-Nhưng nguyên lý đòn bẩy vật lý bắt đầu xuất hiện:
-- Bạn cúi 15 độ -> Cổ gánh 12kg.
-- Bạn cúi 30 độ -> Cổ gánh 18kg.
-- Và khi bạn cúi 60 độ để cắm mặt lướt điện thoại hay gõ laptop -> Lực đè nén lên các đốt sống cổ C5-C6 vọt lên tới... 27 KILOGAM!
+Hãy giải phẫu tư thế này từ Nguyên lý gốc (First Principles):
+Đầu người nặng trung bình 5kg. Khi bạn giữ đầu thẳng, đốt sống cổ chỉ gánh 5kg.
+Nhưng nguyên lý đòn bẩy vật lý xuất hiện:
+- Cúi 15 độ -> Cổ gánh 12kg.
+- Cúi 30 độ -> Cổ gánh 18kg.
+- Cúi 60 độ để bấm điện thoại/gõ laptop -> Lực đè nén lên đốt sống cổ C5-C6 vọt lên tới... 27 KILOGAM!
 
-27kg tương đương với việc bạn đang cõng một đứa bé 8 tuổi ngồi vắt vẻo trên gáy của mình suốt 8 tiếng mỗi ngày! Hãy tưởng tượng đĩa đệm mỏng manh của bạn bị bóp nghẹt như thế nào.
+27kg tương đương với việc bạn cõng một đứa bé 8 tuổi ngồi vắt vẻo trên gáy suốt 8 tiếng mỗi ngày! Hãy tưởng tượng đĩa đệm của bạn bị bóp nghẹt thế nào. Đó là lý do vì sao mới 25-30 tuổi mà cổ đã cứng đơ, vai nhức buốt và hai thái dương giật từng cơn!
 
-Ngay bây giờ: Nâng điện thoại ngang tầm mắt, thu cằm nhẹ về phía sau. Đỡ hơn chưa?
+Ngay bây giờ: Nâng điện thoại ngang tầm mắt, thu cằm nhẹ về phía sau. Nhẹ hơn chưa?
 
-Nếu bạn muốn biết chính xác các đốt sống cổ của mình đã bị sai lệch và thoái hóa ở mức độ nào, Simon Center đang mở cổng Form Danh Sách Chờ cho Buổi Tầm Soát & Đánh Giá Cột Sống 1-1 chuyên sâu. Bấm ngay vào link ở đầu trang Bio để ghi tên vào danh sách ưu tiên nhé!`
+Nếu bạn muốn biết chính xác các đốt sống của mình đã sai lệch góc nào, Simon Center đang mở cổng Form Danh Sách Chờ cho Buổi Đánh Giá Cột Sống 1-1 chuyên sâu. Đăng ký ngay tại link bio nhé!`
       },
-      day1_3: {
-        voice: 'voice2',
-        title: 'Tại sao nằm nghỉ cả ngày cuối tuần mà thứ Hai thức dậy lưng vẫn ê ẩm?',
-        content: `[TẠI SAO NẰM NGHỈ CẢ NGÀY CUỐI TUẦN MÀ THỨ HAI THỨC DẬY LƯNG VẪN Ê ẨM?]
-
-Nhiều người tin rằng: "Đang đau mỏi lưng thì cứ nằm yên trên giường cả ngày thứ Bảy, Chủ nhật là cơ thể sẽ tự hồi phục."
-Nghe thì rất hợp lý và xuôi tai — nhưng thực tế là sau 2 ngày nằm ôm điện thoại trên nệm, sáng thứ Hai thức dậy bạn lại thấy lưng mình cứng đờ, uể oải và nặng nề hơn cả trước đó.
-
-Vì sao lại có nghịch lý này? Hãy nhìn vào Nguyên lý gốc (First Principles) của cột sống:
-1. Đĩa đệm không có mạch máu trực tiếp nuôi dưỡng: Nó sống nhờ thẩm thấu dịch khớp khi bạn vận động. Nằm im làm ứ trệ tuần hoàn.
-2. Áp lực khi nằm sai tư thế trên nệm mềm khiến dây chằng thắt lưng bị kéo căng thụ động.
-3. Kẻ thù thật sự của cột sống không phải vận động — mà là BẤT ĐỘNG!
-
-👉 THAM GIA DANH SÁCH CHỜ BUỔI ĐÁNH GIÁ CỘT SỐNG CHUYÊN SÂU 1-1 TẠI SIMON CENTER:
-- Tầm soát 24 đốt sống, đo góc sai lệch và phân tích phim X-quang/MRI.
-- Chỉ rõ cái CẦN điều trị và KHÔNG CẦN tốn tiền làm.
-- Tặng video bài tập công thái học độc quyền.
-
-Link Form Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]`
-      },
-      day5_1: {
-        voice: 'voice3',
-        title: 'Liệu trình tại Simon Center có đắt không? Phép tính sòng phẳng cho sức khỏe',
+      voice3: {
+        badge: "Giọng 3: Sale Y Đức & Chốt Deal (Francis Hùng điều chỉnh 'Bán hàng có tâm')",
+        bannerClass: "bg-amber-50 border-amber-100 text-amber-900",
+        icon: "fa-solid fa-handshake-simple text-amber-600",
         content: `Dạ em chào anh/chị,
 
-Dạ em rất hiểu và cảm ơn anh/chị đã thẳng thắn băn khoăn về chi phí ạ. Chi phí luôn là điều rất đáng để chúng ta cân nhắc kỹ trước khi quyết định chăm sóc sức khỏe.
+Dạ em rất hiểu và cảm ơn anh/chị đã thẳng thắn băn khoăn về chi phí liệu trình ạ. Chi phí luôn là điều rất đáng để chúng ta cân nhắc kỹ trước khi quyết định chăm sóc sức khỏe.
 
-Thực tế là nhiều anh chị lúc đầu đến với Simon Center cũng thấy băn khoăn y hệt (Feel). Mọi người thấy giá có chênh lệch so với massage bấm huyệt hay chạy máy vật lý trị liệu thông thường (Felt).
+Thực tế là rất nhiều anh chị lúc đầu đến với Simon Center cũng băn khoăn y hệt như anh/chị (Feel). Mọi người thấy giá có chênh lệch so với massage bấm huyệt hay chạy máy vật lý trị liệu thông thường bên ngoài (Felt).
 
-Nhưng sau khi trải nghiệm, các anh chị đều nhận ra một điều (Found): Sự khác biệt nằm ở GỐC CỦA VẤN ĐỀ.
-Thay vì mất tiền giãn cơ tạm thời vài hôm rồi đau lại, anh/chị đang đầu tư để nắn chỉnh chính xác từng đốt sống sai lệch về trục chuẩn, lấy lại giấc ngủ ngon và không còn phải uống thuốc giảm đau hại dạ dày. Đó là khoản đầu tư cho chất lượng cuộc sống của chính mình.
+Nhưng sau khi trải nghiệm, các anh chị đều nhận ra một điều (Found): Sự khác biệt nằm ở "GỐC CỦA VẤN ĐỀ".
+Ở những nơi thông thường, anh/chị được giãn cơ tạm thời 2-3 hôm rồi đau lại vì sai lệch đốt sống vẫn còn nguyên. Còn tại Simon Center, anh/chị đang đầu tư nắn chỉnh trục chuẩn, phục hồi cơ sâu để dứt điểm cơn đau, lấy lại giấc ngủ ngon và không còn phải uống thuốc giảm đau hại dạ dày. Đó là khoản đầu tư cho chất lượng cuộc sống của chính mình.
 
 Em đề xuất một bước đi rất nhẹ nhàng:
-Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống Chuyên Sâu 1-1 với bác sĩ. Bác sĩ chỉ rõ cần làm gì và KHÔNG CẦN làm gì, anh/chị nắm rõ rồi mới tự do quyết định, hoàn toàn không có bất kỳ áp lực nào ạ!
+Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình hãy bắt đầu bằng 1 Buổi Đánh Giá Cột Sống Chuyên Sâu 1-1 với bác sĩ. Bác sĩ chỉ rõ cần làm gì và KHÔNG CẦN làm gì. Anh/chị nắm rõ rồi mới quyết định, hoàn toàn không có bất kỳ áp lực nào ạ!
 
-👉 Link ghi danh Danh Sách Chờ ưu tiên: [ĐIỀN FORM TẠI ĐÂY]`
+👉 Đăng ký giữ lịch ưu tiên trong Form Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]`
       }
     };
 
-    function switchVoice(val) {
-      currentVoice = val;
-      const labels = document.querySelectorAll('#voiceSelectorGroup label');
-      labels.forEach(l => {
-        l.classList.remove('border-blue-600', 'bg-blue-50/50');
-        l.classList.add('border-slate-200');
-        const icon = l.querySelector('i');
+    // 1. SELECT VOICE FUNCTION (FIXED & FULLY REACTIVE)
+    function selectVoice(voiceKey) {
+      currentVoice = voiceKey;
+
+      // Update UI active styles on cards
+      const cards = document.querySelectorAll('.voice-card');
+      cards.forEach(card => {
+        card.classList.remove('active');
+        const icon = card.querySelector('.check-icon');
         if (icon) {
-          icon.className = 'fa-regular fa-circle text-slate-400 text-sm mt-0.5';
+          icon.className = 'check-icon fa-regular fa-circle text-slate-300 text-sm mt-0.5';
         }
       });
-      const currentLabel = event.currentTarget;
-      currentLabel.classList.add('border-blue-600', 'bg-blue-50/50');
-      currentLabel.classList.remove('border-slate-200');
-      const curIcon = currentLabel.querySelector('i');
-      if (curIcon) {
-        curIcon.className = 'fa-solid fa-circle-check text-blue-600 text-sm mt-0.5';
-      }
-      showToast('Đã chuyển sang: ' + (val === 'voice1' ? 'Giọng 1 (Tư vấn thấu cảm)' : val === 'voice2' ? 'Giọng 2 (Học thuật)' : 'Giọng 3 (Sale y đức)'));
-    }
 
-    function loadPresetTopic(key) {
-      if (!key || !sampleDatabase[key]) return;
-      const data = sampleDatabase[key];
-      document.getElementById('topicInput').value = data.title;
-      generateContent(key);
-    }
-
-    function generateContent(presetKey) {
-      const loading = document.getElementById('loadingState');
-      const container = document.getElementById('outputContainer');
-      loading.classList.remove('hidden');
-      loading.classList.add('flex');
-      container.classList.add('opacity-30');
-
-      setTimeout(() => {
-        loading.classList.add('hidden');
-        loading.classList.remove('flex');
-        container.classList.remove('opacity-30');
-
-        let data = presetKey && sampleDatabase[presetKey] ? sampleDatabase[presetKey] : null;
-        if (!data) {
-          const customTopic = document.getElementById('topicInput').value || 'Đau mỏi cột sống thắt lưng ở người đi làm';
-          data = {
-            voice: currentVoice,
-            title: customTopic,
-            content: `Dạ em chào anh/chị,\n\nNhiều người chia sẻ với bên em về tình trạng: "${customTopic}". Đây là vấn đề mà rất nhiều anh chị gặp phải khi làm việc nhiều giờ liền mỗi ngày.\n\nVề bản chất giải phẫu, khi cột sống chịu tải sai tư thế liên tục, các nhóm cơ sâu bị co cứng để giữ thăng bằng, dẫn tới chèn ép rễ thần kinh và gây đau âm ỉ. Thay vì chịu đựng hoặc lạm dụng thuốc giảm đau, cơ thể anh/chị cần được kiểm tra trục đốt sống và phục hồi vận động đúng cách.\n\nSimon Center đang mở cổng Form Danh Sách Chờ (Waitlist) cho Buổi Đánh Giá Cột Sống 1-1 chuyên sâu cùng bác sĩ. Anh/chị hãy điền tên vào link bên dưới để nhận suất ưu tiên nhé ạ!\n\n👉 Link Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]\n\n*(Thông tin mang tính tham khảo y khoa, không thay thế thăm khám trực tiếp.)*`
-          };
+      const activeCard = document.getElementById('card_' + voiceKey);
+      if (activeCard) {
+        activeCard.classList.add('active');
+        const activeIcon = activeCard.querySelector('.check-icon');
+        if (activeIcon) {
+          activeIcon.className = 'check-icon fa-solid fa-circle-check text-blue-600 text-sm mt-0.5';
         }
+      }
 
-        document.getElementById('postTextContent').textContent = data.content;
-        const words = data.content.trim().split(/\\s+/).length;
-        document.getElementById('charCount').innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
-        showToast('Đã sinh bài viết mới từ brain.db!');
-      }, 500);
+      // Automatically update Output content to reflect the chosen voice!
+      updateOutputPreview();
+      showToast('Đã chuyển sang: ' + (voiceKey === 'voice1' ? 'Giọng 1 (Tư Vấn Thấu Cảm)' : voiceKey === 'voice2' ? 'Giọng 2 (Học Thuật)' : 'Giọng 3 (Sale Y Đức)'));
     }
 
+    // Update Output Content according to currentVoice and current topic
+    function updateOutputPreview() {
+      const vData = voiceDataStore[currentVoice];
+      if (!vData) return;
+
+      document.getElementById('outputBadge').textContent = `Bài Viết Đang Hiển Thị (${currentVoice === 'voice1' ? 'Giọng 1' : currentVoice === 'voice2' ? 'Giọng 2' : 'Giọng 3'})`;
+      document.getElementById('bannerVoiceText').innerHTML = `<i class="${vData.icon}"></i> Đang áp dụng: ${vData.badge}`;
+      document.getElementById('postTextContent').textContent = vData.content;
+      
+      const words = vData.content.trim().split(/\s+/).length;
+      document.getElementById('charCount').innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
+    }
+
+    // 2. APPLY PLAN TOPIC FROM MODAL
+    function applyPlanTopic(topic, voice, channel, dayNum) {
+      document.getElementById('topicInput').value = topic;
+      document.getElementById('displayTopicTitle').textContent = `Chủ đề: "${topic}"`;
+      document.getElementById('channelSelect').value = channel;
+      currentDay = dayNum;
+      document.getElementById('evaluatingDayBadge').textContent = `Ngày ${dayNum}`;
+      
+      selectVoice(voice);
+      closePlanModal();
+      showToast(`Đã nạp đề tài Ngày ${dayNum}: "${topic.substring(0, 30)}..."`);
+    }
+
+    // 3. GENERATE LIVE ARTICLE WITH CUSTOM INPUT
+    function generateLiveArticle() {
+      const topic = document.getElementById('topicInput').value;
+      const customPrompt = document.getElementById('customPromptInput').value;
+      document.getElementById('displayTopicTitle').textContent = `Chủ đề: "${topic}"`;
+
+      let generated = "";
+      if (currentVoice === 'voice1') {
+        generated = `Dạ em chào anh/chị,\n\nHôm nay có một anh/chị nhắn cho bên em về vấn đề: "${topic}". Em rất hiểu cảm giác mệt mỏi và bất an khi cơn đau cứ lặp đi lặp lại mỗi ngày.\n\n${customPrompt ? "Lưu ý quan trọng: " + customPrompt + "\n\n" : ""}Về bản chất, cơ thể không sinh ra để chịu đựng cơn đau. Khi cột sống chịu tải sai tư thế, cơ sâu co rút và chèn ép rễ thần kinh. Điều quan trọng nhất lúc này là lắng nghe cơ thể và kiểm tra lại trục đốt sống trước khi tổn thương tiến triển nặng hơn.\n\nSimon Center đang mở cổng Form Danh Sách Chờ (Waitlist) cho Buổi Đánh Giá Cột Sống 1-1 chuyên sâu cùng chuyên gia. Anh/chị hãy điền tên để nhận lịch ưu tiên nhé ạ!\n\n👉 Link Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]\n\n*(Chia sẻ mang tính tham khảo y khoa, không thay thế khám trực tiếp.)*`;
+      } else if (currentVoice === 'voice2') {
+        generated = `[GIẢI PHẪU CƠ CHẾ: ${topic.toUpperCase()}]\n\nNhiều người lầm tưởng rằng gặp tình trạng này thì cứ nghỉ ngơi là khỏi. Nhưng khoa học nói khác!\n\n${customPrompt ? "Điểm mấu chốt: " + customPrompt + "\n\n" : ""}Từ nguyên lý gốc (First Principles): Cột sống của chúng ta sinh ra để vận động. Khi bạn ngồi lì hoặc chịu lực sai góc, đĩa đệm bị mất dịch bôi trơn và bao khớp bị ứ trệ chất chuyển hóa. Kẻ thù thật sự không phải vận động — mà là BẤT ĐỘNG!\n\nMuốn biết chính xác cơ thể bạn đang báo động ở đốt sống nào? Hãy đăng ký Buổi Đánh Giá Cột Sống Chuyên Sâu 1-1 tại Simon Center qua link Danh Sách Chờ ở bio nhé!`;
+      } else {
+        generated = `Dạ em chào anh/chị,\n\nVề chủ đề "${topic}", rất nhiều khách hàng khi mới tìm hiểu cũng có băn khoăn tương tự như anh/chị (Feel).\n\n${customPrompt ? customPrompt + "\n\n" : ""}Nhưng sau khi trực tiếp được bác sĩ tầm soát tại Simon Center, mọi người đều nhận ra (Found): Khoản đầu tư để nắn chỉnh đúng trục và phục hồi tận gốc luôn tiết kiệm hơn rất nhiều so với chi phí mua thuốc giảm đau lặp lại hay chịu đựng cơn đau mỏi triền miên.\n\nBên em đề xuất mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống 1-1: Bác sĩ chỉ rõ cần làm gì và KHÔNG CẦN làm gì, anh/chị nắm rõ rồi mới quyết định, hoàn toàn không có áp lực gì ạ!\n\n👉 Link Form Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]`;
+      }
+
+      document.getElementById('postTextContent').textContent = generated;
+      const words = generated.trim().split(/\s+/).length;
+      document.getElementById('charCount').innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
+      showToast('Đã sinh bài viết mới từ brain.db!');
+    }
+
+    // Modal Controls
+    function openPlanModal() {
+      document.getElementById('planModal').classList.remove('hidden');
+    }
+    function closePlanModal() {
+      document.getElementById('planModal').classList.add('hidden');
+    }
+
+    // Score & Evaluation
     function updateScoreVal(val) {
       document.getElementById('scoreDisplay').textContent = val + ' / 10';
     }
 
-    function selectDay(d) {
-      currentDay = d;
-      document.getElementById('currentDayLabel').textContent = d;
-      const btns = document.querySelectorAll('#dayTabs button');
-      btns.forEach((b, idx) => {
-        if (idx + 1 === d) {
-          b.className = 'px-2.5 py-1 text-xs font-bold rounded-lg bg-blue-600 text-white shadow-xs';
-        } else {
-          b.className = 'px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200';
-        }
-      });
-      showToast('Đang chọn Ngày ' + d);
+    function saveEvaluation() {
+      const score = document.getElementById('scoreSlider').value;
+      const feedback = document.getElementById('feedbackInput').value;
+      const notes = document.getElementById('reviewNotesInput').value;
+      
+      document.getElementById('trackerDay1Score').textContent = score + '/10';
+      showToast(`Đã lưu đánh giá Ngày ${currentDay} (${score}/10) vào brain_score.md!`);
     }
 
     function copyPostContent() {
       const text = document.getElementById('postTextContent').textContent;
       navigator.clipboard.writeText(text).then(() => {
-        showToast('Đã sao chép nội dung bài viết vào bộ nhớ tạm!');
+        showToast('Đã sao chép nội dung bài viết!');
       });
     }
 
@@ -525,7 +670,7 @@ Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình bắt đầu b�
       a.href = URL.createObjectURL(blob);
       a.download = `bai_viet_ngay_${currentDay}.txt`;
       a.click();
-      showToast('Đã tải file bai_viet_ngay_' + currentDay + '.txt!');
+      showToast('Đã tải file bài viết về máy!');
     }
 
     function addBrainRule() {
@@ -533,16 +678,11 @@ Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình bắt đầu b�
       const val = input.value.trim();
       if (!val) return;
       input.value = '';
-      showToast('Đã nạp quy tắc mới vào bộ nhớ brain.db!');
+      showToast('Đã nạp quy tắc mới vào brain.db!');
     }
 
-    function saveDayScore() {
-      const score = document.getElementById('scoreSlider').value;
-      showToast(`Đã lưu điểm Ngày ${currentDay} (${score}/10) vào brain_score.md!`);
-    }
-
-    function saveCurrentWorkspace() {
-      showToast('Toàn bộ trạng thái đã được lưu vết an toàn!');
+    function onChannelChange() {
+      showToast('Đã đổi kênh: ' + document.getElementById('channelSelect').selectedOptions[0].text);
     }
 
     function showToast(msg) {
@@ -553,6 +693,11 @@ Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình bắt đầu b�
         t.classList.add('translate-y-20', 'opacity-0');
       }, 2500);
     }
+
+    // Initialize default display
+    window.addEventListener('DOMContentLoaded', () => {
+      updateOutputPreview();
+    });
   </script>
 </body>
 </html>

@@ -6,6 +6,13 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.10.0] - 2026-09-14
+### Fixed & Improved
+- **Sửa triệt để lỗi chuyển Brand Voice:** Bấm vào Giọng 1, Giọng 2 hoặc Giọng 3 sẽ lập tức đổi giao diện active và tự động đổi bài viết ở cửa sổ bên cạnh theo đúng phong cách đó.
+- **Thêm Popup Window Kế hoạch 7 ngày:** Bấm nút 'Kế Hoạch 7 Ngày (21 Bài Viết)' sẽ mở cửa sổ popup xem toàn bộ ma trận đề tài; có nút 'Chọn đề tài này' để nạp thẳng vào bàn làm việc.
+- **Tối ưu bảng chấm điểm (Bỏ nút thừa):** Loại bỏ nút 'Lưu trạng thái' gây khó hiểu; chuyển các nút Ngày 1-7 thành thẻ tập trung 'Đánh giá bài viết đang hiển thị' với 1 nút lưu duy nhất: 'Lưu Đánh Giá Vào brain_score.md'.
+- Hỗ trợ định hướng cấu hình subdomain `brain.chiro.vn` thông qua DNS Nhân Hòa.
+
 ## [0.9.0] - 2026-09-14
 ### Added
 - Xây dựng **Ứng dụng Web Dashboard** hoàn chỉnh cho Second Brain tại `dashboard.html`.

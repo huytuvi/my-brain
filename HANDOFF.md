@@ -69,3 +69,7 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 ## Web Dashboard Added (2026-09-14)
 - Đã hoàn thành ứng dụng Web Dashboard `dashboard.html` và script `scripts/run_app.py`.
 - Người dùng có thể trực tiếp tương tác, ra lệnh, đổi giọng, xem trước bài viết bên cửa sổ cạnh nhau và chấm điểm tiến hóa mà không cần gõ lệnh phức tạp.
+
+## Dashboard V2 Upgrade (2026-09-14)
+- Đã giải quyết 100% các lỗi phản ánh: Chuyển voice mượt mà tức thì, bổ sung Popup Kế hoạch 21 bài, loại bỏ nút lưu trùng lặp.
+- Sẵn sàng để triển khai lên subdomain `brain.chiro.vn`.
