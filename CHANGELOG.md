@@ -6,6 +6,16 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.13.0] - 2026-09-15
+### Fixed
+- **Sửa triệt để lỗi JavaScript trong dashboard.html:** Đã xử lý lỗi escape ký tự xuống dòng trong chuỗi tạo nội dung, giúp toàn bộ script được biên dịch hoàn hảo.
+- **Khôi phục 100% tính tương tác:**
+  + Chọn Brand Voice mượt mà, lập tức đổi giao diện active và cập nhật bài viết ở cửa sổ bên cạnh.
+  + Cuốn Lịch Nội Dung (Calendar View) hoạt động trơn tru, hiển thị đầy đủ 7 ngày, bấm ngày nào xem chi tiết ngày đó.
+  + Nút 'Đổi Đề Tài Ngẫu Nhiên' (Randomizer) bốc đề tài và viết bài tức thì.
+  + Cửa sổ Kế hoạch 7 ngày hiển thị trọn vẹn 21 đề tài.
+- Đã chạy kiểm thử tự động toàn diện qua Node.js đạt 100% PASS.
+
 ## [0.12.0] - 2026-09-14
 ### Added
 - **Cuốn Lịch Nội Dung Tương Tác (Content Calendar View):**

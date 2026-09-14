@@ -81,3 +81,7 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 ## Content Calendar & Topic Randomizer Added (2026-09-14)
 - Đã hoàn thành tính năng Cuốn Lịch Nội Dung, quản lý 21 bài viết của 7 ngày và nút Random đề tài thông minh.
 - Người dùng có toàn quyền kiểm soát lịch sử bài viết quá khứ, hiện tại và tương lai, đồng thời có thể can thiệp chỉnh sửa bất kỳ ngày nào.
+
+## Dashboard Bugfix & Full Verification (2026-09-15)
+- Đã sửa triệt để lỗi parse JavaScript trong `dashboard.html`.
+- Xác nhận kiểm thử tự động: Chuyển Voice, Lịch nội dung, Random đề tài, Xem 21 bài viết và Chấm điểm Brain Score đều hoạt động hoàn hảo 100%.
