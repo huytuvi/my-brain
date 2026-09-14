@@ -6,6 +6,14 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.11.0] - 2026-09-14
+### Security & Architecture
+- **Bảo toàn dữ liệu trong sạch (Strict Data Isolation):**
+  + Thêm bảng `voice_evaluations` vào `brain.db` với khóa phân loại riêng cho từng giọng (`voice_key`, `voice_name`).
+  + Đánh giá của Giọng 1, Giọng 2 hoặc Giọng 3 được lưu trữ và học hỏi độc lập tuyệt đối, loại trừ hoàn toàn nguy cơ 'nhiễm chéo' dữ liệu.
+  + Cập nhật bảng đo lường `brain_score.md` theo từng Brand Voice riêng biệt.
+  + Giao diện `dashboard.html` tự động nhận diện và gắn nhãn đúng Giọng đang được đánh giá.
+
 ## [0.10.0] - 2026-09-14
 ### Fixed & Improved
 - **Sửa triệt để lỗi chuyển Brand Voice:** Bấm vào Giọng 1, Giọng 2 hoặc Giọng 3 sẽ lập tức đổi giao diện active và tự động đổi bài viết ở cửa sổ bên cạnh theo đúng phong cách đó.

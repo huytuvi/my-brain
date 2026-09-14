@@ -73,3 +73,7 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 ## Dashboard V2 Upgrade (2026-09-14)
 - Đã giải quyết 100% các lỗi phản ánh: Chuyển voice mượt mà tức thì, bổ sung Popup Kế hoạch 21 bài, loại bỏ nút lưu trùng lặp.
 - Sẵn sàng để triển khai lên subdomain `brain.chiro.vn`.
+
+## Strict Data Isolation Enforced (2026-09-14)
+- Đã thiết lập cơ chế cách ly dữ liệu đánh giá giữa 3 Giọng trong cả SQLite (`voice_evaluations`) và Markdown (`brain_score.md`).
+- Đảm bảo tính trong sạch của dữ liệu: Phản hồi của Giọng Học thuật (cần nhanh, hài) không bao giờ làm loãng Giọng Tư vấn y khoa (cần trầm, ấm, lắng nghe).

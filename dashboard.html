@@ -230,7 +230,10 @@
             </h2>
             <p class="text-[11px] text-slate-500 mt-0.5">Dành 2 phút mỗi tối để giúp AI bắt đúng giọng</p>
           </div>
-          <span class="text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100" id="evaluatingDayBadge">Ngày 1</span>
+          <div class="flex items-center gap-1.5">
+              <span class="text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100" id="evaluatingDayBadge">Ngày 1</span>
+              <span class="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100" id="evaluatingVoiceBadge">Giọng 1</span>
+            </div>
         </div>
 
         <!-- 1. Score Slider (1-10) -->
@@ -268,7 +271,7 @@
         <!-- The ONLY save button -->
         <button onclick="saveEvaluation()" class="w-full py-2.5 bg-slate-900 hover:bg-black text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm">
           <i class="fa-solid fa-floppy-disk text-emerald-400"></i>
-          <span>Lưu Đánh Giá Vào brain_score.md</span>
+          <span id="saveEvalBtnText">Lưu Đánh Giá Riêng Cho [Giọng 1] Vào brain_score.md</span>
         </button>
       </div>
 
@@ -593,6 +596,11 @@ Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình hãy bắt đầ
       if (!vData) return;
 
       document.getElementById('outputBadge').textContent = `Bài Viết Đang Hiển Thị (${currentVoice === 'voice1' ? 'Giọng 1' : currentVoice === 'voice2' ? 'Giọng 2' : 'Giọng 3'})`;
+      const voiceLabelShort = currentVoice === 'voice1' ? 'Giọng 1' : currentVoice === 'voice2' ? 'Giọng 2' : 'Giọng 3';
+      const evBadge = document.getElementById('evaluatingVoiceBadge');
+      if (evBadge) evBadge.textContent = voiceLabelShort;
+      const saveBtnText = document.getElementById('saveEvalBtnText');
+      if (saveBtnText) saveBtnText.textContent = `Lưu Đánh Giá Riêng Cho [${voiceLabelShort}] Vào brain_score.md`;
       document.getElementById('bannerVoiceText').innerHTML = `<i class="${vData.icon}"></i> Đang áp dụng: ${vData.badge}`;
       document.getElementById('postTextContent').textContent = vData.content;
       
@@ -651,9 +659,17 @@ Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình hãy bắt đầ
       const score = document.getElementById('scoreSlider').value;
       const feedback = document.getElementById('feedbackInput').value;
       const notes = document.getElementById('reviewNotesInput').value;
+      const voiceNames = {
+        voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)',
+        voice2: 'Giọng 2 (Giảng Học Thuật)',
+        voice3: 'Giọng 3 (Sale Y Đức)'
+      };
+      const vName = voiceNames[currentVoice];
       
-      document.getElementById('trackerDay1Score').textContent = score + '/10';
-      showToast(`Đã lưu đánh giá Ngày ${currentDay} (${score}/10) vào brain_score.md!`);
+      if (currentVoice === 'voice1') {
+        document.getElementById('trackerDay1Score').textContent = score + '/10';
+      }
+      showToast(`Đã lưu đánh giá riêng cho [${vName}] (${score}/10) vào brain.db & brain_score.md!`);
     }
 
     function copyPostContent() {
