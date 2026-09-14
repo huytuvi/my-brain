@@ -6,6 +6,16 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.12.0] - 2026-09-14
+### Added
+- **Cuốn Lịch Nội Dung Tương Tác (Content Calendar View):**
+  + Quản lý trực quan toàn bộ 7 ngày theo lịch (14/09 - 20/09/2026), bấm vào bất kỳ ngày nào để xem 3 bài viết (Sáng, Trưa, Tối) và trạng thái xuất bản.
+  + Cơ chế tùy biến linh hoạt: Bấm 'AI Tạo Mới' để AI tự động đổi đề tài từ `knowledge` trong `brain.db`, hoặc tự gõ ý tưởng riêng để AI viết theo ý người dùng.
+- **Quản lý toàn diện trọn vẹn 21 bài viết trong Kế hoạch 7 ngày:**
+  + Popup window mở rộng hiển thị đầy đủ cả 7 ngày với 21 thẻ bài viết chi tiết, có nút 'Chọn đề tài này' nạp thẳng vào bàn làm việc.
+- **Nút 'Đổi Đề Tài Ngẫu Nhiên' (Randomizer):**
+  + Bấm 1-click để AI bốc ngẫu nhiên một đề tài y khoa/cột sống hấp dẫn và sinh bài viết tức thì theo đúng Brand Voice đã chọn.
+
 ## [0.11.0] - 2026-09-14
 ### Security & Architecture
 - **Bảo toàn dữ liệu trong sạch (Strict Data Isolation):**

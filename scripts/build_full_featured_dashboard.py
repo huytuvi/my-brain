@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+import os
+
+base_dir = '/Users/huybui/Desktop/my-brain'
+html_path = os.path.join(base_dir, 'dashboard.html')
+
+html_content = '''<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -718,7 +723,7 @@ Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình hãy bắt đầ
             <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded ${p.voice === 'voice1' ? 'bg-blue-100 text-blue-800' : p.voice === 'voice2' ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800'}">
               ${p.time} • ${p.channelName} • ${p.voiceName}
             </span>
-            <button onclick="loadPostToWorkspace('${p.title.replace(/'/g, "\'")}', '${p.voice}', '${p.channel}', ${dayData.day})" class="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1">
+            <button onclick="loadPostToWorkspace('${p.title.replace(/'/g, "\\'")}', '${p.voice}', '${p.channel}', ${dayData.day})" class="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1">
               <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> Nạp Vào Viết
             </button>
           </div>
@@ -823,41 +828,11 @@ Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình hãy bắt đầ
 
       let generated = "";
       if (currentVoice === 'voice1') {
-        generated = `Dạ em chào anh/chị,
-
-Hôm nay có một anh/chị nhắn cho bên em về vấn đề: "${topic}". Em rất hiểu cảm giác mệt mỏi và bất an khi cơn đau cứ lặp đi lặp lại mỗi ngày.
-
-${customPrompt ? "Lưu ý riêng: " + customPrompt + "
-
-" : ""}Về bản chất, cơ thể con người không sinh ra để "làm quen" với cơn đau. Khi cột sống chịu tải sai tư thế, cơ sâu co rút và chèn ép rễ thần kinh. Điều quan trọng nhất lúc này là lắng nghe cơ thể và kiểm tra lại trục đốt sống trước khi tổn thương tiến triển nặng hơn.
-
-Simon Center đang mở cổng Form Danh Sách Chờ (Waitlist) cho Buổi Đánh Giá Cột Sống 1-1 chuyên sâu cùng chuyên gia. Anh/chị hãy điền tên để nhận lịch ưu tiên nhé ạ!
-
-👉 Link Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]
-
-*(Chia sẻ mang tính tham khảo y khoa, không thay thế khám trực tiếp.)*`;
+        generated = `Dạ em chào anh/chị,\n\nHôm nay có một anh/chị nhắn cho bên em về vấn đề: "${topic}". Em rất hiểu cảm giác mệt mỏi và bất an khi cơn đau cứ lặp đi lặp lại mỗi ngày.\n\n${customPrompt ? "Lưu ý riêng: " + customPrompt + "\n\n" : ""}Về bản chất, cơ thể con người không sinh ra để "làm quen" với cơn đau. Khi cột sống chịu tải sai tư thế, cơ sâu co rút và chèn ép rễ thần kinh. Điều quan trọng nhất lúc này là lắng nghe cơ thể và kiểm tra lại trục đốt sống trước khi tổn thương tiến triển nặng hơn.\n\nSimon Center đang mở cổng Form Danh Sách Chờ (Waitlist) cho Buổi Đánh Giá Cột Sống 1-1 chuyên sâu cùng chuyên gia. Anh/chị hãy điền tên để nhận lịch ưu tiên nhé ạ!\n\n👉 Link Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]\n\n*(Chia sẻ mang tính tham khảo y khoa, không thay thế khám trực tiếp.)*`;
       } else if (currentVoice === 'voice2') {
-        generated = `[GIẢI PHẪU CƠ CHẾ KHOA HỌC: ${topic.toUpperCase()}]
-
-Nhiều người lầm tưởng rằng gặp tình trạng này thì cứ nằm nghỉ trên giường là khỏi. Nhưng khoa học nói khác!
-
-${customPrompt ? "Điểm mấu chốt: " + customPrompt + "
-
-" : ""}Từ nguyên lý gốc (First Principles): Cột sống sinh ra để vận động! Khi bạn ngồi lì hoặc chịu lực sai góc, đĩa đệm bị mất dịch bôi trơn và bao khớp bị ứ trệ tuần hoàn. Kẻ thù thật sự của cột sống không phải là vận động — mà là BẤT ĐỘNG!
-
-Muốn biết chính xác các đốt sống của bạn đang sai lệch ở mức nào? Hãy đăng ký Buổi Đánh Giá Cột Sống Chuyên Sâu 1-1 tại Simon Center qua link Danh Sách Chờ ở đầu trang bio nhé!`;
+        generated = `[GIẢI PHẪU CƠ CHẾ KHOA HỌC: ${topic.toUpperCase()}]\n\nNhiều người lầm tưởng rằng gặp tình trạng này thì cứ nằm nghỉ trên giường là khỏi. Nhưng khoa học nói khác!\n\n${customPrompt ? "Điểm mấu chốt: " + customPrompt + "\n\n" : ""}Từ nguyên lý gốc (First Principles): Cột sống sinh ra để vận động! Khi bạn ngồi lì hoặc chịu lực sai góc, đĩa đệm bị mất dịch bôi trơn và bao khớp bị ứ trệ tuần hoàn. Kẻ thù thật sự của cột sống không phải là vận động — mà là BẤT ĐỘNG!\n\nMuốn biết chính xác các đốt sống của bạn đang sai lệch ở mức nào? Hãy đăng ký Buổi Đánh Giá Cột Sống Chuyên Sâu 1-1 tại Simon Center qua link Danh Sách Chờ ở đầu trang bio nhé!`;
       } else {
-        generated = `Dạ em chào anh/chị,
-
-Về chủ đề "${topic}", rất nhiều khách hàng khi mới tìm hiểu cũng có băn khoăn tương tự như anh/chị (Feel).
-
-${customPrompt ? customPrompt + "
-
-" : ""}Nhưng sau khi trực tiếp được bác sĩ tầm soát tại Simon Center, mọi người đều nhận ra (Found): Khoản đầu tư để nắn chỉnh đúng trục và phục hồi tận gốc luôn tiết kiệm hơn rất nhiều so với chi phí mua thuốc giảm đau lặp lại hay chịu đựng cơn đau mỏi triền miên.
-
-Bên em đề xuất mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống 1-1: Bác sĩ chỉ rõ cần làm gì và KHÔNG CẦN làm gì, anh/chị nắm rõ rồi mới quyết định, hoàn toàn không có áp lực gì ạ!
-
-👉 Link Form Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]`;
+        generated = `Dạ em chào anh/chị,\n\nVề chủ đề "${topic}", rất nhiều khách hàng khi mới tìm hiểu cũng có băn khoăn tương tự như anh/chị (Feel).\n\n${customPrompt ? customPrompt + "\n\n" : ""}Nhưng sau khi trực tiếp được bác sĩ tầm soát tại Simon Center, mọi người đều nhận ra (Found): Khoản đầu tư để nắn chỉnh đúng trục và phục hồi tận gốc luôn tiết kiệm hơn rất nhiều so với chi phí mua thuốc giảm đau lặp lại hay chịu đựng cơn đau mỏi triền miên.\n\nBên em đề xuất mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống 1-1: Bác sĩ chỉ rõ cần làm gì và KHÔNG CẦN làm gì, anh/chị nắm rõ rồi mới quyết định, hoàn toàn không có áp lực gì ạ!\n\n👉 Link Form Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]`;
       }
 
       document.getElementById('postTextContent').textContent = generated;
@@ -886,7 +861,7 @@ Bên em đề xuất mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống
                 <div class="font-bold text-slate-800 mt-1 line-clamp-2">"${p.title}"</div>
                 <div class="text-[11px] text-slate-500 mt-1">Tone: ${p.voiceName}</div>
               </div>
-              <button onclick="applyPlanTopic('${p.title.replace(/'/g, "\'")}', '${p.voice}', '${p.channel}', ${d.day})" class="w-full mt-2 py-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 font-bold rounded-lg transition text-[11px]">
+              <button onclick="applyPlanTopic('${p.title.replace(/'/g, "\\'")}', '${p.voice}', '${p.channel}', ${d.day})" class="w-full mt-2 py-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 font-bold rounded-lg transition text-[11px]">
                 Chọn đề tài này
               </button>
             </div>
@@ -982,3 +957,9 @@ Bên em đề xuất mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống
   </script>
 </body>
 </html>
+'''
+
+with open(html_path, 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("Full-featured dashboard successfully built at:", html_path)

@@ -77,3 +77,7 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 ## Strict Data Isolation Enforced (2026-09-14)
 - Đã thiết lập cơ chế cách ly dữ liệu đánh giá giữa 3 Giọng trong cả SQLite (`voice_evaluations`) và Markdown (`brain_score.md`).
 - Đảm bảo tính trong sạch của dữ liệu: Phản hồi của Giọng Học thuật (cần nhanh, hài) không bao giờ làm loãng Giọng Tư vấn y khoa (cần trầm, ấm, lắng nghe).
+
+## Content Calendar & Topic Randomizer Added (2026-09-14)
+- Đã hoàn thành tính năng Cuốn Lịch Nội Dung, quản lý 21 bài viết của 7 ngày và nút Random đề tài thông minh.
+- Người dùng có toàn quyền kiểm soát lịch sử bài viết quá khứ, hiện tại và tương lai, đồng thời có thể can thiệp chỉnh sửa bất kỳ ngày nào.
