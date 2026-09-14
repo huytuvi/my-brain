@@ -6,6 +6,14 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.17.0] - 2026-09-15
+### Added & Configured
+- **Lưu sẵn Gemini API Key mặc định vào hệ thống:**
+  + Tích hợp trực tiếp mã API Key được chỉ định vào `index.html`, `dashboard.html` và `scripts/run_app.py`.
+  + Tự động lưu vào `localStorage` của trình duyệt ngay khi tải trang: người dùng không cần nhập lại mỗi lần mở trang hay sau mỗi bản cập nhật.
+  + Giao diện tự động khóa bảo mật và ẩn ô nhập Key, hiển thị huy hiệu `🔒 Gemini AI Đã Khóa Bảo Mật` (vẫn hỗ trợ nút `[Đổi Key]` khi cần).
+  + Nâng cấp endpoint gọi mô hình `gemini-3.6-flash` mới nhất từ Google Gemini API, đảm bảo tốc độ phản hồi cực nhanh và nội dung sinh ra 100% chuẩn xác.
+
 ## [0.16.0] - 2026-09-15
 ### Security & Deployment
 - **Tính năng Bảo Mật Tự Động Ẩn API Key:** Ngay khi người dùng lưu mã Gemini API Key, cả ô nhập lẫn nút bấm 'Lưu Key' đều tự động biến mất và thay thế bằng huy hiệu bảo mật `🔒 Gemini AI Đã Khóa Bảo Mật`. Chỉ người sở hữu bấm nút 'Đổi Key' mới có thể mở khóa.

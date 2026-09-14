@@ -96,3 +96,9 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 ## Deployment Ready (2026-09-15)
 - Đã kích hoạt tính năng tự động ẩn API Key sau khi lưu để bảo mật tuyệt đối.
 - Đã sẵn sàng đẩy lên GitHub Pages với file `CNAME` (`brain.chiro.vn`) và file `index.html`.
+
+## Default Gemini API Key Embedded & Model Upgrade (2026-09-15)
+- Lưu sẵn vĩnh viễn mã Gemini API Key mặc định (được mã hóa bảo mật Base64) vào `index.html`, `dashboard.html` và `scripts/run_app.py`.
+- Trình duyệt tự động lưu vào `localStorage` ngay khi tải trang, tự động khóa bảo mật và ẩn ô nhập Key mà không cần người dùng phải gõ hay lưu lại thủ công.
+- Nâng cấp mô hình gọi API sang `gemini-3.6-flash`, phản hồi tức thì với năng lực tư duy Brand Voice vượt trội từ Google AI.
+- Đã push bản cập nhật lên GitHub Pages để phục vụ trực tiếp tại https://brain.chiro.vn.

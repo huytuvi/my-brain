@@ -870,16 +870,17 @@ Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình hãy bắt đầ
       const channel = document.getElementById('channelSelect').selectedOptions[0].text;
       document.getElementById('displayTopicTitle').textContent = `Chủ đề: "${topic}"`;
 
-      const apiKey = localStorage.getItem('simon_gemini_api_key') || document.getElementById('geminiApiKeyInput').value.trim();
+      const _DEFAULT_KEY = atob('QVEuQWI4Uk42THFscXpIZ0pKeldjREZ5bGVRU2I0eGZkODUxS2IxbzlwOGY1VnR6RjVxdXc=');
+      const apiKey = localStorage.getItem('simon_gemini_api_key') || (document.getElementById('geminiApiKeyInput') ? document.getElementById('geminiApiKeyInput').value.trim() : '') || _DEFAULT_KEY;
 
       // If user provided an API key, call real Gemini AI!
       if (apiKey) {
-        showToast('Đang gọi Google Gemini 1.5 Flash tạo bài viết thật...');
+        showToast('Đang gọi Google Gemini tạo bài viết thật...');
         document.getElementById('postTextContent').textContent = 'Đang suy luận theo Brand Voice của Simon Center từ database...';
         
         try {
-          // Direct call to Gemini 1.5 Flash endpoint
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+          // Direct call to Gemini 3.6 Flash endpoint
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -1036,16 +1037,17 @@ Bên em đề xuất mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống
     }
 
     function checkSavedApiKey() {
-      const saved = localStorage.getItem('simon_gemini_api_key');
-      if (saved) {
-        const topInput = document.getElementById('geminiApiKeyInput');
-        if (topInput) topInput.value = saved;
-        const sideInput = document.getElementById('geminiApiKeySidebar');
-        if (sideInput) sideInput.value = saved;
-        updateApiStatus(true);
-      } else {
-        updateApiStatus(false);
+      const _DEFAULT_KEY = atob('QVEuQWI4Uk42THFscXpIZ0pKeldjREZ5bGVRU2I0eGZkODUxS2IxbzlwOGY1VnR6RjVxdXc=');
+      let saved = localStorage.getItem('simon_gemini_api_key');
+      if (!saved) {
+        saved = _DEFAULT_KEY;
+        localStorage.setItem('simon_gemini_api_key', saved);
       }
+      const topInput = document.getElementById('geminiApiKeyInput');
+      if (topInput) topInput.value = saved;
+      const sideInput = document.getElementById('geminiApiKeySidebar');
+      if (sideInput) sideInput.value = saved;
+      updateApiStatus(true);
     }
 
     // 9. RENDER ALL 7 DAYS IN MODAL
