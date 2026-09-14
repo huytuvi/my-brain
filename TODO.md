@@ -12,3 +12,4 @@
 
 - [x] Lập kế hoạch content 7 ngày kéo danh sách chờ vào  dựa trên 3 tone brand voice trong .
 - [x] Tạo bảng theo dõi đo lường 7 ngày vào .
+- [x] Viết 3 bài đăng mạng xã hội cho Ngày 1 vào file .

@@ -6,6 +6,15 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.8.0] - 2026-09-14
+### Added
+- Đọc dữ liệu từ `brain.db` và chủ đề Ngày 1 từ `plan.md` để viết 3 bài đăng mạng xã hội hoàn chỉnh.
+- Xuất dữ liệu ra file `day1.txt` tại thư mục gốc và `output/day1.txt`:
+  + Bài 1.1 (Facebook Cá nhân): Giọng 1 thấu cảm — 'Chúng ta đã học cách chịu đựng cơn đau giỏi đến mức nào?'.
+  + Bài 1.2 (TikTok / Reels 60s): Giọng 2 học thuật sinh động — 'Cúi đầu nhìn điện thoại 60 độ: Cổ đang gánh 27kg thế nào?'.
+  + Bài 1.3 (Fanpage Simon Center): Giọng 2 & 3 nguyên lý y khoa — 'Tại sao nằm nghỉ cả ngày cuối tuần mà thứ Hai thức dậy lưng vẫn ê ẩm?'.
+- Tất cả 3 bài đều có lời kêu gọi hành động (CTA) tự nhiên, thôi thúc đăng ký vào Form Danh Sách Chờ (Waitlist).
+
 ## [0.7.0] - 2026-09-14
 ### Added
 - Tạo bảng theo dõi đo lường chất lượng `brain_score.md` trong 7 ngày.

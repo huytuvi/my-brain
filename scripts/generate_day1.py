@@ -1,0 +1,130 @@
+import os
+
+base_dir = '/Users/huybui/Desktop/my-brain'
+day1_path = os.path.join(base_dir, 'day1.txt')
+output_day1_path = os.path.join(base_dir, 'output', 'day1.txt')
+
+day1_content = '''================================================================================
+NGÀY 1: PHÁ VỠ SỰ "BÌNH THƯỜNG HÓA" CƠN ĐAU
+Chuỗi 3 bài viết đa kênh — Kéo người đăng ký vào Form Danh Sách Chờ (Waitlist)
+Thương hiệu: Simon Center | Tuân thủ tuyệt đối Brand Voice trong brain.db
+================================================================================
+
+--------------------------------------------------------------------------------
+BÀI 1.1: FACEBOOK CÁ NHÂN (FOUNDER / CHUYÊN GIA)
+- Kênh đăng: Trang cá nhân Facebook
+- Tone giọng: Giọng 1 (Tư vấn & Chuyên khoa — thấu cảm, ấm áp, sâu sắc, Gabor Maté + BS Trần Văn Phúc)
+- Mục tiêu: Chạm vào thói quen âm thầm chịu đựng cơn đau, xây dựng niềm tin và kéo vào Form danh sách chờ
+--------------------------------------------------------------------------------
+
+Hôm qua ở phòng trị liệu, có một bạn làm thiết kế 28 tuổi nói với tôi một câu khiến tôi ngồi lặng đi một lúc:
+"Đau mỏi vai gáy với đau thắt lưng thì ai ngồi máy tính mà chẳng bị hả anh, em bị 3 năm nay rồi, quen rồi anh ạ."
+
+"Quen rồi."
+
+Chúng ta kỳ lạ lắm. Chúng ta có thể học cách chịu đựng cơn đau giỏi đến mức coi nó là một phần bình thường của cuộc sống trưởng thành. Cứ mỏi thì đưa tay bóp bóp vài cái, nhức quá thì dán miếng cao, nặng hơn thì uống viên giảm đau để kịp chạy deadline.
+
+Nhưng cơ thể con người không sinh ra để "làm quen" với cơn đau.
+
+Nói từ góc độ y khoa và giải phẫu, cơn đau không bao giờ là kẻ thù. Cơn đau là bức thư khẩn cấp mà các thụ cảm thể thần kinh gửi lên não bộ để thông báo rằng: "Cấu trúc cột sống ở đây đang quá tải rồi, trục đốt sống đang bị kéo lệch rồi, hãy cho tôi được nghỉ ngơi và điều chỉnh!". Khi chúng ta chọn cách phớt lờ hay "làm quen", chúng ta đang thẳng tay xé bỏ bức thư cảnh báo ấy. Để rồi vài năm sau, thứ gõ cửa không còn là cảm giác mỏi cơ đơn thuần nữa, mà là thoái hóa, là rách bao xơ đĩa đệm, là những cơn tê rần buốt nhói chạy dọc xuống cánh tay.
+
+Học từ bác sĩ Gabor Maté, câu hỏi tôi luôn tự đặt ra cho mỗi người đến với mình không phải chỉ là "anh/chị bị đau ở đốt sống nào?", mà là "cơ thể anh/chị đã phải gồng gánh những áp lực gì suốt những năm tháng qua?".
+
+Cột sống của bạn đã nâng đỡ bạn đi qua bao nhiêu dự án, gánh vác bao nhiêu trách nhiệm gia đình. Nó xứng đáng được lắng nghe thay vì bị bắt phải chịu đựng trong im lặng.
+
+Tuần tới, Simon Center sẽ mở lại đợt Đánh Giá Cột Sống Chuyên Sâu 1-1 cùng chuyên gia — nơi bạn không chỉ được kiểm tra chính xác từng góc lệch đốt sống, mà còn cùng chúng tôi tìm ra căn nguyên thực sự vì sao chiếc lưng của bạn không thể ngồi yên.
+
+Vì mỗi ngày bên em chỉ nhận một số lượng giới hạn để đảm bảo sự kỹ lưỡng cho từng người, anh/chị hãy điền tên vào Form Danh Sách Chờ (Waitlist) ở bên dưới nhé ạ. Những ai trong danh sách chờ sẽ được ưu tiên giữ khung giờ thăm khám thuận tiện nhất và nhận trọn bộ Cẩm nang tự kiểm tra tư thế tại nhà.
+
+👉 Link đăng ký Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]
+
+Đừng để chiếc lưng của mình phải kêu cứu thêm một ngày nào nữa nhé ạ.
+
+*(Những chia sẻ trên đây mang tính tham khảo y khoa, không thay thế cho việc thăm khám và chẩn đoán trực tiếp từ bác sĩ chuyên khoa ạ.)*
+
+
+--------------------------------------------------------------------------------
+BÀI 1.2: TIKTOK / FACEBOOK REELS / SHORTS (VIDEO NGẮN 60 GIÂY)
+- Kênh đăng: TikTok & Reels (Video dọc)
+- Tone giọng: Giọng 2 (Học thuật sinh động, nhịp nhanh, trực quan, Doctor Mike + First Principles)
+- Format: Kịch bản quay video thực tế kết hợp đạo cụ trực quan
+- Mục tiêu: Tạo cú sốc thị giác về áp lực cột sống cổ, kêu gọi bấm link bio vào Form
+--------------------------------------------------------------------------------
+
+[HÌNH ẢNH / VISUAL]:
+- 00:00 - 00:05: Chuyên gia ngồi cúi gập cổ bấm điện thoại, trên cổ đặt một bình nước lọc 20 lít hoặc một bao gạo to tướng. Text giật tít: "Bạn đang cõng ai trên cổ suốt 8 tiếng mỗi ngày?"
+- 00:05 - 00:20: Bỏ bình nước xuống, cầm mô hình cột sống cổ mô tả góc nghiêng.
+- 00:20 - 00:45: Đồ họa so sánh góc nghiêng 0 độ, 30 độ, 60 độ.
+- 00:45 - 00:60: Hướng dẫn động tác ngửa cằm chỉnh trục ngay lập tức và chỉ tay vào Link Bio.
+
+[LỜI THOẠI / VOICE-OVER]:
+"Dừng lại 3 giây! Bạn đang đọc bài này với tư thế cúi gập đầu xuống đúng không?
+
+Khoa học nói gì về góc cúi này?
+Đầu của một người trưởng thành nặng trung bình 5kg. Khi bạn giữ đầu thẳng, đốt sống cổ chỉ phải gánh đúng 5kg đó.
+Nhưng nguyên lý đòn bẩy vật lý bắt đầu xuất hiện:
+- Bạn cúi 15 độ -> Cổ gánh 12kg.
+- Bạn cúi 30 độ -> Cổ gánh 18kg.
+- Và khi bạn cúi 60 độ để cắm mặt lướt điện thoại hay gõ laptop -> Lực đè nén lên các đốt sống cổ C5-C6 vọt lên tới... 27 KILOGAM!
+
+27kg tương đương với việc bạn đang cõng một đứa bé 8 tuổi ngồi vắt vẻo trên gáy của mình suốt 6 đến 8 tiếng mỗi ngày! Hãy tưởng tượng đĩa đệm mỏng manh của bạn bị bóp nghẹt như thế nào. Đó là lý do tại sao bạn mới 25, 30 tuổi mà cổ đã cứng đơ, vai nhức buốt và hai thái dương đau giật từng cơn!
+
+Ngay bây giờ: Nâng điện thoại ngang tầm mắt, thu cằm nhẹ về phía sau. Đỡ hơn chưa?
+
+Nếu bạn muốn biết chính xác các đốt sống cổ của mình đã bị sai lệch và thoái hóa ở mức độ nào, Simon Center đang mở cổng Form Danh Sách Chờ cho Buổi Tầm Soát & Đánh Giá Cột Sống 1-1 chuyên sâu. Bấm ngay vào link ở đầu trang Bio để ghi tên vào danh sách ưu tiên nhé!"
+
+
+--------------------------------------------------------------------------------
+BÀI 1.3: FANPAGE CHÍNH THỨC SIMON CENTER
+- Kênh đăng: Fanpage Simon Center
+- Tone giọng: Giọng 2 kết hợp Giọng 3 (Nguyên lý gốc y khoa, minh bạch, đập tan lầm tưởng, kêu gọi hành động chuẩn mực)
+- Mục tiêu: Phân tích cơ chế khoa học, giải thích vì sao nghỉ ngơi không hết đau, dẫn dắt vào Form danh sách chờ
+--------------------------------------------------------------------------------
+
+[TẠI SAO NẰM NGHỈ CẢ NGÀY CUỐI TUẦN MÀ THỨ HAI THỨC DẬY LƯNG VẪN Ê ẨM?]
+
+Nhiều người tin rằng: "Đang đau mỏi lưng thì cứ nằm yên trên giường cả ngày thứ Bảy, Chủ nhật là cơ thể sẽ tự hồi phục."
+Nghe thì rất hợp lý và xuôi tai — nhưng thực tế là sau 2 ngày nằm ôm điện thoại trên nệm, sáng thứ Hai thức dậy bạn lại thấy lưng mình cứng đờ, uể oải và nặng nề hơn cả trước đó.
+
+Vì sao lại có nghịch lý này? Hãy nhìn vào Nguyên lý gốc (First Principles) của cột sống:
+
+1. Đĩa đệm không có mạch máu trực tiếp nuôi dưỡng:
+Khác với các cơ quan khác, đĩa đệm cột sống thẩm thấu oxy và chất dinh dưỡng thông qua cơ chế "bơm hút" khi cơ thể vận động và đổi tư thế. Khi bạn nằm bất động hàng giờ liền, sự trao đổi chất này bị đình trệ, chất thải chuyển hóa lắng đọng lại trong bao khớp.
+
+2. Áp lực khi nằm sai tư thế trên nệm mềm:
+Nằm cuộn tròn hoặc tựa lưng vào đầu giường lướt điện thoại thực chất khiến các dây chằng thắt lưng và cơ sâu bị kéo căng quá mức trong tình trạng thả lỏng thụ động.
+
+3. "Kẻ thù thật sự của cột sống không phải là vận động — mà là BẤT ĐỘNG":
+Cột sống sinh ra để chuyển động linh hoạt. Nằm im không giúp giải phóng được những đốt sống đã bị trượt lệch khỏi trục chuẩn giải phẫu.
+
+👉 LỜI KHUYÊN CHO BẠN:
+Thay vì nằm bất động, giải pháp đúng đắn là vận động nhẹ nhàng (đi bộ chậm 15 phút), tập các bài giãn cơ giải áp vùng chậu và quan trọng nhất: Cần được nắn chỉnh giải phóng các điểm chèn ép cấu trúc.
+
+Tuần này, Simon Center chính thức mở cổng:
+DANH SÁCH CHỜ (WAITLIST) — BUỔI ĐÁNH GIÁ CỘT SỐNG CHUYÊN SÂU 1-1 CÙNG BÁC SĨ
+
+Khi tham gia danh sách chờ, bạn sẽ nhận được:
+✔ Ưu tiên giữ lịch hẹn riêng 1-1 cùng chuyên gia nắn chỉnh thần kinh cột sống (Chiropractic);
+✔ Tầm soát toàn diện đường cong sinh lý cột sống, đo góc sai lệch và phân tích phim X-quang/MRI;
+✔ Chỉ rõ chính xác bạn CẦN điều trị những gì và KHÔNG CẦN tốn tiền cho những thủ thuật thừa thãi nào;
+✔ Tặng kèm Video hướng dẫn bài tập công thái học bảo vệ lưng độc quyền tại Simon Center.
+
+Bên em cam kết dịch vụ chuẩn y đức: Không bán thuốc, không chèo kéo mua gói liệu trình khi chưa kiểm tra phim chụp.
+
+Số lượng tiếp nhận trong mỗi đợt đánh giá có hạn để đảm bảo chất lượng thời gian cho từng khách hàng. Anh/chị hãy điền thông tin vào form danh sách chờ ngay hôm nay nhé ạ!
+
+👉 Link Form Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]
+Hotline giải đáp: 09xx.xxx.xxx
+Địa chỉ: Simon Center - Phục hồi chức năng & Trị liệu Thần kinh Cột sống tại TP.HCM.
+
+*(Thông tin chia sẻ mang tính phổ biến kiến thức sức khỏe cộng đồng, không thay thế việc thăm khám y khoa trực tiếp.)*
+================================================================================
+'''
+
+with open(day1_path, 'w', encoding='utf-8') as f:
+    f.write(day1_content)
+
+with open(output_day1_path, 'w', encoding='utf-8') as f:
+    f.write(day1_content)
+
+print("day1.txt successfully generated at:", day1_path)
