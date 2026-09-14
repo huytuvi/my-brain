@@ -6,6 +6,14 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.6.0] - 2026-09-14
+### Added
+- Đọc dữ liệu Brand Voice 3 giọng từ `brain.db` để lập **Kế hoạch Content 7 ngày kéo danh sách chờ (Waitlist)**.
+- Tạo file `plan.md` với đầy đủ 21 chủ đề chi tiết (3 bài/ngày).
+- Xác định rõ kênh đăng (Facebook Cá nhân, Fanpage Simon Center, TikTok/Reels, Group cộng đồng, Zalo OA).
+- Phân bổ linh hoạt 3 tone giọng: Giọng 1 (Tư vấn thấu cảm), Giọng 2 (Học thuật First Principles), Giọng 3 (Sale y đức).
+- Cập nhật nhật ký dự án `HANDOFF.md` và `CHANGELOG.md`.
+
 ## [0.5.0] - 2026-09-14
 ### Added
 - Đào tạo và cập nhật trọn bộ **3 Tone Brand Voice** vào `brain.db`:

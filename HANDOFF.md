@@ -51,3 +51,8 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 - Bổ sung hoàn chỉnh Giọng 3 (Sale y đức) vào bảng `brand_voice` trong `brain.db`.
 - Đã xuất bản bài viết mẫu `output/bai_3_tu_van_chot_deal_giong_3.txt`.
 - Toàn bộ 3 giọng đã sẵn sàng phục vụ cho Chatbot phòng khám, Trợ giảng lớp học và Nhân viên tư vấn dịch vụ.
+
+## Content Plan Update (2026-09-14)
+- Đã hoàn thành kế hoạch Content 7 ngày kéo danh sách chờ tại `plan.md`.
+- Đã ánh xạ 21 chủ đề cụ thể tương ứng với từng giai đoạn tâm lý khách hàng và phân bổ vào 3 kênh truyền thông chính.
+- Toàn bộ nội dung tuân thủ nguyên tắc y khoa và định vị thương hiệu Simon Center.
