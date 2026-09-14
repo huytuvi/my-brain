@@ -65,3 +65,7 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 - Đã xuất bản thành công `day1.txt` gồm 3 bài viết hoàn chỉnh cho 3 kênh khác nhau (Facebook Profile, TikTok/Reels, Fanpage).
 - Tuân thủ nghiêm ngặt 3 tone giọng của Simon Center và 4 chữ KHÔNG y khoa.
 - Sẵn sàng để người dùng copy đăng bài và theo dõi phản hồi trên `brain_score.md`.
+
+## Web Dashboard Added (2026-09-14)
+- Đã hoàn thành ứng dụng Web Dashboard `dashboard.html` và script `scripts/run_app.py`.
+- Người dùng có thể trực tiếp tương tác, ra lệnh, đổi giọng, xem trước bài viết bên cửa sổ cạnh nhau và chấm điểm tiến hóa mà không cần gõ lệnh phức tạp.

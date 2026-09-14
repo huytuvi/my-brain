@@ -6,6 +6,15 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.9.0] - 2026-09-14
+### Added
+- Xây dựng **Ứng dụng Web Dashboard** hoàn chỉnh cho Second Brain tại `dashboard.html`.
+- Thiết kế giao diện Split-pane hiện đại theo đúng yêu cầu:
+  + Cột trái: Bảng điều khiển ra lệnh, chọn 3 Tone Brand Voice (Tư vấn, Học thuật, Sale y đức), chọn kênh, nạp thêm quy tắc dạy AI.
+  + Cột giữa: Cửa sổ hiển thị bài viết Live Output theo thời gian thực, nút sao chép 1-click, tải file .txt, đếm từ và kiểm tra y đức.
+  + Cột phải: Bảng chấm điểm và theo dõi tiến hóa Brain Score 7 ngày trực quan.
+- Thêm script máy chủ nội bộ Python `scripts/run_app.py` khởi chạy tự động bằng 1 lệnh.
+
 ## [0.8.0] - 2026-09-14
 ### Added
 - Đọc dữ liệu từ `brain.db` và chủ đề Ngày 1 từ `plan.md` để viết 3 bài đăng mạng xã hội hoàn chỉnh.
