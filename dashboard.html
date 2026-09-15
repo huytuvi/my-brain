@@ -1644,9 +1644,21 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       if (evalFormVoice) evalFormVoice.value = voiceKey;
 
       if (!skipPreviewOverwrite) {
-        updateOutputPreview();
+        // When user manually clicks a voice card on the workspace:
+        // Automatically generate / tailor article for CURRENT topic in the new voice!
+        const curTopic = document.getElementById('topicInput') ? document.getElementById('topicInput').value.trim() : '';
+        const _DEFAULT_KEY = atob('QVEuQWI4Uk42THFscXpIZ0pKeldjREZ5bGVRU2I0eGZkODUxS2IxbzlwOGY1VnR6RjVxdXc=');
+        const apiKey = localStorage.getItem('simon_gemini_api_key') || (document.getElementById('geminiApiKeyInput') ? document.getElementById('geminiApiKeyInput').value.trim() : '') || _DEFAULT_KEY;
+
+        if (curTopic && apiKey) {
+          showToast(`Đang tự động sinh bài viết cho đề tài theo ${voiceNamesFull[voiceKey]}...`);
+          generateLiveArticle();
+        } else {
+          updateOutputPreview();
+        }
+      } else {
+        showToast(`Đã chuyển sang: ${voiceNamesFull[voiceKey]}`);
       }
-      showToast(`Đã chuyển sang: ${voiceNamesFull[voiceKey]}`);
     }
 
     function updateOutputPreview() {
@@ -1758,8 +1770,39 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
     let currentPostIndex = 0;
 
     function loadPostToWorkspace(title, voiceKey, channelVal, dayNum, postIdx = 0) {
-      currentDay = dayNum;
-      currentPostIndex = postIdx;
+      let targetPost = null;
+      let targetDay = Number(dayNum) || currentDay;
+      let targetIdx = Number(postIdx) || 0;
+
+      // Priority 1: Match by exact title across plan7DaysData
+      for (const d of plan7DaysData) {
+        if (d.posts) {
+          const foundIdx = d.posts.findIndex(p => p.title.trim() === title.trim());
+          if (foundIdx !== -1) {
+            targetPost = d.posts[foundIdx];
+            targetDay = d.day;
+            targetIdx = foundIdx;
+            break;
+          }
+        }
+      }
+
+      // Priority 2: Match by day and postIdx
+      if (!targetPost) {
+        const dData = plan7DaysData.find(d => d.day === targetDay);
+        if (dData && dData.posts && dData.posts[targetIdx]) {
+          targetPost = dData.posts[targetIdx];
+        }
+      }
+
+      if (targetPost) {
+        title = targetPost.title;
+        voiceKey = targetPost.voice;
+        channelVal = targetPost.channel;
+      }
+
+      currentDay = targetDay;
+      currentPostIndex = targetIdx;
       
       const topicInput = document.getElementById('topicInput');
       if (topicInput) topicInput.value = title;
@@ -1778,26 +1821,22 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       }
 
       const evalDayBadge = document.getElementById('evaluatingDayBadge');
-      if (evalDayBadge) evalDayBadge.textContent = `Ngày ${dayNum}`;
+      if (evalDayBadge) evalDayBadge.textContent = `Ngày ${targetDay}`;
 
       // Update voice selection UI without overwriting article with Day 1 template
       selectVoice(voiceKey, true);
 
       // Check if there is cached custom generated article for this post
-      const cachedKey = `simon_custom_post_${dayNum}_${postIdx}`;
+      const cachedKey = `simon_custom_post_${targetDay}_${targetIdx}`;
       const cachedContent = localStorage.getItem(cachedKey);
 
       let articleContent = '';
       if (cachedContent && cachedContent.trim()) {
         articleContent = cachedContent.trim();
-      } else {
-        // Find post in plan7DaysData
-        const dayData = plan7DaysData.find(d => d.day === dayNum);
-        if (dayData && dayData.posts && dayData.posts[postIdx] && dayData.posts[postIdx].content) {
-          articleContent = dayData.posts[postIdx].content;
-        } else if (voiceDataStore[voiceKey]) {
-          articleContent = voiceDataStore[voiceKey].content;
-        }
+      } else if (targetPost && targetPost.content) {
+        articleContent = targetPost.content;
+      } else if (voiceDataStore[voiceKey]) {
+        articleContent = voiceDataStore[voiceKey].content;
       }
 
       // Display dedicated article immediately
@@ -1810,7 +1849,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       }
 
       switchMainView('workspace');
-      showToast(`Đã nạp bài viết chuẩn Ngày ${dayNum}: "${title.substring(0, 35)}..."!`);
+      showToast(`Đã nạp bài viết chuẩn Ngày ${targetDay}: "${title.substring(0, 35)}..."!`);
     }
 
     function calendarRegenerateTopic() {
@@ -2740,7 +2779,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
               <p class="text-xs font-semibold text-slate-900">${p.title}</p>
               <div class="flex items-center justify-between pt-1 text-[11px] text-slate-500">
                 <span>CTA: ${p.cta}</span>
-                <button onclick="applyPlanTopic('${p.title.replace(/'/g, "\\'") }', '${p.voice}', '${p.channel}', ${d.day})" class="text-blue-600 font-bold hover:underline">
+                <button onclick="applyPlanTopic('${p.title.replace(/'/g, "\\'") }', '${p.voice}', '${p.channel}', ${d.day}, ${idx})" class="text-blue-600 font-bold hover:underline">
                   Chọn đề tài này →
                 </button>
               </div>
@@ -2772,8 +2811,8 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       document.getElementById('planModal').classList.add('hidden');
     }
 
-    function applyPlanTopic(topic, voice, channel, dayNum) {
-      loadPostToWorkspace(topic, voice, channel, dayNum);
+    function applyPlanTopic(topic, voice, channel, dayNum, postIdx = 0) {
+      loadPostToWorkspace(topic, voice, channel, dayNum, postIdx);
       closePlanModal();
     }
 
