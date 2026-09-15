@@ -74,9 +74,38 @@ class SecondBrainAPIHandler(http.server.SimpleHTTPRequestHandler):
             cur = conn.cursor()
             cur.execute("SELECT title, content FROM brand_voice")
             brand_records = cur.fetchall()
+
+            # Query learned evaluations & gold samples for this voice
+            cur.execute("SELECT voice_rules_added, blacklist, case_study, gold_sample FROM voice_evaluations WHERE voice_key = ?", (voice_key,))
+            eval_rows = cur.fetchall()
             conn.close()
 
+            rules_list = [r[0] for r in eval_rows if r[0] and r[0].strip()]
+            blacklist_list = [r[1] for r in eval_rows if r[1] and r[1].strip()]
+            case_study_list = [r[2] for r in eval_rows if r[2] and r[2].strip()]
+            gold_samples_list = [r[3] for r in eval_rows if r[3] and r[3].strip()]
+
             brand_context = "\n\n".join([f"=== {r[0]} ===\n{r[1]}" for r in brand_records])
+
+            if gold_samples_list:
+                brand_context += "\n\n=== ⭐ VĂN MẪU CHUẨN XỊN DO CHÍNH NGƯỜI SÁNG LẬP VIẾT LẠI ===\n"
+                for idx, g in enumerate(gold_samples_list[-3:], 1):
+                    brand_context += f"[Đoạn văn mẫu {idx}]:\n\"{g}\"\n\n"
+
+            if blacklist_list:
+                brand_context += "\n=== 🚫 DANH SÁCH ĐEN - CÁC TỪ CẤM (BLACKLIST) ===\n"
+                for idx, b in enumerate(blacklist_list, 1):
+                    brand_context += f"{idx}. TUYỆT ĐỐI KHÔNG DÙNG: \"{b}\"\n"
+
+            if case_study_list:
+                brand_context += "\n=== 📚 KHO CASE STUDY & TRI THỨC MỚI ĐỘC QUYỀN ===\n"
+                for idx, c in enumerate(case_study_list, 1):
+                    brand_context += f"{idx}. {c}\n"
+
+            if rules_list:
+                brand_context += "\n=== ⚖️ CÁC LUẬT NGẦM KHẮC CỐT GHI TÂM ===\n"
+                for idx, r in enumerate(rules_list, 1):
+                    brand_context += f"{idx}. {r}\n"
 
             full_prompt = f"""Bạn là trợ lý mang tiếng nói của người sáng lập Simon Center (Chiropractic & Phục hồi chức năng tại TP.HCM).
 Dưới đây là tri thức, nguyên tắc y khoa và định vị Brand Voice độc quyền từ database brain.db của Simon Center:
@@ -123,14 +152,17 @@ HÃY VIẾT MỘT BÀI ĐĂNG HOÀN CHỈNH:
             feedback = req_json.get('feedback', '')
             rules = req_json.get('rules', '')
             notes = req_json.get('notes', '')
+            blacklist = req_json.get('blacklist', '')
+            case_study = req_json.get('case_study', '')
+            gold_sample = req_json.get('gold_sample', '')
 
             conn = sqlite3.connect(db_path)
             cur = conn.cursor()
             cur.execute('''
                 INSERT INTO voice_evaluations 
-                (day_number, voice_key, voice_name, channel, topic, score, audience_feedback, voice_rules_added, review_notes)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (day_number, voice_key, voice_name, channel, topic, score, feedback, rules, notes))
+                (day_number, voice_key, voice_name, channel, topic, score, audience_feedback, voice_rules_added, review_notes, blacklist, case_study, gold_sample)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (day_number, voice_key, voice_name, channel, topic, score, feedback, rules, notes, blacklist, case_study, gold_sample))
             conn.commit()
             conn.close()
 

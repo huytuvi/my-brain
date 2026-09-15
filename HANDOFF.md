@@ -115,3 +115,9 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 - Kết nối trực tiếp quy tắc đã học vào Prompt của Gemini 3.6 Flash để AI thực sự áp dụng bài học đánh giá.
 - Bổ sung Tab 4 `Quản Trị Brand Voice` (Admin) cho phép xem và sửa định vị gốc ban đầu, quản lý quy tắc tiến hóa và soi prompt thật của AI.
 - Đồng bộ toàn diện lên live site https://brain.chiro.vn.
+
+## 5 SOP Questions & Human Gold Standard Rewrites (2026-09-15)
+- Cấu trúc lại toàn bộ form đánh giá theo đúng bộ 5 câu hỏi SOP huấn luyện cá nhân: Điểm số, Blacklist, Case Study, Phản hồi độc giả, Luật ngầm.
+- Bổ sung ô nhập "Đoạn văn tôi tự viết lại chuẩn văn phong (Gold Standard Sample)" cho phép Gemini AI áp dụng In-Context Few-Shot Learning bắt chước nhịp điệu và câu chữ thật.
+- Bổ sung hiệu ứng nút bấm trạng thái thời gian thực (Sẵn sàng → Đang nạp → Đã nạp thành công).
+- Nâng cấp schema bảng `voice_evaluations` trong SQLite `brain.db` đồng bộ các trường mới.

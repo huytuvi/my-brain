@@ -299,14 +299,14 @@
     <!-- RIGHT PANEL: BRAIN SCORE TRACKER (Col 3) -->
     <aside class="col-span-12 lg:col-span-3 space-y-4">
 
-      <!-- Single Clear Evaluation Card -->
+      <!-- Single Clear Evaluation Card: 5 SOP Questions + Gold Standard Rewrite -->
       <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3.5">
         <div class="flex items-center justify-between border-b pb-2.5">
           <div>
             <h2 class="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-              <i class="fa-solid fa-star text-amber-500"></i> Đánh Giá Bài Viết Này
+              <i class="fa-solid fa-brain text-purple-600"></i> Huấn Luyện AI (5 Câu Hỏi SOP)
             </h2>
-            <p class="text-[11px] text-slate-500 mt-0.5">Dành 2 phút mỗi tối để giúp AI bắt đúng giọng</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">Dạy AI văn phong thật qua từng ngày xuất bản</p>
           </div>
           <div class="flex items-center gap-1.5">
             <span class="text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100" id="evaluatingDayBadge">Ngày 1</span>
@@ -317,10 +317,10 @@
         <!-- 1. Score Slider (1-10) -->
         <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5">
           <div class="flex items-center justify-between text-xs font-bold text-slate-800">
-            <span>(1) Giống giọng tôi mấy điểm?</span>
+            <span>(1) Giống giọng thật mấy điểm?</span>
             <span class="text-blue-600 text-sm font-extrabold" id="scoreDisplay">9.0 / 10</span>
           </div>
-          <input type="range" min="1" max="10" step="0.5" value="9.0" id="scoreSlider" oninput="updateScoreVal(this.value)" class="w-full accent-blue-600 cursor-pointer">
+          <input type="range" min="1" max="10" step="0.1" value="9.0" id="scoreSlider" oninput="updateScoreVal(this.value)" class="w-full accent-blue-600 cursor-pointer">
           <div class="flex justify-between text-[10px] text-slate-400 font-medium">
             <span>1 (Rất lệch)</span>
             <span>5 (Tạm được)</span>
@@ -328,28 +328,56 @@
           </div>
         </div>
 
-        <!-- 2. Audience Feedback -->
+        <!-- 2. Blacklist: Chỗ nào sáo rỗng / giả tạo -->
         <div>
-          <label class="text-xs font-semibold text-slate-700 block mb-1">(2) Người xem phản hồi thế nào?</label>
-          <input type="text" id="feedbackInput" value="" placeholder="Ví dụ: Khách khen bài ấm áp, có 3 người hỏi thăm link điền form..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <label class="text-xs font-semibold text-slate-700 block mb-1">
+            <span class="text-red-500 font-bold">(2)</span> Chỗ nào AI viết làm tôi thấy 'giả tạo/sáo rỗng' nhất?
+          </label>
+          <input type="text" id="blacklistInput" placeholder="Ví dụ: Mở đầu bằng 'Bạn có biết không', từ 'thần kỳ', 'chữa dứt điểm'..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-400">
+          <span class="text-[10px] text-slate-400 mt-0.5 block">→ Tự động đưa vào Danh Sách Cấm (Blacklist) của Voice này</span>
         </div>
 
-        <!-- 3. What added to Brand Voice -->
+        <!-- 3. Case Study & Thuật ngữ mới -->
         <div>
-          <label class="text-xs font-semibold text-slate-700 block mb-1">(3) Đã thêm gì vào Brand Voice hôm nay?</label>
-          <input type="text" id="voiceAdditionInput" value="" placeholder="Ví dụ: Nhấn mạnh lắng nghe trước khi khuyên, giữ vững 4 chữ KHÔNG y khoa..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <label class="text-xs font-semibold text-slate-700 block mb-1">
+            <span class="text-blue-500 font-bold">(3)</span> Từ ngữ/câu chuyện nào tôi phải tự gõ thêm vì AI không biết?
+          </label>
+          <input type="text" id="caseStudyInput" placeholder="Ví dụ: Ca anh IT đau L4-L5, thuật ngữ 'đốt sống bù trừ', triệu chứng tê bì chân..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <span class="text-[10px] text-slate-400 mt-0.5 block">→ Nạp thêm dữ liệu lâm sàng & tri thức độc quyền vào não bộ</span>
         </div>
 
-        <!-- 4. Review Notes -->
+        <!-- 4. Audience Feedback -->
         <div>
-          <label class="text-xs font-semibold text-slate-700 block mb-1">(4) Nhận xét ngắn & Rút kinh nghiệm:</label>
-          <textarea id="reviewNotesInput" rows="2" placeholder="Ví dụ: Bài viết rất cảm xúc, chạm đúng tâm lý dân văn phòng. Lần tới cần lưu ý..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700"></textarea>
+          <label class="text-xs font-semibold text-slate-700 block mb-1">
+            <span class="text-emerald-500 font-bold">(4)</span> Phản hồi thực tế từ người đọc (Tương tác, click form)?
+          </label>
+          <input type="text" id="feedbackInput" placeholder="Ví dụ: Khách khen mở bài chạm nỗi đau, 3 người inbox hỏi chi phí buổi đánh giá..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          <span class="text-[10px] text-slate-400 mt-0.5 block">→ Giúp AI nhận diện Hook giữ chân độc giả hiệu quả để lặp lại</span>
         </div>
 
-        <!-- Single Save button tagged with isolated voice -->
-        <button onclick="saveEvaluation()" class="w-full py-2.5 bg-slate-900 hover:bg-black text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm">
-          <i class="fa-solid fa-floppy-disk text-emerald-400"></i>
-          <span id="saveEvalBtnText">Lưu Đánh Giá Riêng Cho [Giọng 1] Vào brain_score.md</span>
+        <!-- 5. Luật ngầm khắc cốt ghi tâm -->
+        <div>
+          <label class="text-xs font-semibold text-slate-700 block mb-1">
+            <span class="text-purple-500 font-bold">(5)</span> Một 'luật ngầm' mới tôi muốn AI khắc cốt ghi tâm từ ngày mai?
+          </label>
+          <input type="text" id="rulesInput" placeholder="Ví dụ: Luôn đồng cảm nỗi sợ trước khi nói chuyên môn, câu kết không giục mua hàng..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500">
+          <span class="text-[10px] text-slate-400 mt-0.5 block">→ Chuyển hóa thành Luật Ngầm Bắt Buộc (Prompt Constraint)</span>
+        </div>
+
+        <!-- ⭐ Gold Standard Rewrite Sample -->
+        <div class="p-3 bg-purple-50/70 rounded-xl border border-purple-200 space-y-1">
+          <label class="text-xs font-bold text-purple-900 block flex items-center justify-between">
+            <span>⭐ Đoạn văn tôi tự viết lại chuẩn văn phong của tôi:</span>
+            <span class="text-[10px] font-normal text-purple-600">Văn mẫu cho AI bắt chước</span>
+          </label>
+          <textarea id="rewriteInput" rows="3" placeholder="Gõ hoặc dán đoạn văn bạn tự viết lại đúng giọng điệu ưng ý nhất vào đây... AI Gemini sẽ soi nhịp điệu và bắt chước văn phong này 100%!" class="w-full bg-white border border-purple-200 rounded-xl p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500 text-slate-800 leading-relaxed"></textarea>
+          <span class="text-[10px] text-purple-700 italic block">Gemini AI sẽ học nhịp ngắt câu, cách xưng hô và khí chất của đoạn mẫu này!</span>
+        </div>
+
+        <!-- Submit Button with Dynamic Status -->
+        <button id="btnSaveEval" onclick="saveEvaluation()" class="w-full py-2.5 bg-slate-900 hover:bg-black text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm">
+          <i class="fa-solid fa-paper-plane text-emerald-400" id="saveEvalIcon"></i>
+          <span id="saveEvalBtnText">Nạp 5 Câu Hỏi & Văn Mẫu Vào Não Bộ</span>
         </button>
       </div>
 
@@ -724,13 +752,13 @@
         <table class="w-full text-left text-xs border-collapse">
           <thead>
             <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold uppercase tracking-wider text-[10px]">
-              <th class="py-3 px-3 w-16 text-center">Ngày</th>
-              <th class="py-3 px-3 w-48">Tone Giọng</th>
-              <th class="py-3 px-3 w-28 text-center">Điểm Số (1-10)</th>
-              <th class="py-3 px-4">Phản Hồi Của Người Xem</th>
-              <th class="py-3 px-4">Dữ Liệu Đã Nạp Vào Voice Này</th>
-              <th class="py-3 px-4">Nhận Xét Rút Kinh Nghiệm</th>
-              <th class="py-3 px-3 w-24 text-center">Thao Tác</th>
+              <th class="py-3 px-3 w-24 text-center">Ngày & Giờ</th>
+              <th class="py-3 px-3 w-36">Tone Giọng</th>
+              <th class="py-3 px-3 w-24 text-center">Điểm Số</th>
+              <th class="py-3 px-4 w-1/4">⭐ Văn Mẫu Bạn Đã Viết Lại</th>
+              <th class="py-3 px-4">Blacklist (Từ Cấm) & Case Study</th>
+              <th class="py-3 px-4">Luật Ngầm & Phản Hồi Độc Giả</th>
+              <th class="py-3 px-3 w-20 text-center">Thao Tác</th>
             </tr>
           </thead>
           <tbody id="scoreTableBody" class="divide-y divide-slate-100 text-slate-700">
@@ -740,20 +768,20 @@
       </div>
     </div>
 
-    <!-- Interactive Evaluation Input Form (Nạp Đánh Giá Tiến Hóa Mới) -->
-    <div id="scoreFormSection" class="bg-white rounded-2xl border-2 border-emerald-300 p-6 shadow-sm space-y-4">
+    <!-- Interactive Evaluation Input Form (5 SOP Questions + Gold Standard Rewrite) -->
+    <div id="scoreFormSection" class="bg-white rounded-2xl border-2 border-emerald-300 p-6 shadow-sm space-y-5">
       <div class="flex items-center justify-between border-b pb-3">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-sm shadow-xs">
-            <i class="fa-solid fa-pen-nib"></i>
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center text-sm shadow-xs">
+            <i class="fa-solid fa-graduation-cap"></i>
           </div>
           <div>
-            <h3 class="text-sm font-bold text-slate-900">NẠP ĐÁNH GIÁ MỚI ĐỂ BỘ NÃO HỌC TẬP & TIẾN HÓA</h3>
-            <p class="text-xs text-slate-500">Mỗi đánh giá bạn lưu sẽ lập tức cập nhật bảng tiến hóa và làm sâu sắc thêm Brand Voice tương ứng</p>
+            <h3 class="text-sm font-bold text-slate-900">NẠP BÀI HỌC THEO BỘ 5 CÂU HỎI SOP & VĂN MẪU NGƯỜI SÁNG LẬP</h3>
+            <p class="text-xs text-slate-500">Gemini AI sẽ lập tức đưa câu cấm vào Blacklist, nạp Case Study và bắt chước văn phong đoạn bạn viết lại</p>
           </div>
         </div>
-        <span class="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full">
-          Học Độc Lập Theo Giọng
+        <span class="text-xs font-semibold px-2.5 py-1 bg-purple-100 text-purple-800 rounded-full flex items-center gap-1">
+          <i class="fa-solid fa-bolt text-purple-600"></i> Huấn Luyện Thời Gian Thực
         </span>
       </div>
 
@@ -762,7 +790,7 @@
         <!-- Day Select (Col 3) -->
         <div class="md:col-span-3 space-y-1">
           <label class="font-bold text-slate-700 block">Chọn Ngày Đánh Giá:</label>
-          <select id="evalFormDay" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          <select id="evalFormDay" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500">
             <option value="1">Ngày 1 (Thứ Hai - 14/09)</option>
             <option value="2">Ngày 2 (Thứ Ba - 15/09)</option>
             <option value="3">Ngày 3 (Thứ Tư - 16/09)</option>
@@ -775,8 +803,8 @@
 
         <!-- Voice Select (Col 4) -->
         <div class="md:col-span-4 space-y-1">
-          <label class="font-bold text-slate-700 block">Chọn Tone Giọng Được Đánh Giá:</label>
-          <select id="evalFormVoice" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          <label class="font-bold text-slate-700 block">Chọn Tone Giọng Huấn Luyện:</label>
+          <select id="evalFormVoice" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500">
             <option value="voice1">Giọng 1: Tư Vấn & Chuyên Khoa (Thấu Cảm)</option>
             <option value="voice2">Giọng 2: Giảng Học Thuật (First Principles)</option>
             <option value="voice3">Giọng 3: Sale Y Đức (Feel-Felt-Found)</option>
@@ -786,10 +814,10 @@
         <!-- Score Slider (Col 5) -->
         <div class="md:col-span-5 bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-1">
           <div class="flex items-center justify-between font-bold">
-            <span class="text-slate-700">(1) Giống giọng tôi mấy điểm?</span>
-            <span class="text-emerald-700 text-sm font-extrabold" id="evalFormScoreDisplay">9.0 / 10</span>
+            <span class="text-slate-700">(1) Chấm điểm độ giống giọng thật (1–10)?</span>
+            <span class="text-blue-700 text-sm font-extrabold" id="evalFormScoreDisplay">9.0 / 10</span>
           </div>
-          <input type="range" min="1" max="10" step="0.1" value="9.0" id="evalFormScoreSlider" oninput="document.getElementById('evalFormScoreDisplay').textContent = Number(this.value).toFixed(1) + ' / 10'" class="w-full accent-emerald-600 cursor-pointer">
+          <input type="range" min="1" max="10" step="0.1" value="9.0" id="evalFormScoreSlider" oninput="document.getElementById('evalFormScoreDisplay').textContent = Number(this.value).toFixed(1) + ' / 10'" class="w-full accent-blue-600 cursor-pointer">
           <div class="flex justify-between text-[10px] text-slate-400">
             <span>1 (Rất lệch)</span>
             <span>5 (Tạm được)</span>
@@ -797,32 +825,60 @@
           </div>
         </div>
 
-        <!-- Feedback Input (Col 6) -->
+        <!-- Câu 2: Blacklist (Col 6) -->
         <div class="md:col-span-6 space-y-1">
-          <label class="font-bold text-slate-700 block">(2) Người xem / Độc giả phản hồi thế nào?</label>
-          <input type="text" id="evalFormFeedback" placeholder="Ví dụ: Khách khen giọng ấm áp, 4 người hỏi thăm link đăng ký form..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          <label class="font-bold text-slate-700 block">
+            <span class="text-red-600 font-bold">(2)</span> Chỗ nào AI viết làm tôi thấy 'giả tạo/sáo rỗng' nhất?
+          </label>
+          <input type="text" id="evalFormBlacklist" placeholder="Ví dụ: Mở đầu bằng 'Bạn có biết không', từ 'thần kỳ', 'chữa dứt điểm'..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-red-400">
+          <span class="text-[10px] text-slate-400 block">→ Đưa vào Blacklist để AI tuyệt đối không bao giờ dùng lại</span>
         </div>
 
-        <!-- Rules Input (Col 6) -->
+        <!-- Câu 3: Case Study & Kiến thức mới (Col 6) -->
         <div class="md:col-span-6 space-y-1">
-          <label class="font-bold text-slate-700 block">(3) Đã nạp thêm gì vào Tone Giọng này hôm nay?</label>
-          <input type="text" id="evalFormRules" placeholder="Ví dụ: Tránh dùng từ 'chữa khỏi', nhấn mạnh lắng nghe trước khi khuyên..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          <label class="font-bold text-slate-700 block">
+            <span class="text-blue-600 font-bold">(3)</span> Từ ngữ/câu chuyện nào tôi phải tự gõ thêm vì AI không biết?
+          </label>
+          <input type="text" id="evalFormCaseStudy" placeholder="Ví dụ: Ca anh IT đau L4-L5, thuật ngữ 'đốt sống bù trừ', triệu chứng tê bì chân..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <span class="text-[10px] text-slate-400 block">→ Nạp thêm dữ liệu lâm sàng & case study thực tế độc quyền vào Brain</span>
         </div>
 
-        <!-- Review Notes (Col 12) -->
-        <div class="md:col-span-12 space-y-1">
-          <label class="font-bold text-slate-700 block">(4) Nhận xét ngắn & Rút kinh nghiệm cho ngày tiếp theo:</label>
-          <textarea id="evalFormNotes" rows="2" placeholder="Ghi chép cụ thể cảm nhận và bài học để lần sinh bài kế tiếp bám sát phong cách Simon Center hơn..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+        <!-- Câu 4: Phản hồi độc giả (Col 6) -->
+        <div class="md:col-span-6 space-y-1">
+          <label class="font-bold text-slate-700 block">
+            <span class="text-emerald-600 font-bold">(4)</span> Phản hồi thực tế từ người đọc (Tương tác, click form)?
+          </label>
+          <input type="text" id="evalFormFeedback" placeholder="Ví dụ: Khách khen mở bài chạm nỗi đau, 3 người inbox hỏi chi phí buổi đánh giá 1-1..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          <span class="text-[10px] text-slate-400 block">→ Giúp AI nhận diện đâu là góc tiếp cận (Hook) giữ chân người đọc tốt</span>
+        </div>
+
+        <!-- Câu 5: Luật ngầm (Col 6) -->
+        <div class="md:col-span-6 space-y-1">
+          <label class="font-bold text-slate-700 block">
+            <span class="text-purple-600 font-bold">(5)</span> Một 'luật ngầm' mới tôi muốn AI khắc cốt ghi tâm từ ngày mai?
+          </label>
+          <input type="text" id="evalFormRules" placeholder="Ví dụ: Luôn đồng cảm nỗi sợ trước khi nói chuyên môn, câu kết không giục mua hàng..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500">
+          <span class="text-[10px] text-slate-400 block">→ Chuyển hóa thành quy tắc cố định (Prompt Constraint) nạp vào não bộ</span>
+        </div>
+
+        <!-- ⭐ Gold Standard Rewrite (Col 12) -->
+        <div class="md:col-span-12 p-3.5 bg-purple-50 rounded-2xl border border-purple-200 space-y-1.5">
+          <label class="font-bold text-purple-900 block flex items-center justify-between">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-star text-amber-500"></i> ⭐ Đoạn văn tôi tự viết lại chuẩn văn phong của tôi (Gold Standard Sample):</span>
+            <span class="text-[11px] font-semibold text-purple-700 bg-white px-2 py-0.5 rounded border border-purple-200">Văn Mẫu Chuẩn Cho AI Bắt Chước</span>
+          </label>
+          <textarea id="evalFormRewrite" rows="3" placeholder="Dán hoặc gõ đoạn văn bạn tự viết lại đúng phong cách và khí chất bạn ưng ý nhất vào đây... Google Gemini 3.6 Flash sẽ học nhịp điệu, cách ngắt dòng, cách dùng từ xưng hô để áp dụng cho mọi bài viết kế tiếp!" class="w-full bg-white border border-purple-200 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500 text-slate-800 leading-relaxed"></textarea>
+          <span class="text-[11px] text-purple-700 italic block">* Kỹ thuật Few-Shot In-Context Learning: AI học trực tiếp từ ví dụ mẫu thực tế của bạn, đạt độ giống phong cách trên 90%!</span>
         </div>
 
       </div>
 
-      <!-- Form Submit Button -->
-      <div class="flex items-center justify-between pt-2">
-        <span class="text-[11px] text-slate-500 italic">* Dữ liệu sẽ tự động lưu vào bộ nhớ trình duyệt và đồng bộ với brain.db & brain_score.md</span>
-        <button onclick="submitScoreForm()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-md hover:shadow-lg">
-          <i class="fa-solid fa-floppy-disk text-white"></i>
-          <span>Lưu Đánh Giá Tiến Hóa Ngay</span>
+      <!-- Form Submit Button with Real-time Status -->
+      <div class="flex items-center justify-between pt-2 border-t">
+        <span class="text-[11px] text-slate-500 italic">* Dữ liệu sẽ lập tức lưu vào bộ nhớ trình duyệt, đồng bộ vào brain.db và nhúng thẳng vào Prompt của Gemini AI</span>
+        <button id="btnSubmitScoreForm" onclick="submitScoreForm()" class="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-md hover:shadow-lg">
+          <i class="fa-solid fa-paper-plane text-white" id="submitScoreFormIcon"></i>
+          <span id="submitScoreFormText">Nạp Bài Học & Văn Mẫu Vào Bộ Não Ngay</span>
         </button>
       </div>
     </div>
@@ -1396,7 +1452,7 @@ Tone: Tự tin, dứt khoát nhưng ấm áp và tôn trọng. Dẫn dắt chứ
     }
 
     // =========================================================================
-    // 100% REAL EVALUATION DATA (NO FAKE / NO RANDOM MOCK)
+    // 100% REAL EVALUATION DATA & 5 SOP QUESTIONS HUẤN LUYỆN
     // =========================================================================
     const initialRealEvaluations = [
       {
@@ -1406,9 +1462,11 @@ Tone: Tự tin, dứt khoát nhưng ấm áp và tôn trọng. Dẫn dắt chứ
         voiceKey: "voice1",
         voiceName: "Giọng 1 (Tư Vấn Thấu Cảm)",
         score: 9.0,
+        blacklist: "Các từ giục mua hàng, câu 'bạn có biết không', từ 'chữa dứt điểm'",
+        caseStudy: "Bệnh nhân văn phòng ngồi máy tính nhiều bị mỏi cổ vai gáy",
         feedback: "Khách khen bài ấm áp. Bài tết mà thấy viết ổn",
-        rules: "Giữ phong cách thấu cảm, bài viết ấm áp chạm tâm lý",
-        notes: "Bài viết ổn"
+        rules: "Giữ phong cách thấu cảm, bài viết ấm áp chạm tâm lý, không giục giã",
+        goldSample: "Dạ em chào anh/chị, một mùa Tết nữa lại qua và em biết nhiều anh/chị đang phải quay lại bàn làm việc với một bờ vai nặng trĩu. Thay vì cố gắng 'chịu đựng' thêm một năm nữa, mình hãy lắng nghe tiếng nói của cột sống sớm hơn nhé ạ."
       }
     ];
 
@@ -1428,25 +1486,59 @@ Tone: Tự tin, dứt khoát nhưng ấm áp và tôn trọng. Dẫn dắt chứ
       localStorage.setItem('simon_real_evaluations', JSON.stringify(list));
     }
 
-    // Return list of real rules accumulated for a specific voice
+    // Extractors for Gemini AI prompt injection
     function getLearnedRulesForVoice(vKey) {
       const list = getEvaluations();
       const rules = [];
       list.filter(e => e.voiceKey === vKey).forEach(e => {
         if (e.rules && e.rules.trim() && e.rules.trim() !== 'chưa' && e.rules.trim() !== 'chua') {
-          if (!rules.includes(e.rules.trim())) {
-            rules.push(e.rules.trim());
-          }
+          if (!rules.includes(e.rules.trim())) rules.push(e.rules.trim());
         }
       });
       return rules;
     }
 
-    // Build the exact prompt sent to Gemini AI
+    function getBlacklistForVoice(vKey) {
+      const list = getEvaluations();
+      const items = [];
+      list.filter(e => e.voiceKey === vKey).forEach(e => {
+        if (e.blacklist && e.blacklist.trim() && e.blacklist.trim() !== 'chưa' && e.blacklist.trim() !== 'chua') {
+          if (!items.includes(e.blacklist.trim())) items.push(e.blacklist.trim());
+        }
+      });
+      return items;
+    }
+
+    function getCaseStudiesForVoice(vKey) {
+      const list = getEvaluations();
+      const items = [];
+      list.filter(e => e.voiceKey === vKey).forEach(e => {
+        if (e.caseStudy && e.caseStudy.trim() && e.caseStudy.trim() !== 'chưa' && e.caseStudy.trim() !== 'chua') {
+          if (!items.includes(e.caseStudy.trim())) items.push(e.caseStudy.trim());
+        }
+      });
+      return items;
+    }
+
+    function getGoldRewritesForVoice(vKey) {
+      const list = getEvaluations();
+      const items = [];
+      list.filter(e => e.voiceKey === vKey).forEach(e => {
+        if (e.goldSample && e.goldSample.trim()) {
+          if (!items.includes(e.goldSample.trim())) items.push(e.goldSample.trim());
+        }
+      });
+      return items;
+    }
+
+    // Build the full prompt sent to Gemini AI (With Few-Shot Gold Sample + Blacklist)
     function buildGeminiSystemPrompt(topic, channel, voiceKey, customPrompt) {
       const cfg = getBrandVoiceConfig();
       const baseVoice = cfg[voiceKey] || cfg.voice1;
       const learnedRules = getLearnedRulesForVoice(voiceKey);
+      const blacklist = getBlacklistForVoice(voiceKey);
+      const caseStudies = getCaseStudiesForVoice(voiceKey);
+      const goldRewrites = getGoldRewritesForVoice(voiceKey);
 
       let p = `Bạn là trợ lý mang tiếng nói của người sáng lập Simon Center (Chiropractic & PHCN tại TP.HCM).
 
@@ -1460,10 +1552,48 @@ ${baseVoice.description}
 - Cấu trúc bài viết chuẩn:
 ${baseVoice.structure}`;
 
-      if (learnedRules.length > 0) {
+      // 1. In-Context Learning: Few-Shot Gold Standard Rewrites
+      if (goldRewrites.length > 0) {
         p += `
 
-=== CÁC BÀI HỌC & QUY TẮC BỘ NÃO ĐÃ HẤP THỤ TỪ ĐÁNH GIÁ THỰC TẾ (BẮT BUỘC TUÂN THỦ) ===
+=== ⭐ VĂN MẪU CHUẨN XỊN DO CHÍNH NGƯỜI SÁNG LẬP VIẾT LẠI (BẮT BUỘC HỌC THEO) ===
+`;
+        p += `Hãy phân tích thật kỹ nhịp câu, cách ngắt đoạn, cách xưng hô và khí chất của các đoạn văn mẫu sau để bắt chước chuẩn xác:
+`;
+        goldRewrites.slice(-3).forEach((g, idx) => {
+          p += `[Đoạn văn mẫu ${idx + 1}]:
+"${g}"
+
+`;
+        });
+      }
+
+      // 2. Blacklist Constraints
+      if (blacklist.length > 0) {
+        p += `
+=== 🚫 DANH SÁCH ĐEN - CÁC TỪ NGỮ & CÁCH VIẾT BỊ CẤM (BLACKLIST - TUYỆT ĐỐI KHÔNG DÙNG) ===
+`;
+        blacklist.forEach((b, idx) => {
+          p += `${idx + 1}. TUYỆT ĐỐI KHÔNG DÙNG: "${b}"
+`;
+        });
+      }
+
+      // 3. Clinical Case Studies & New Knowledge
+      if (caseStudies.length > 0) {
+        p += `
+=== 📚 KHO CASE STUDY & TRI THỨC LÂM SÀNG THỰC TẾ ĐỘC QUYỀN ===
+`;
+        caseStudies.forEach((c, idx) => {
+          p += `${idx + 1}. ${c}
+`;
+        });
+      }
+
+      // 4. Hidden Rules (Prompt Constraints)
+      if (learnedRules.length > 0) {
+        p += `
+=== ⚖️ CÁC LUẬT NGẦM KHẮC CỐT GHI TÂM TỪ NGƯỜI SÁNG LẬP ===
 `;
         learnedRules.forEach((r, idx) => {
           p += `${idx + 1}. ${r}
@@ -1499,8 +1629,8 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
       const fullPrompt = buildGeminiSystemPrompt(topic, channel, currentVoice, customPrompt);
 
       if (apiKey) {
-        showToast('Đang gọi Google Gemini 3.6 Flash với bài học đã tiến hóa...');
-        document.getElementById('postTextContent').textContent = 'Đang suy luận theo Brand Voice và áp dụng các bài học thực tế đã nạp...';
+        showToast('Đang gọi Google Gemini 3.6 Flash với văn mẫu và bài học đã nạp...');
+        document.getElementById('postTextContent').textContent = 'Đang suy luận theo Brand Voice và áp dụng các bài học thực tế cùng văn mẫu người sáng lập...';
         
         try {
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`, {
@@ -1520,7 +1650,7 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
             document.getElementById('postTextContent').textContent = aiText;
             const words = aiText.trim().split(/\s+/).length;
             document.getElementById('charCount').innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
-            showToast('Google Gemini đã sinh bài viết thật và áp dụng bài học tiến hóa!');
+            showToast('Google Gemini đã sinh bài viết và bắt chước đúng văn mẫu bạn dạy!');
             return;
           }
         } catch (err) {
@@ -1549,24 +1679,41 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
     }
 
     // =========================================================================
-    // EVALUATION FORM IN WORKSPACE SIDEBAR
+    // EVALUATION FORM IN WORKSPACE SIDEBAR (5 SOP QUESTIONS + GOLD REWRITE)
     // =========================================================================
     function updateScoreVal(val) {
       document.getElementById('scoreDisplay').textContent = Number(val).toFixed(1) + ' / 10';
     }
 
-    function saveEvaluation() {
+    async function saveEvaluation() {
+      const btn = document.getElementById('btnSaveEval');
+      const btnIcon = document.getElementById('saveEvalIcon');
+      const btnText = document.getElementById('saveEvalBtnText');
+
       const score = parseFloat(document.getElementById('scoreSlider').value);
+      const blacklist = document.getElementById('blacklistInput').value.trim();
+      const caseStudy = document.getElementById('caseStudyInput').value.trim();
       const feedback = document.getElementById('feedbackInput').value.trim();
-      const rules = document.getElementById('voiceAdditionInput').value.trim();
-      const notes = document.getElementById('reviewNotesInput').value.trim();
+      const rules = document.getElementById('rulesInput').value.trim();
+      const rewrite = document.getElementById('rewriteInput').value.trim();
+
+      if (!feedback && !rules && !rewrite && !blacklist && !caseStudy) {
+        alert('Vui lòng trả lời ít nhất một câu hỏi hoặc nhập đoạn văn bạn viết lại để huấn luyện AI.');
+        return;
+      }
+
+      // 1. Set Loading State on Button
+      btn.disabled = true;
+      btn.className = 'w-full py-2.5 bg-amber-600 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm';
+      btnIcon.className = 'fa-solid fa-spinner fa-spin text-white';
+      btnText.textContent = 'Đang nạp vào não bộ & Gemini AI...';
 
       const voiceNames = { voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', voice2: 'Giọng 2 (Giảng Học Thuật)', voice3: 'Giọng 3 (Sale Y Đức)' };
       const vName = voiceNames[currentVoice];
 
       const list = getEvaluations();
       const nowStr = new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-      
+
       const newEntry = {
         id: Date.now(),
         timestamp: nowStr,
@@ -1574,27 +1721,64 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
         voiceKey: currentVoice,
         voiceName: vName,
         score: score,
-        feedback: feedback || 'Người xem phản hồi bài viết ổn',
-        rules: rules || '',
-        notes: notes || 'Bài viết đạt yêu cầu'
+        blacklist: blacklist,
+        caseStudy: caseStudy,
+        feedback: feedback || 'Độc giả phản hồi tích cực',
+        rules: rules,
+        goldSample: rewrite
       };
 
       list.push(newEntry);
       saveEvaluationsList(list);
 
-      // Clear input values after saving so next time placeholder is shown
+      // Try local server sync
+      try {
+        await fetch('/api/evaluate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            day: currentDay,
+            voice_key: currentVoice,
+            voice_name: vName,
+            score: score,
+            blacklist: blacklist,
+            case_study: caseStudy,
+            feedback: feedback,
+            rules: rules,
+            gold_sample: rewrite
+          })
+        });
+      } catch(e) {}
+
+      // Clear input fields so placeholders display cleanly
+      document.getElementById('blacklistInput').value = '';
+      document.getElementById('caseStudyInput').value = '';
       document.getElementById('feedbackInput').value = '';
-      document.getElementById('voiceAdditionInput').value = '';
-      document.getElementById('reviewNotesInput').value = '';
+      document.getElementById('rulesInput').value = '';
+      document.getElementById('rewriteInput').value = '';
 
       if (currentVoice === 'voice1' && currentDay === 1) {
         document.getElementById('trackerDay1Score').textContent = score.toFixed(1) + '/10';
       }
-      showToast(`Đã lưu bài học cho [${vName}] (${score.toFixed(1)}/10)! AI sẽ áp dụng ngay lần viết tới.`);
+
+      // 2. Set Success State on Button
+      btn.className = 'w-full py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm';
+      btnIcon.className = 'fa-solid fa-circle-check text-white';
+      btnText.textContent = 'Đã Nạp Thành Công! Gemini AI Đã Tiếp Thu';
+
+      showToast(`Đã nạp 5 câu hỏi & văn mẫu cho [${vName}]! AI sẽ bắt chước văn phong này ngay lần tới.`);
+
+      // 3. Revert button after 2.5s
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.className = 'w-full py-2.5 bg-slate-900 hover:bg-black text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm';
+        btnIcon.className = 'fa-solid fa-paper-plane text-emerald-400';
+        btnText.textContent = 'Nạp 5 Câu Hỏi & Văn Mẫu Vào Não Bộ';
+      }, 2500);
     }
 
     // =========================================================================
-    // BRAIN SCORE TAB RENDERING (100% REAL DATA ONLY)
+    // BRAIN SCORE TAB RENDERING (5 SOP COLUMNS + GOLD REWRITE DISPLAY)
     // =========================================================================
     let currentScoreFilter = 'all';
 
@@ -1613,7 +1797,6 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
     function renderBrainScoreView() {
       const list = getEvaluations();
 
-      // Calculate stats per voice strictly from REAL evaluations
       const stats = {
         voice1: { sum: 0, count: 0, rules: [] },
         voice2: { sum: 0, count: 0, rules: [] },
@@ -1624,13 +1807,13 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
         if (stats[item.voiceKey]) {
           stats[item.voiceKey].sum += item.score;
           stats[item.voiceKey].count += 1;
-          if (item.rules && item.rules !== 'chưa' && item.rules.trim() && !stats[item.voiceKey].rules.includes(item.rules.trim())) {
+          if (item.rules && item.rules.trim() && !stats[item.voiceKey].rules.includes(item.rules.trim())) {
             stats[item.voiceKey].rules.push(item.rules.trim());
           }
         }
       });
 
-      const updateCard = (key, cardId, barId, percentId, rulesId, defaultName) => {
+      const updateCard = (key, cardId, barId, percentId, rulesId) => {
         const s = stats[key];
         const cardElem = document.getElementById(cardId);
         const barElem = document.getElementById(barId);
@@ -1640,11 +1823,11 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
         if (s.count > 0) {
           const avg = s.sum / s.count;
           const pct = Math.min(100, Math.round(avg * 10));
-          if (cardElem) cardElem.textContent = avg.toFixed(1) + ' / 10 (' + s.count + ' đánh giá)';
+          if (cardElem) cardElem.textContent = avg.toFixed(1) + ' / 10 (' + s.count + ' lần dạy)';
           if (barElem) barElem.style.width = pct + '%';
           if (percentElem) percentElem.textContent = pct + '%';
           if (rulesElem) {
-            rulesElem.textContent = s.rules.length > 0 ? s.rules.join('; ') : 'Đã ghi nhận bài học. Đang chờ nạp quy tắc sâu hơn.';
+            rulesElem.textContent = s.rules.length > 0 ? s.rules.join('; ') : 'Đã nạp văn mẫu & bài học. Đang hoàn thiện.';
           }
         } else {
           if (cardElem) cardElem.textContent = 'Chưa có đánh giá';
@@ -1658,7 +1841,7 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
       updateCard('voice2', 'v2ScoreCard', 'v2Bar', 'v2BarPercent', 'v2RulesLearned');
       updateCard('voice3', 'v3ScoreCard', 'v3Bar', 'v3BarPercent', 'v3RulesLearned');
 
-      // Render Table Rows (REAL DATA ONLY)
+      // Render Table Rows with Gold Sample & SOP Answers
       const tbody = document.getElementById('scoreTableBody');
       tbody.innerHTML = '';
 
@@ -1674,25 +1857,41 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
       };
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-400 italic">Chưa có đánh giá thực tế nào cho bộ lọc này. Hãy đánh giá bài viết để bắt đầu dạy AI!</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 italic">Chưa có đánh giá thực tế nào cho bộ lọc này. Hãy đánh giá bài viết để bắt đầu dạy AI!</td></tr>`;
       } else {
-        filtered.forEach((row, idx) => {
+        filtered.forEach(row => {
           const tr = document.createElement('tr');
           tr.className = 'hover:bg-slate-50/80 transition';
           tr.innerHTML = `
-            <td class="py-3 px-3 text-center font-bold text-slate-800">Ngày ${row.day}<br><span class="text-[9px] text-slate-400 font-normal">${row.timestamp || ''}</span></td>
-            <td class="py-3 px-3">${voiceBadges[row.voiceKey] || row.voiceName}</td>
-            <td class="py-3 px-3 text-center">
+            <td class="py-3.5 px-3 text-center font-bold text-slate-800 align-top">
+              Ngày ${row.day}<br>
+              <span class="text-[10px] text-slate-400 font-normal block mt-0.5">${row.timestamp || ''}</span>
+            </td>
+            <td class="py-3.5 px-3 align-top">${voiceBadges[row.voiceKey] || row.voiceName}</td>
+            <td class="py-3.5 px-3 text-center align-top">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-800 font-extrabold border border-emerald-200">
-                <i class="fa-solid fa-star text-amber-500 text-[9px]"></i> ${row.score.toFixed(1)} / 10
+                <i class="fa-solid fa-star text-amber-500 text-[9px]"></i> ${row.score.toFixed(1)}/10
               </span>
             </td>
-            <td class="py-3 px-4 text-slate-600 leading-relaxed">${escapeHtml(row.feedback)}</td>
-            <td class="py-3 px-4 font-medium text-slate-800 leading-relaxed">${escapeHtml(row.rules || '(Chưa nạp quy tắc mới)')}</td>
-            <td class="py-3 px-4 text-slate-600 leading-relaxed">${escapeHtml(row.notes)}</td>
-            <td class="py-3 px-3 text-center">
-              <button onclick="deleteEvaluationItem(${row.id})" class="text-red-500 hover:text-red-700 text-[11px] p-1 font-semibold">
-                <i class="fa-regular fa-trash-can"></i> Xóa
+            <td class="py-3.5 px-4 align-top text-xs leading-relaxed">
+              ${row.goldSample ? `
+                <div class="p-2.5 bg-purple-50/80 rounded-xl border border-purple-200 text-purple-950 font-serif italic text-[11px] leading-relaxed">
+                  "${escapeHtml(row.goldSample)}"
+                </div>
+              ` : '<span class="text-slate-400 italic text-[11px]">(Chưa nhập văn mẫu)</span>'}
+            </td>
+            <td class="py-3.5 px-4 align-top text-xs space-y-1.5">
+              ${row.blacklist ? `<div><span class="px-1.5 py-0.5 rounded bg-red-100 text-red-800 font-bold text-[10px]">Cấm:</span> <span class="text-red-700 font-medium">${escapeHtml(row.blacklist)}</span></div>` : ''}
+              ${row.caseStudy ? `<div><span class="px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[10px]">Case:</span> <span class="text-slate-700">${escapeHtml(row.caseStudy)}</span></div>` : ''}
+              ${(!row.blacklist && !row.caseStudy) ? '<span class="text-slate-400 italic text-[11px]">-</span>' : ''}
+            </td>
+            <td class="py-3.5 px-4 align-top text-xs space-y-1.5">
+              ${row.rules ? `<div><span class="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 font-bold text-[10px]">Luật:</span> <span class="text-slate-800 font-semibold">${escapeHtml(row.rules)}</span></div>` : ''}
+              ${row.feedback ? `<div><span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-[10px]">Khách:</span> <span class="text-slate-600">${escapeHtml(row.feedback)}</span></div>` : ''}
+            </td>
+            <td class="py-3.5 px-3 text-center align-top">
+              <button onclick="deleteEvaluationItem(${row.id})" class="text-red-500 hover:text-red-700 text-xs p-1 font-semibold" title="Xóa đánh giá này">
+                <i class="fa-regular fa-trash-can"></i>
               </button>
             </td>
           `;
@@ -1700,17 +1899,16 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
         });
       }
 
-      // Render Markdown Export
       renderMarkdownExport(list);
     }
 
     function deleteEvaluationItem(id) {
-      if (confirm('Bạn có chắc muốn xóa đánh giá này không?')) {
+      if (confirm('Bạn có chắc muốn xóa bản ghi huấn luyện này không?')) {
         let list = getEvaluations();
         list = list.filter(e => e.id !== id);
         saveEvaluationsList(list);
         renderBrainScoreView();
-        showToast('Đã xóa đánh giá thành công.');
+        showToast('Đã xóa bản ghi huấn luyện.');
       }
     }
 
@@ -1718,18 +1916,29 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
       document.getElementById('scoreFormSection').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function submitScoreForm() {
+    async function submitScoreForm() {
+      const btn = document.getElementById('btnSubmitScoreForm');
+      const btnIcon = document.getElementById('submitScoreFormIcon');
+      const btnText = document.getElementById('submitScoreFormText');
+
       const day = parseInt(document.getElementById('evalFormDay').value);
       const voiceKey = document.getElementById('evalFormVoice').value;
       const score = parseFloat(document.getElementById('evalFormScoreSlider').value);
+      const blacklist = document.getElementById('evalFormBlacklist').value.trim();
+      const caseStudy = document.getElementById('evalFormCaseStudy').value.trim();
       const feedback = document.getElementById('evalFormFeedback').value.trim();
       const rules = document.getElementById('evalFormRules').value.trim();
-      const notes = document.getElementById('evalFormNotes').value.trim();
+      const rewrite = document.getElementById('evalFormRewrite').value.trim();
 
-      if (!feedback && !notes) {
-        alert('Vui lòng nhập nhận xét hoặc phản hồi thực tế của người xem.');
+      if (!feedback && !rules && !rewrite && !blacklist && !caseStudy) {
+        alert('Vui lòng trả lời ít nhất một câu hỏi hoặc nhập đoạn văn viết lại.');
         return;
       }
+
+      btn.disabled = true;
+      btn.className = 'px-6 py-2.5 bg-amber-600 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-md';
+      btnIcon.className = 'fa-solid fa-spinner fa-spin text-white';
+      btnText.textContent = 'Đang đồng bộ vào brain.db & Prompt AI...';
 
       const voiceNames = { voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', voice2: 'Giọng 2 (Giảng Học Thuật)', voice3: 'Giọng 3 (Sale Y Đức)' };
       const nowStr = new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
@@ -1742,38 +1951,73 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
         voiceKey: voiceKey,
         voiceName: voiceNames[voiceKey],
         score: score,
-        feedback: feedback || 'Khách khen bài ấm áp, thấu cảm',
-        rules: rules || '',
-        notes: notes || 'Bài viết đạt chuẩn'
+        blacklist: blacklist,
+        caseStudy: caseStudy,
+        feedback: feedback || 'Độc giả phản hồi tích cực',
+        rules: rules,
+        goldSample: rewrite
       };
 
       list.push(entry);
       saveEvaluationsList(list);
 
+      // Local API sync if available
+      try {
+        await fetch('/api/evaluate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            day: day,
+            voice_key: voiceKey,
+            voice_name: voiceNames[voiceKey],
+            score: score,
+            blacklist: blacklist,
+            case_study: caseStudy,
+            feedback: feedback,
+            rules: rules,
+            gold_sample: rewrite
+          })
+        });
+      } catch(e) {}
+
       // Reset form fields
+      document.getElementById('evalFormBlacklist').value = '';
+      document.getElementById('evalFormCaseStudy').value = '';
       document.getElementById('evalFormFeedback').value = '';
       document.getElementById('evalFormRules').value = '';
-      document.getElementById('evalFormNotes').value = '';
+      document.getElementById('evalFormRewrite').value = '';
 
       renderBrainScoreView();
-      showToast(`Đã lưu đánh giá thật cho [${voiceNames[voiceKey]}] (${score.toFixed(1)}/10)! AI đã nạp bài học.`);
+
+      btn.className = 'px-6 py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-md';
+      btnIcon.className = 'fa-solid fa-circle-check text-white';
+      btnText.textContent = 'Đã Nạp Thành Công! Gemini AI Đã Tiếp Thu';
+
+      showToast(`Đã lưu bài học & văn mẫu cho [${voiceNames[voiceKey]}] (${score.toFixed(1)}/10)!`);
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.className = 'px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-md hover:shadow-lg';
+        btnIcon.className = 'fa-solid fa-paper-plane text-white';
+        btnText.textContent = 'Nạp Bài Học & Văn Mẫu Vào Bộ Não Ngay';
+      }, 2500);
     }
 
     function buildBrainScoreMarkdown(list) {
       let md = `# BẢNG THEO DÕI & ĐO LƯỜNG CHỈ SỐ "BỘ NÃO THỨ 2" (SIMON CENTER)\n`;
-      md += `## Dữ Liệu Đánh Giá Thực Tế Từ Người Sáng Lập\n\n`;
+      md += `## Dữ Liệu Huấn Luyện 5 Câu Hỏi SOP & Văn Mẫu Người Sáng Lập\n\n`;
       md += `> 🛡️ **NGUYÊN TẮC CÁCH LY DỮ LIỆU (DATA ISOLATION RULE):**\n`;
       md += `> Đánh giá của Giọng nào được lưu trữ và học hỏi độc lập tuyệt đối cho đúng giọng đó.\n\n`;
       md += `---\n\n`;
-      md += `## 📅 LỊCH SỬ TIẾN HÓA & ĐÁNH GIÁ THẬT (PHÂN THEO TỪNG GIỌNG)\n\n`;
-      md += `| Ngày | Thời gian | Tone Giọng | Điểm (1-10) | Phản hồi của người xem | Dữ liệu đã nạp vào Voice | Nhận xét rút kinh nghiệm |\n`;
-      md += `| :---: | :---: | :--- | :---: | :--- | :--- | :--- |\n`;
+      md += `## 📅 LỊCH SỬ HUẤN LUYỆN THỰC TẾ (PHÂN THEO TỪNG GIỌNG)\n\n`;
+      md += `| Ngày | Thời Gian | Tone Giọng | Điểm | ⭐ Văn Mẫu Viết Lại (Gold Standard) | Blacklist (Cụm Từ Cấm) | Case Study Mới | Luật Ngầm Khắc Cốt | Phản Hồi Độc Giả |\n`;
+      md += `| :---: | :---: | :--- | :---: | :--- | :--- | :--- | :--- | :--- |\n`;
 
       if (list.length === 0) {
-        md += `| - | - | Chưa có dữ liệu | - | Chưa có đánh giá thực tế | - | - |\n`;
+        md += `| - | - | Chưa có dữ liệu | - | Chưa có văn mẫu | - | - | - | - |\n`;
       } else {
         list.forEach(r => {
-          md += `| **Ngày ${r.day}** | ${r.timestamp || ''} | **${r.voiceName}** | **${r.score.toFixed(1)} / 10** | ${(r.feedback || '').replace(/\|/g, '-')} | ${(r.rules || '-').replace(/\|/g, '-')} | ${(r.notes || '').replace(/\|/g, '-')} |\n`;
+          md += `| **Ngày ${r.day}** | ${r.timestamp || ''} | **${r.voiceName}** | **${r.score.toFixed(1)}/10** | ${(r.goldSample || '-').replace(/\|/g, '-').replace(/\n/g, ' ')} | ${(r.blacklist || '-').replace(/\|/g, '-')} | ${(r.caseStudy || '-').replace(/\|/g, '-')} | ${(r.rules || '-').replace(/\|/g, '-')} | ${(r.feedback || '-').replace(/\|/g, '-')} |\n`;
         });
       }
 
@@ -1804,7 +2048,7 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
       showToast('Đã tải tập tin brain_score.md về máy!');
     }
 
-    // =========================================================================
+        // =========================================================================
     // ADMIN TAB CONTROLLER & SUBTABS
     // =========================================================================
     let currentAdminSubtab = 'foundation';

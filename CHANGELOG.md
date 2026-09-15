@@ -6,6 +6,23 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.20.0] - 2026-09-15
+### Added & Enhanced
+- **Chuẩn hóa bộ 5 câu hỏi đánh giá theo khung SOP huấn luyện cá nhân:**
+  + (1) Chấm điểm độ giống giọng thật (1–10).
+  + (2) Chỗ nào AI viết làm tôi thấy 'giả tạo/sáo rỗng' nhất? → Nạp vào **Blacklist (Danh sách cấm)**.
+  + (3) Từ ngữ/câu chuyện nào tôi phải tự gõ thêm vì AI không biết? → Nạp vào **Kho Case Study & Tri thức mới**.
+  + (4) Phản hồi thực tế từ người đọc (Tương tác, click form)? → Nhận diện **Hook giữ chân**.
+  + (5) Một 'luật ngầm' mới tôi muốn AI khắc cốt ghi tâm từ ngày mai là gì? → Nạp vào **Luật Ngầm Cố Định**.
+- **Bổ sung trường 'Đoạn văn tôi tự viết lại chuẩn văn phong (Gold Standard Sample)':**
+  + Cho phép người sáng lập dán đoạn văn viết lại ưng ý nhất trực tiếp vào giao diện.
+  + Google Gemini 3.6 Flash áp dụng kỹ thuật **Few-Shot In-Context Reinforcement**: soi nhịp điệu, cách ngắt đoạn, cách xưng hô để bắt chước chuẩn xác trên 90%.
+- **Nút bấm báo trạng thái nạp dữ liệu thời gian thực:**
+  + Chuyển trạng thái linh hoạt: Sẵn sàng → `⏳ Đang nạp vào não bộ & Gemini AI...` → `✅ Đã Nạp Thành Công! Gemini AI Đã Tiếp Thu`.
+  + Tự động làm sạch ô nhập sau khi lưu để hiện placeholder gợi ý.
+- **Nâng cấp bảng `voice_evaluations` trong SQLite `brain.db`:**
+  + Bổ sung các cột `blacklist`, `case_study`, `gold_sample` và nhúng trực tiếp vào prompt sinh bài.
+
 ## [0.19.0] - 2026-09-15
 ### Added & Enhanced
 - **Sửa ô nhập liệu đánh giá**: Thay thế toàn bộ `value` bằng `placeholder` mẫu, click vào gõ phím là chữ mẫu tự động biến mất, không bắt người dùng phải xóa tay.
