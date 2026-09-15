@@ -6,6 +6,16 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.18.0] - 2026-09-15
+### Added & Enhanced
+- **Bổ sung Tab "Tiến Hóa Brain Score" trực tiếp trên Web Dashboard (brain.chiro.vn):**
+  + Thêm nút chuyển đổi thứ 3 trên thanh Menu: `Bàn Làm Việc` ↔ `Cuốn Lịch Nội Dung` ↔ `Tiến Hóa Brain Score`.
+  + Trình bày trực quan **Vòng lặp học tập của Bộ não thứ 2 (The Learning Flywheel)**: 4 bước từ Sinh bài → Lắng nghe độc giả → Chấm điểm 1-10 → Nạp quy tắc mới & Tiến hóa.
+  + **3 Thẻ chỉ số tiến hóa độc lập (Data Isolation)**: Giọng 1 (Tư Vấn), Giọng 2 (Học Thuật), Giọng 3 (Sale Y Đức) với thanh % tiến độ và quy tắc học được.
+  + **Bảng chi tiết đo lường độ tiến hóa 7 ngày**: Cho phép lọc theo từng Tone Giọng, hiển thị điểm số, phản hồi độc giả, quy tắc đã nạp và nhận xét rút kinh nghiệm.
+  + **Form nạp đánh giá mới**: Cho phép chọn ngày (1-7), chọn giọng, kéo thanh trượt điểm số và nhập phản hồi để bộ não học tập tức thì.
+  + **Khung xem & xuất file brain_score.md**: Tích hợp nút sao chép Markdown và nút tải file `brain_score.md` về máy 1-click.
+
 ## [0.17.0] - 2026-09-15
 ### Added & Configured
 - **Lưu sẵn Gemini API Key mặc định vào hệ thống:**

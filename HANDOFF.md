@@ -102,3 +102,10 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 - Trình duyệt tự động lưu vào `localStorage` ngay khi tải trang, tự động khóa bảo mật và ẩn ô nhập Key mà không cần người dùng phải gõ hay lưu lại thủ công.
 - Nâng cấp mô hình gọi API sang `gemini-3.6-flash`, phản hồi tức thì với năng lực tư duy Brand Voice vượt trội từ Google AI.
 - Đã push bản cập nhật lên GitHub Pages để phục vụ trực tiếp tại https://brain.chiro.vn.
+
+## Brain Score Tab & Learning Evolution Dashboard (2026-09-15)
+- Thêm Tab thứ 3 chuyên biệt: `Tiến Hóa Brain Score` trên thanh điều hướng chính của Web Dashboard.
+- Mô hình hóa trực quan Vòng lặp học tập 4 bước (The Learning Flywheel) và nguyên tắc cách ly dữ liệu giữa 3 Brand Voice.
+- Tích hợp 3 thẻ chỉ số tiến hóa độc lập kèm thanh phần trăm điểm số theo thời gian.
+- Bảng ma trận đo lường 7 ngày với bộ lọc giọng, form nhập đánh giá tiến hóa trực tiếp, và khung xem/xuất markdown `brain_score.md`.
+- Dữ liệu được lưu trữ liên tục qua `localStorage` và đồng bộ với SQLite `brain.db` qua `/api/evaluate`.

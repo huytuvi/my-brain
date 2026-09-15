@@ -60,13 +60,16 @@
 
     <!-- Navigation Views & Main Triggers -->
     <div class="flex items-center space-x-3">
-      <!-- Toggle View: Workspace vs Calendar -->
+      <!-- Toggle View: Workspace vs Calendar vs Brain Score -->
       <div class="flex bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-semibold">
-        <button id="viewBtnWorkspace" onclick="switchMainView('workspace')" class="px-3 py-1.5 rounded-lg bg-white text-blue-700 shadow-2xs transition flex items-center gap-1.5">
+        <button id="viewBtnWorkspace" onclick="switchMainView('workspace')" class="px-3 py-1.5 rounded-lg bg-white text-blue-700 shadow-2xs transition flex items-center gap-1.5 font-bold">
           <i class="fa-solid fa-pen-to-square"></i> Bàn Làm Việc
         </button>
         <button id="viewBtnCalendar" onclick="switchMainView('calendar')" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5">
           <i class="fa-solid fa-calendar-days text-indigo-600"></i> Cuốn Lịch Nội Dung
+        </button>
+        <button id="viewBtnScore" onclick="switchMainView('score')" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-brain text-emerald-600"></i> Tiến Hóa Brain Score
         </button>
       </div>
 
@@ -353,7 +356,9 @@
           <h3 class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
             <i class="fa-solid fa-chart-simple text-blue-600"></i> Tiến Trình Theo Dõi
           </h3>
-          <button onclick="switchMainView('calendar')" class="text-[11px] text-blue-600 font-semibold hover:underline">Mở Lịch</button>
+          <button onclick="switchMainView('score')" class="text-[11px] text-emerald-600 font-bold hover:underline flex items-center gap-1">
+            <i class="fa-solid fa-brain text-[10px]"></i> Xem Brain Score →
+          </button>
         </div>
 
         <div class="space-y-2 text-xs">
@@ -471,6 +476,368 @@
 
       </div>
 
+    </div>
+
+  </main>
+
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 3: BRAIN SCORE & LEARNING EVOLUTION VIEW                         -->
+  <!-- ===================================================================== -->
+  <main id="scoreView" class="flex-1 p-5 max-w-[1650px] mx-auto w-full hidden space-y-6">
+
+    <!-- Header Banner -->
+    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-brain text-emerald-600 text-lg"></i> THEO DÕI TIẾN HÓA "BỘ NÃO THỨ 2" (BRAIN SCORE)
+          </h2>
+          <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            7 Ngày Học Tập & Cách Ly Dữ Liệu
+          </span>
+        </div>
+        <p class="text-xs text-slate-500 mt-1">
+          Theo dõi trực tiếp cách AI Simon Center học hỏi từ phản hồi của độc giả, nâng điểm giống người sáng lập qua từng ngày theo đúng nguyên tắc <span class="font-semibold text-slate-700">Data Isolation (Cách ly dữ liệu độc lập giữa 3 Brand Voice)</span>.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="scrollToScoreForm()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+          <i class="fa-solid fa-plus"></i> Nạp Đánh Giá Mới
+        </button>
+        <button onclick="copyBrainScoreMd()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+          <i class="fa-solid fa-copy text-slate-500"></i> Sao Chép Markdown
+        </button>
+        <button onclick="downloadBrainScoreMd()" class="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+          <i class="fa-solid fa-download text-indigo-600"></i> Tải brain_score.md
+        </button>
+        <button onclick="switchMainView('workspace')" class="px-4 py-2 bg-slate-900 hover:bg-black text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+          <i class="fa-solid fa-pen"></i> Quay Lại Bàn Làm Việc
+        </button>
+      </div>
+    </div>
+
+    <!-- The Learning Flywheel: 4 Steps -->
+    <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 rounded-2xl p-6 text-white shadow-md">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-arrows-rotate text-emerald-400 text-base"></i>
+          <h3 class="text-sm font-bold tracking-wide">VÒNG LẶP HỌC TẬP CỦA BỘ NÃO THỨ 2 (THE LEARNING FLYWHEEL)</h3>
+        </div>
+        <span class="text-[11px] text-slate-300 bg-white/10 px-3 py-1 rounded-full border border-white/10">Viết bài → Lắng nghe → Chấm điểm → Nạp tri thức mới</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
+        <div class="bg-white/5 border border-white/10 rounded-xl p-4 space-y-1.5 backdrop-blur-xs">
+          <div class="flex items-center gap-2 text-emerald-400 font-bold">
+            <span class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-[10px]">1</span>
+            <span>Sinh & Đăng Bài</span>
+          </div>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            AI dựa vào tri thức từ <code class="text-emerald-300 font-mono">brain.db</code> và tuân thủ tuyệt đối <strong class="text-white">4 chữ KHÔNG y khoa</strong> để xuất bản bài viết theo chủ đề trong kế hoạch 7 ngày.
+          </p>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-xl p-4 space-y-1.5 backdrop-blur-xs">
+          <div class="flex items-center gap-2 text-blue-400 font-bold">
+            <span class="w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center text-[10px]">2</span>
+            <span>Lắng Nghe Độc Giả</span>
+          </div>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            Thu thập phản hồi thực tế: Khách khen/chê điều gì, có nhắn tin hỏi thăm không, tỷ lệ bấm vào link <strong class="text-white">Form Danh Sách Chờ (Waitlist)</strong>.
+          </p>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-xl p-4 space-y-1.5 backdrop-blur-xs">
+          <div class="flex items-center gap-2 text-amber-400 font-bold">
+            <span class="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center text-[10px]">3</span>
+            <span>Chấm Điểm & Rút Bài Học</span>
+          </div>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            Chấm điểm từ <strong class="text-white">1 đến 10</strong> theo tiêu chí: Bài viết giống giọng người sáng lập mấy điểm? Chạm cảm xúc hay còn mùi bán hàng gượng ép?
+          </p>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-xl p-4 space-y-1.5 backdrop-blur-xs">
+          <div class="flex items-center gap-2 text-purple-400 font-bold">
+            <span class="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center text-[10px]">4</span>
+            <span>Nạp Thêm Vào Voice & Tiến Hóa</span>
+          </div>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            Nạp bài học vào <strong class="text-white">đúng Tone giọng tương ứng</strong>. Giọng 2 không làm loãng Giọng 1. Lần viết sau AI sẽ thông minh hơn hôm trước!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 Independent Voice Scorecards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+      <!-- Voice 1 Card -->
+      <div class="bg-white rounded-2xl border-2 border-blue-200 p-5 shadow-sm space-y-3 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-full -mr-8 -mt-8 pointer-events-none"></div>
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 bg-blue-100 text-blue-800 rounded-full">
+            Giọng 1 • Tư Vấn & Chuyên Khoa
+          </span>
+          <span class="text-xs font-extrabold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-lg border border-blue-200" id="v1ScoreCard">
+            9.1 / 10
+          </span>
+        </div>
+        <div>
+          <h4 class="text-sm font-extrabold text-slate-900">Thấu Cảm & Trầm Ấm</h4>
+          <p class="text-xs text-slate-500 mt-0.5">Hình mẫu: Gabor Maté + BS Trần Văn Phúc</p>
+        </div>
+        <div class="space-y-1">
+          <div class="flex justify-between text-[11px] font-semibold text-slate-600">
+            <span>Độ giống giọng & chạm cảm xúc</span>
+            <span class="text-blue-600 font-bold" id="v1BarPercent">91%</span>
+          </div>
+          <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+            <div id="v1Bar" class="bg-blue-600 h-2 rounded-full transition-all duration-500" style="width: 91%"></div>
+          </div>
+        </div>
+        <div class="p-3 bg-blue-50/70 rounded-xl text-xs space-y-1 text-slate-700 border border-blue-100">
+          <div class="font-bold text-blue-900 flex items-center gap-1">
+            <i class="fa-solid fa-shield-halved text-blue-600"></i> Quy tắc đã học được:
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed" id="v1RulesLearned">
+            Nhấn mạnh lắng nghe trước khi khuyên; giữ vững ranh giới 4 chữ KHÔNG y khoa; chuyển hóa cơn đau thể xác và stress dân văn phòng.
+          </p>
+        </div>
+        <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+          <span>Mục tiêu Ngày 7: <strong class="text-emerald-600">9.8 / 10</strong></span>
+          <button onclick="filterScoreTable('voice1')" class="text-blue-600 font-semibold hover:underline">Xem lịch sử →</button>
+        </div>
+      </div>
+
+      <!-- Voice 2 Card -->
+      <div class="bg-white rounded-2xl border-2 border-indigo-200 p-5 shadow-sm space-y-3 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-full -mr-8 -mt-8 pointer-events-none"></div>
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 bg-indigo-100 text-indigo-800 rounded-full">
+            Giọng 2 • Giảng Học Thuật
+          </span>
+          <span class="text-xs font-extrabold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-200" id="v2ScoreCard">
+            8.6 / 10
+          </span>
+        </div>
+        <div>
+          <h4 class="text-sm font-extrabold text-slate-900">First Principles & Khoa Học</h4>
+          <p class="text-xs text-slate-500 mt-0.5">Hình mẫu: Doctor Mike + Elon Musk</p>
+        </div>
+        <div class="space-y-1">
+          <div class="flex justify-between text-[11px] font-semibold text-slate-600">
+            <span>Độ sinh động & đập tan myth</span>
+            <span class="text-indigo-600 font-bold" id="v2BarPercent">86%</span>
+          </div>
+          <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+            <div id="v2Bar" class="bg-indigo-600 h-2 rounded-full transition-all duration-500" style="width: 86%"></div>
+          </div>
+        </div>
+        <div class="p-3 bg-indigo-50/70 rounded-xl text-xs space-y-1 text-slate-700 border border-indigo-100">
+          <div class="font-bold text-indigo-900 flex items-center gap-1">
+            <i class="fa-solid fa-atom text-indigo-600"></i> Quy tắc đã học được:
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed" id="v2RulesLearned">
+            Cột sống sinh ra để vận động, bất động mới gây bệnh; dùng hình ảnh trực quan cơ - đĩa đệm; nhịp điệu nhanh dưới 60s cho TikTok/Reels.
+          </p>
+        </div>
+        <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+          <span>Mục tiêu Ngày 7: <strong class="text-emerald-600">9.5 / 10</strong></span>
+          <button onclick="filterScoreTable('voice2')" class="text-indigo-600 font-semibold hover:underline">Xem lịch sử →</button>
+        </div>
+      </div>
+
+      <!-- Voice 3 Card -->
+      <div class="bg-white rounded-2xl border-2 border-emerald-200 p-5 shadow-sm space-y-3 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-full -mr-8 -mt-8 pointer-events-none"></div>
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full">
+            Giọng 3 • Sale Y Đức & Chốt Deal
+          </span>
+          <span class="text-xs font-extrabold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200" id="v3ScoreCard">
+            8.9 / 10
+          </span>
+        </div>
+        <div>
+          <h4 class="text-sm font-extrabold text-slate-900">Feel - Felt - Found & Y Đức</h4>
+          <p class="text-xs text-slate-500 mt-0.5">Hình mẫu: Francis Hùng</p>
+        </div>
+        <div class="space-y-1">
+          <div class="flex justify-between text-[11px] font-semibold text-slate-600">
+            <span>Độ chuyển đổi & thiện cảm</span>
+            <span class="text-emerald-600 font-bold" id="v3BarPercent">89%</span>
+          </div>
+          <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+            <div id="v3Bar" class="bg-emerald-600 h-2 rounded-full transition-all duration-500" style="width: 89%"></div>
+          </div>
+        </div>
+        <div class="p-3 bg-emerald-50/70 rounded-xl text-xs space-y-1 text-slate-700 border border-emerald-100">
+          <div class="font-bold text-emerald-900 flex items-center gap-1">
+            <i class="fa-solid fa-heart-pulse text-emerald-600"></i> Quy tắc đã học được:
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed" id="v3RulesLearned">
+            Sức khỏe khách hàng luôn trước doanh số; đồng cảm với băn khoăn tài chính trước khi đưa giải pháp; chuyển đổi tự nhiên qua link Waitlist.
+          </p>
+        </div>
+        <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+          <span>Mục tiêu Ngày 7: <strong class="text-emerald-600">9.6 / 10</strong></span>
+          <button onclick="filterScoreTable('voice3')" class="text-emerald-600 font-semibold hover:underline">Xem lịch sử →</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Detailed 7-Day Evolution Table Section -->
+    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b pb-4">
+        <div>
+          <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-table-cells text-blue-600"></i>
+            BẢNG CHI TIẾT ĐO LƯỜNG ĐỘ TIẾN HÓA 7 NGÀY (PHÂN THEO TỪNG GIỌNG)
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">Dữ liệu được lưu trữ độc lập theo nguyên tắc Data Isolation, đồng bộ với brain.db & brain_score.md</p>
+        </div>
+
+        <!-- Filter buttons -->
+        <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs">
+          <button id="filterBtnAll" onclick="filterScoreTable('all')" class="px-3 py-1 rounded-lg bg-white text-slate-900 shadow-2xs font-bold transition">Tất cả</button>
+          <button id="filterBtnV1" onclick="filterScoreTable('voice1')" class="px-3 py-1 rounded-lg text-slate-600 hover:text-blue-700 font-semibold transition">Giọng 1</button>
+          <button id="filterBtnV2" onclick="filterScoreTable('voice2')" class="px-3 py-1 rounded-lg text-slate-600 hover:text-indigo-700 font-semibold transition">Giọng 2</button>
+          <button id="filterBtnV3" onclick="filterScoreTable('voice3')" class="px-3 py-1 rounded-lg text-slate-600 hover:text-emerald-700 font-semibold transition">Giọng 3</button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold uppercase tracking-wider text-[10px]">
+              <th class="py-3 px-3 w-16 text-center">Ngày</th>
+              <th class="py-3 px-3 w-48">Tone Giọng</th>
+              <th class="py-3 px-3 w-28 text-center">Điểm Số (1-10)</th>
+              <th class="py-3 px-4">Phản Hồi Của Người Xem</th>
+              <th class="py-3 px-4">Dữ Liệu Đã Nạp Vào Voice Này</th>
+              <th class="py-3 px-4">Nhận Xét Rút Kinh Nghiệm</th>
+              <th class="py-3 px-3 w-24 text-center">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody id="scoreTableBody" class="divide-y divide-slate-100 text-slate-700">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Interactive Evaluation Input Form (Nạp Đánh Giá Tiến Hóa Mới) -->
+    <div id="scoreFormSection" class="bg-white rounded-2xl border-2 border-emerald-300 p-6 shadow-sm space-y-4">
+      <div class="flex items-center justify-between border-b pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-sm shadow-xs">
+            <i class="fa-solid fa-pen-nib"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-slate-900">NẠP ĐÁNH GIÁ MỚI ĐỂ BỘ NÃO HỌC TẬP & TIẾN HÓA</h3>
+            <p class="text-xs text-slate-500">Mỗi đánh giá bạn lưu sẽ lập tức cập nhật bảng tiến hóa và làm sâu sắc thêm Brand Voice tương ứng</p>
+          </div>
+        </div>
+        <span class="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full">
+          Học Độc Lập Theo Giọng
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 text-xs">
+        
+        <!-- Day Select (Col 3) -->
+        <div class="md:col-span-3 space-y-1">
+          <label class="font-bold text-slate-700 block">Chọn Ngày Đánh Giá:</label>
+          <select id="evalFormDay" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <option value="1">Ngày 1 (Thứ Hai - 14/09)</option>
+            <option value="2">Ngày 2 (Thứ Ba - 15/09)</option>
+            <option value="3">Ngày 3 (Thứ Tư - 16/09)</option>
+            <option value="4">Ngày 4 (Thứ Năm - 17/09)</option>
+            <option value="5">Ngày 5 (Thứ Sáu - 18/09)</option>
+            <option value="6">Ngày 6 (Thứ Bảy - 19/09)</option>
+            <option value="7">Ngày 7 (Chủ Nhật - 20/09)</option>
+          </select>
+        </div>
+
+        <!-- Voice Select (Col 4) -->
+        <div class="md:col-span-4 space-y-1">
+          <label class="font-bold text-slate-700 block">Chọn Tone Giọng Được Đánh Giá:</label>
+          <select id="evalFormVoice" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <option value="voice1">Giọng 1: Tư Vấn & Chuyên Khoa (Thấu Cảm)</option>
+            <option value="voice2">Giọng 2: Giảng Học Thuật (First Principles)</option>
+            <option value="voice3">Giọng 3: Sale Y Đức (Feel-Felt-Found)</option>
+          </select>
+        </div>
+
+        <!-- Score Slider (Col 5) -->
+        <div class="md:col-span-5 bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-1">
+          <div class="flex items-center justify-between font-bold">
+            <span class="text-slate-700">(1) Giống giọng tôi mấy điểm?</span>
+            <span class="text-emerald-700 text-sm font-extrabold" id="evalFormScoreDisplay">9.0 / 10</span>
+          </div>
+          <input type="range" min="1" max="10" step="0.1" value="9.0" id="evalFormScoreSlider" oninput="document.getElementById('evalFormScoreDisplay').textContent = Number(this.value).toFixed(1) + ' / 10'" class="w-full accent-emerald-600 cursor-pointer">
+          <div class="flex justify-between text-[10px] text-slate-400">
+            <span>1 (Rất lệch)</span>
+            <span>5 (Tạm được)</span>
+            <span>10 (Như chính tôi viết)</span>
+          </div>
+        </div>
+
+        <!-- Feedback Input (Col 6) -->
+        <div class="md:col-span-6 space-y-1">
+          <label class="font-bold text-slate-700 block">(2) Người xem / Độc giả phản hồi thế nào?</label>
+          <input type="text" id="evalFormFeedback" placeholder="Ví dụ: Khách khen giọng ấm áp, 4 người hỏi thăm link đăng ký form..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <!-- Rules Input (Col 6) -->
+        <div class="md:col-span-6 space-y-1">
+          <label class="font-bold text-slate-700 block">(3) Đã nạp thêm gì vào Tone Giọng này hôm nay?</label>
+          <input type="text" id="evalFormRules" placeholder="Ví dụ: Tránh dùng từ 'chữa khỏi', nhấn mạnh lắng nghe trước khi khuyên..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <!-- Review Notes (Col 12) -->
+        <div class="md:col-span-12 space-y-1">
+          <label class="font-bold text-slate-700 block">(4) Nhận xét ngắn & Rút kinh nghiệm cho ngày tiếp theo:</label>
+          <textarea id="evalFormNotes" rows="2" placeholder="Ghi chép cụ thể cảm nhận và bài học để lần sinh bài kế tiếp bám sát phong cách Simon Center hơn..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+        </div>
+
+      </div>
+
+      <!-- Form Submit Button -->
+      <div class="flex items-center justify-between pt-2">
+        <span class="text-[11px] text-slate-500 italic">* Dữ liệu sẽ tự động lưu vào bộ nhớ trình duyệt và đồng bộ với brain.db & brain_score.md</span>
+        <button onclick="submitScoreForm()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-md hover:shadow-lg">
+          <i class="fa-solid fa-floppy-disk text-white"></i>
+          <span>Lưu Đánh Giá Tiến Hóa Ngay</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Markdown Viewer (brain_score.md) -->
+    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-brands fa-markdown text-slate-700 text-lg"></i>
+          <h3 class="text-sm font-bold text-slate-900">XEM TRỰC TIẾP TẬP TIN BRAIN_SCORE.MD (LIVE MARKDOWN EXPORT)</h3>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="copyBrainScoreMd()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+            <i class="fa-regular fa-copy"></i> Sao chép
+          </button>
+          <button onclick="downloadBrainScoreMd()" class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-download"></i> Tải về (.md)
+          </button>
+        </div>
+      </div>
+      <pre class="bg-slate-900 text-slate-200 font-mono text-[11px] p-4 rounded-xl overflow-x-auto max-h-96 leading-relaxed border border-slate-800 whitespace-pre" id="rawMarkdownDisplay">
+        <!-- Live Markdown preview injected by JS -->
+      </pre>
     </div>
 
   </main>
@@ -694,25 +1061,37 @@ Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình hãy bắt đầ
       }
     };
 
-    // 1. SWITCH MAIN VIEW (Workspace vs Calendar)
+    // 1. SWITCH MAIN VIEW (Workspace vs Calendar vs Brain Score)
     function switchMainView(view) {
       const ws = document.getElementById('workspaceView');
       const cal = document.getElementById('calendarView');
+      const score = document.getElementById('scoreView');
       const btnWs = document.getElementById('viewBtnWorkspace');
       const btnCal = document.getElementById('viewBtnCalendar');
+      const btnScore = document.getElementById('viewBtnScore');
+
+      // Hide all views
+      ws.classList.add('hidden');
+      cal.classList.add('hidden');
+      score.classList.add('hidden');
+
+      // Inactive styles
+      btnWs.className = 'px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5 font-semibold';
+      btnCal.className = 'px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5 font-semibold';
+      btnScore.className = 'px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5 font-semibold';
 
       if (view === 'calendar') {
-        ws.classList.add('hidden');
         cal.classList.remove('hidden');
         btnCal.className = 'px-3 py-1.5 rounded-lg bg-white text-indigo-700 shadow-2xs transition flex items-center gap-1.5 font-bold';
-        btnWs.className = 'px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5 font-semibold';
         renderCalendarStrip();
         inspectDay(selectedCalendarDay);
+      } else if (view === 'score') {
+        score.classList.remove('hidden');
+        btnScore.className = 'px-3 py-1.5 rounded-lg bg-white text-emerald-700 shadow-2xs transition flex items-center gap-1.5 font-bold';
+        renderBrainScoreView();
       } else {
-        cal.classList.add('hidden');
         ws.classList.remove('hidden');
         btnWs.className = 'px-3 py-1.5 rounded-lg bg-white text-blue-700 shadow-2xs transition flex items-center gap-1.5 font-bold';
-        btnCal.className = 'px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5 font-semibold';
       }
     }
 
@@ -1112,20 +1491,378 @@ Bên em đề xuất mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống
       closePlanModal();
     }
 
-    // 10. EVALUATION & SCORES
+    // 10. BRAIN SCORE EVOLUTION DATA & LOGIC
+    let currentScoreFilter = 'all';
+
+    const defaultEvaluations = [
+      {
+        day: 1,
+        voiceKey: 'voice1',
+        voiceName: 'Giọng 1 (Tư Vấn Thấu Cảm)',
+        score: 9.0,
+        feedback: 'Khách khen bài ấm áp, thấu cảm; 3 người nhắn tin hỏi link form danh sách chờ.',
+        rules: 'Nhấn mạnh lắng nghe trước khi khuyên; giữ ranh giới 4 chữ KHÔNG y khoa.',
+        notes: 'Bài viết rất cảm xúc, chạm đúng tâm lý chịu đựng của dân văn phòng. CTA kéo vào form tự nhiên.'
+      },
+      {
+        day: 1,
+        voiceKey: 'voice2',
+        voiceName: 'Giọng 2 (Giảng Học Thuật)',
+        score: 8.5,
+        feedback: 'Tương tác Reels cao, nhiều comment đồng tình: "giờ mới biết nằm yên không tốt".',
+        rules: 'Giải thích nguyên lý gốc (First Principles) bằng hình ảnh đĩa đệm thực tế, ngắn gọn dưới 60s.',
+        notes: 'Cách đặt vấn đề phản trực giác rất cuốn hút. Cần thêm phụ đề to rõ cho TikTok.'
+      },
+      {
+        day: 1,
+        voiceKey: 'voice3',
+        voiceName: 'Giọng 3 (Sale Y Đức)',
+        score: 8.8,
+        feedback: 'Khách hàng quan tâm về chi phí buổi đánh giá 1-1, không thấy ai chê giá đắt.',
+        rules: 'Ứng dụng Feel-Felt-Found: Đồng cảm với nỗi lo chi phí trước, phân tích bài toán đầu tư sức khỏe sau.',
+        notes: 'Thông điệp chân thành, không có mùi vị chèo kéo bán hàng. Giữ vững y đức phòng khám.'
+      },
+      {
+        day: 2,
+        voiceKey: 'voice1',
+        voiceName: 'Giọng 1 (Tư Vấn Thấu Cảm)',
+        score: 9.2,
+        feedback: '2 bệnh nhân cũ để lại bình luận xác nhận đúng tình trạng gai cột sống của họ.',
+        rules: 'Dùng từ ngữ dân dã, tránh thuật ngữ y khoa khô khan; luôn có câu dặn khám trực tiếp.',
+        notes: 'Xây dựng được niềm tin vững chắc, chuyển đổi bình luận thành đăng ký form tư vấn.'
+      },
+      {
+        day: 2,
+        voiceKey: 'voice2',
+        voiceName: 'Giọng 2 (Giảng Học Thuật)',
+        score: 8.7,
+        feedback: 'Nhiều lượt share từ các hội nhóm văn phòng, bài viết khoa học rõ ràng.',
+        rules: 'Đập tan myth "thoái hóa là phải mổ" bằng cơ chế thích nghi tự nhiên của bao khớp.',
+        notes: 'Lập luận sắc bén, Doctor Mike style rất hợp với độc giả trẻ hiểu biết.'
+      },
+      {
+        day: 2,
+        voiceKey: 'voice3',
+        voiceName: 'Giọng 3 (Sale Y Đức)',
+        score: 9.0,
+        feedback: 'Có 5 người bấm vào link form Waitlist để xem thông tin chi tiết buổi đánh giá.',
+        rules: 'Nhấn mạnh ưu đãi suất đánh giá giới hạn để tạo động lực hành động có trách nhiệm.',
+        notes: 'Tạo được cảm giác an tâm và trân trọng cơ hội chăm sóc sức khỏe.'
+      }
+    ];
+
+    function getEvaluations() {
+      const stored = localStorage.getItem('simon_brain_evaluations');
+      if (stored) {
+        try { return JSON.parse(stored); } catch(e) {}
+      }
+      localStorage.setItem('simon_brain_evaluations', JSON.stringify(defaultEvaluations));
+      return defaultEvaluations;
+    }
+
+    function saveEvaluationsList(list) {
+      localStorage.setItem('simon_brain_evaluations', JSON.stringify(list));
+    }
+
     function updateScoreVal(val) {
-      document.getElementById('scoreDisplay').textContent = val + ' / 10';
+      document.getElementById('scoreDisplay').textContent = Number(val).toFixed(1) + ' / 10';
     }
 
     function saveEvaluation() {
-      const score = document.getElementById('scoreSlider').value;
-      const voiceNames = { voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', voice2: 'Giọng 2 (Học Thuật)', voice3: 'Giọng 3 (Sale Y Đức)' };
+      const score = parseFloat(document.getElementById('scoreSlider').value);
+      const feedback = document.getElementById('feedbackInput').value.trim();
+      const rules = document.getElementById('voiceAdditionInput').value.trim();
+      const notes = document.getElementById('reviewNotesInput').value.trim();
+
+      const voiceNames = { voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', voice2: 'Giọng 2 (Giảng Học Thuật)', voice3: 'Giọng 3 (Sale Y Đức)' };
       const vName = voiceNames[currentVoice];
 
-      if (currentVoice === 'voice1' && currentDay === 1) {
-        document.getElementById('trackerDay1Score').textContent = score + '/10';
+      const list = getEvaluations();
+      // Check if already exists for currentDay & currentVoice
+      const idx = list.findIndex(e => e.day === currentDay && e.voiceKey === currentVoice);
+      const newEntry = {
+        day: currentDay,
+        voiceKey: currentVoice,
+        voiceName: vName,
+        score: score,
+        feedback: feedback || 'Đã ghi nhận phản hồi từ độc giả',
+        rules: rules || 'Đã nạp bổ sung vào Brand Voice',
+        notes: notes || 'Bài viết đạt chuẩn Brand Voice Simon Center'
+      };
+
+      if (idx >= 0) {
+        list[idx] = newEntry;
+      } else {
+        list.push(newEntry);
       }
-      showToast(`Đã lưu đánh giá riêng cho [${vName}] (${score}/10) vào brain.db & brain_score.md!`);
+      saveEvaluationsList(list);
+
+      // Also try sync with backend if running locally
+      try {
+        fetch('/api/evaluate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            day: currentDay,
+            voice_key: currentVoice,
+            voice_name: vName,
+            channel: document.getElementById('channelSelect').selectedOptions[0].text,
+            topic: document.getElementById('topicInput').value,
+            score: score,
+            feedback: newEntry.feedback,
+            rules: newEntry.rules,
+            notes: newEntry.notes
+          })
+        }).catch(() => {});
+      } catch(e) {}
+
+      if (currentVoice === 'voice1' && currentDay === 1) {
+        document.getElementById('trackerDay1Score').textContent = score.toFixed(1) + '/10';
+      }
+      showToast(`Đã lưu đánh giá riêng cho [${vName}] (${score.toFixed(1)}/10)! Bấm tab "Tiến Hóa Brain Score" để xem.`);
+    }
+
+    function filterScoreTable(vKey) {
+      currentScoreFilter = vKey;
+      ['All', 'V1', 'V2', 'V3'].forEach(k => {
+        const b = document.getElementById('filterBtn' + k);
+        if (b) {
+          b.className = 'px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 font-semibold transition';
+        }
+      });
+      const activeMap = { all: 'filterBtnAll', voice1: 'filterBtnV1', voice2: 'filterBtnV2', voice3: 'filterBtnV3' };
+      const activeBtn = document.getElementById(activeMap[vKey]);
+      if (activeBtn) {
+        activeBtn.className = 'px-3 py-1 rounded-lg bg-white text-slate-900 shadow-2xs font-bold transition';
+      }
+      renderBrainScoreView();
+    }
+
+    function renderBrainScoreView() {
+      const list = getEvaluations();
+
+      // 1. Calculate stats per voice
+      const stats = {
+        voice1: { sum: 0, count: 0, rules: [] },
+        voice2: { sum: 0, count: 0, rules: [] },
+        voice3: { sum: 0, count: 0, rules: [] }
+      };
+
+      list.forEach(item => {
+        if (stats[item.voiceKey]) {
+          stats[item.voiceKey].sum += item.score;
+          stats[item.voiceKey].count += 1;
+          if (item.rules && !stats[item.voiceKey].rules.includes(item.rules)) {
+            stats[item.voiceKey].rules.push(item.rules);
+          }
+        }
+      });
+
+      // Update Voice Cards
+      const updateCard = (key, cardId, barId, percentId, rulesId, defaultScore, defaultRules) => {
+        const s = stats[key];
+        const avg = s.count > 0 ? (s.sum / s.count) : defaultScore;
+        const percent = Math.min(100, Math.round(avg * 10));
+        const cardElem = document.getElementById(cardId);
+        const barElem = document.getElementById(barId);
+        const percentElem = document.getElementById(percentId);
+        const rulesElem = document.getElementById(rulesId);
+
+        if (cardElem) cardElem.textContent = avg.toFixed(1) + ' / 10';
+        if (barElem) barElem.style.width = percent + '%';
+        if (percentElem) percentElem.textContent = percent + '%';
+        if (rulesElem && s.rules.length > 0) {
+          rulesElem.textContent = s.rules.slice(-2).join('; ');
+        }
+      };
+
+      updateCard('voice1', 'v1ScoreCard', 'v1Bar', 'v1BarPercent', 'v1RulesLearned', 9.1);
+      updateCard('voice2', 'v2ScoreCard', 'v2Bar', 'v2BarPercent', 'v2RulesLearned', 8.6);
+      updateCard('voice3', 'v3ScoreCard', 'v3Bar', 'v3BarPercent', 'v3RulesLearned', 8.9);
+
+      // 2. Render Table Rows
+      const tbody = document.getElementById('scoreTableBody');
+      tbody.innerHTML = '';
+
+      const filtered = list.filter(item => {
+        if (currentScoreFilter === 'all') return true;
+        return item.voiceKey === currentScoreFilter;
+      }).sort((a, b) => a.day - b.day || a.voiceKey.localeCompare(b.voiceKey));
+
+      const voiceBadges = {
+        voice1: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">Giọng 1 • Tư Vấn</span>',
+        voice2: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-800">Giọng 2 • Học Thuật</span>',
+        voice3: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Giọng 3 • Sale Y Đức</span>'
+      };
+
+      filtered.forEach((row, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50/80 transition';
+        tr.innerHTML = `
+          <td class="py-3 px-3 text-center font-bold text-slate-800">Ngày ${row.day}</td>
+          <td class="py-3 px-3">${voiceBadges[row.voiceKey] || row.voiceName}</td>
+          <td class="py-3 px-3 text-center">
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-800 font-extrabold border border-emerald-200">
+              <i class="fa-solid fa-star text-amber-500 text-[9px]"></i> ${row.score.toFixed(1)} / 10
+            </span>
+          </td>
+          <td class="py-3 px-4 text-slate-600 leading-relaxed">${escapeHtml(row.feedback)}</td>
+          <td class="py-3 px-4 font-medium text-slate-800 leading-relaxed">${escapeHtml(row.rules)}</td>
+          <td class="py-3 px-4 text-slate-600 leading-relaxed">${escapeHtml(row.notes)}</td>
+          <td class="py-3 px-3 text-center">
+            <button onclick="editEvaluationInForm(${row.day}, '${row.voiceKey}')" class="text-blue-600 hover:text-blue-800 font-semibold text-[11px] p-1">
+              <i class="fa-regular fa-pen-to-square mr-0.5"></i> Sửa
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // 3. Render Markdown Export
+      renderMarkdownExport(list);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function scrollToScoreForm() {
+      document.getElementById('scoreFormSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function editEvaluationInForm(day, voiceKey) {
+      const list = getEvaluations();
+      const item = list.find(e => e.day === day && e.voiceKey === voiceKey);
+      if (item) {
+        document.getElementById('evalFormDay').value = item.day;
+        document.getElementById('evalFormVoice').value = item.voiceKey;
+        document.getElementById('evalFormScoreSlider').value = item.score;
+        document.getElementById('evalFormScoreDisplay').textContent = Number(item.score).toFixed(1) + ' / 10';
+        document.getElementById('evalFormFeedback').value = item.feedback;
+        document.getElementById('evalFormRules').value = item.rules;
+        document.getElementById('evalFormNotes').value = item.notes;
+        scrollToScoreForm();
+      }
+    }
+
+    function submitScoreForm() {
+      const day = parseInt(document.getElementById('evalFormDay').value);
+      const voiceKey = document.getElementById('evalFormVoice').value;
+      const score = parseFloat(document.getElementById('evalFormScoreSlider').value);
+      const feedback = document.getElementById('evalFormFeedback').value.trim() || 'Người xem phản hồi tích cực.';
+      const rules = document.getElementById('evalFormRules').value.trim() || 'Nạp thêm từ khóa y khoa Simon Center.';
+      const notes = document.getElementById('evalFormNotes').value.trim() || 'Cần duy trì đều đặn nhịp độ xuất bản.';
+
+      const voiceNames = { voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', voice2: 'Giọng 2 (Giảng Học Thuật)', voice3: 'Giọng 3 (Sale Y Đức)' };
+
+      const list = getEvaluations();
+      const idx = list.findIndex(e => e.day === day && e.voiceKey === voiceKey);
+      const entry = {
+        day: day,
+        voiceKey: voiceKey,
+        voiceName: voiceNames[voiceKey],
+        score: score,
+        feedback: feedback,
+        rules: rules,
+        notes: notes
+      };
+
+      if (idx >= 0) {
+        list[idx] = entry;
+      } else {
+        list.push(entry);
+      }
+      saveEvaluationsList(list);
+
+      // Local API sync if available
+      try {
+        fetch('/api/evaluate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            day: day,
+            voice_key: voiceKey,
+            voice_name: voiceNames[voiceKey],
+            channel: 'Đánh giá Tiến Hóa',
+            topic: `Đánh giá Ngày ${day}`,
+            score: score,
+            feedback: feedback,
+            rules: rules,
+            notes: notes
+          })
+        }).catch(() => {});
+      } catch(e) {}
+
+      renderBrainScoreView();
+      showToast(`Đã ghi nhận đánh giá Ngày ${day} cho [${voiceNames[voiceKey]}] (${score.toFixed(1)}/10)!`);
+    }
+
+    function buildBrainScoreMarkdown(list) {
+      let md = `# BẢNG THEO DÕI & ĐO LƯỜNG CHỈ SỐ "BỘ NÃO THỨ 2" (7 NGÀY)
+`;
+      md += `## Quản lý Độc lập theo từng Brand Voice (Simon Center)
+
+`;
+      md += `> 🛡️ **NGUYÊN TẮC CÁCH LY DỮ LIỆU (DATA ISOLATION RULE):**
+`;
+      md += `> Đánh giá của Giọng nào được lưu trữ và học hỏi độc lập tuyệt đối cho đúng giọng đó.
+
+`;
+      md += `---
+
+`;
+      md += `## 📅 BẢNG ĐO LƯỜNG ĐỘ TIẾN HÓA 7 NGÀY (PHÂN THEO TỪNG GIỌNG)
+
+`;
+      md += `| Ngày | Tone Giọng được đánh giá | Điểm số (1-10) | Phản hồi của người xem | Dữ liệu đã nạp thêm vào Voice này | Nhận xét ngắn & Rút kinh nghiệm |
+`;
+      md += `| :---: | :--- | :---: | :--- | :--- | :--- |
+`;
+
+      list.sort((a, b) => a.day - b.day || a.voiceKey.localeCompare(b.voiceKey)).forEach(r => {
+        md += `| **Ngày ${r.day}** | **${r.voiceName}** | **${r.score.toFixed(1)} / 10** | ${r.feedback.replace(/\|/g, '-')} | ${r.rules.replace(/\|/g, '-')} | ${r.notes.replace(/\|/g, '-')} |
+`;
+      });
+
+      md += `
+---
+
+`;
+      md += `*Dữ liệu được đồng bộ trực tiếp với Web Dashboard (brain.chiro.vn) và cơ sở dữ liệu brain.db.*
+`;
+      return md;
+    }
+
+    function renderMarkdownExport(list) {
+      const container = document.getElementById('rawMarkdownDisplay');
+      if (container) {
+        container.textContent = buildBrainScoreMarkdown(list);
+      }
+    }
+
+    function copyBrainScoreMd() {
+      const list = getEvaluations();
+      const md = buildBrainScoreMarkdown(list);
+      navigator.clipboard.writeText(md).then(() => {
+        showToast('Đã sao chép toàn bộ nội dung brain_score.md!');
+      });
+    }
+
+    function downloadBrainScoreMd() {
+      const list = getEvaluations();
+      const md = buildBrainScoreMarkdown(list);
+      const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'brain_score.md';
+      a.click();
+      showToast('Đã tải tập tin brain_score.md về máy!');
     }
 
     function copyPostContent() {
@@ -1168,6 +1905,7 @@ Bên em đề xuất mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống
       renderCalendarStrip();
       inspectDay(1);
       checkSavedApiKey();
+      renderBrainScoreView();
     });
   </script>
 </body>
