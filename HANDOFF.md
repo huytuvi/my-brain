@@ -109,3 +109,9 @@ Sổ bàn giao trạng thái làm việc giữa các AI Agent (Antigravity ↔ C
 - Tích hợp 3 thẻ chỉ số tiến hóa độc lập kèm thanh phần trăm điểm số theo thời gian.
 - Bảng ma trận đo lường 7 ngày với bộ lọc giọng, form nhập đánh giá tiến hóa trực tiếp, và khung xem/xuất markdown `brain_score.md`.
 - Dữ liệu được lưu trữ liên tục qua `localStorage` và đồng bộ với SQLite `brain.db` qua `/api/evaluate`.
+
+## Evolution Metrics & Brand Voice Admin Engine (2026-09-15)
+- Xóa bỏ toàn bộ dữ liệu mẫu; chuyển các ô nhập đánh giá sang placeholder tự biến mất khi gõ.
+- Kết nối trực tiếp quy tắc đã học vào Prompt của Gemini 3.6 Flash để AI thực sự áp dụng bài học đánh giá.
+- Bổ sung Tab 4 `Quản Trị Brand Voice` (Admin) cho phép xem và sửa định vị gốc ban đầu, quản lý quy tắc tiến hóa và soi prompt thật của AI.
+- Đồng bộ toàn diện lên live site https://brain.chiro.vn.

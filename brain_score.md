@@ -12,7 +12,7 @@
 
 | Ngày | Tone Giọng được đánh giá | Điểm số (1-10) | Phản hồi của người xem | Dữ liệu đã nạp thêm vào Voice này | Nhận xét ngắn & Rút kinh nghiệm |
 | :---: | :--- | :---: | :--- | :--- | :--- |
-| **Ngày 1** | **Giọng 1** (Tư Vấn & Đồng Hành) | **9.0 / 10** | Khách khen bài ấm áp, thấu cảm; 3 người nhắn tin hỏi link form. | Nhấn mạnh lắng nghe trước khi khuyên; giữ ranh giới 4 chữ KHÔNG y khoa. | Bài viết rất cảm xúc, chạm đúng tâm lý chịu đựng của dân văn phòng. CTA kéo vào form tự nhiên. |
+| **Ngày 1** | **Giọng 1** (Tư Vấn & Đồng Hành) | **9.0 / 10** | Khách khen bài ấm áp. Bài tết mà thấy viết ổn | Giữ phong cách thấu cảm, bài viết ấm áp chạm tâm lý | Bài viết ổn |
 | **Ngày 1** | **Giọng 2** (Giảng Học Thuật) | ... / 10 | | | |
 | **Ngày 1** | **Giọng 3** (Sale Y Đức) | ... / 10 | | | |
 | **Ngày 2** | **Giọng 1** (Tư Vấn & Đồng Hành) | ... / 10 | | | |

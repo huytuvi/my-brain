@@ -60,16 +60,19 @@
 
     <!-- Navigation Views & Main Triggers -->
     <div class="flex items-center space-x-3">
-      <!-- Toggle View: Workspace vs Calendar vs Brain Score -->
+      <!-- Toggle View: Workspace vs Calendar vs Brain Score vs Admin -->
       <div class="flex bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-semibold">
         <button id="viewBtnWorkspace" onclick="switchMainView('workspace')" class="px-3 py-1.5 rounded-lg bg-white text-blue-700 shadow-2xs transition flex items-center gap-1.5 font-bold">
           <i class="fa-solid fa-pen-to-square"></i> Bàn Làm Việc
         </button>
         <button id="viewBtnCalendar" onclick="switchMainView('calendar')" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5">
-          <i class="fa-solid fa-calendar-days text-indigo-600"></i> Cuốn Lịch Nội Dung
+          <i class="fa-solid fa-calendar-days text-indigo-600"></i> Cuốn Lịch 21 Bài
         </button>
         <button id="viewBtnScore" onclick="switchMainView('score')" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5">
-          <i class="fa-solid fa-brain text-emerald-600"></i> Tiến Hóa Brain Score
+          <i class="fa-solid fa-chart-line text-emerald-600"></i> Tiến Hóa Brain Score
+        </button>
+        <button id="viewBtnAdmin" onclick="switchMainView('admin')" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-purple-900 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-sliders text-purple-600"></i> Quản Trị Brand Voice
         </button>
       </div>
 
@@ -328,19 +331,19 @@
         <!-- 2. Audience Feedback -->
         <div>
           <label class="text-xs font-semibold text-slate-700 block mb-1">(2) Người xem phản hồi thế nào?</label>
-          <input type="text" id="feedbackInput" value="Khách khen bài ấm áp, có 3 người hỏi thăm link điền form" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="text" id="feedbackInput" value="" placeholder="Ví dụ: Khách khen bài ấm áp, có 3 người hỏi thăm link điền form..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
 
         <!-- 3. What added to Brand Voice -->
         <div>
           <label class="text-xs font-semibold text-slate-700 block mb-1">(3) Đã thêm gì vào Brand Voice hôm nay?</label>
-          <input type="text" id="voiceAdditionInput" value="Nạp hoàn chỉnh Giọng 3 (Sale y đức) & checklist kiểm duyệt" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="text" id="voiceAdditionInput" value="" placeholder="Ví dụ: Nhấn mạnh lắng nghe trước khi khuyên, giữ vững 4 chữ KHÔNG y khoa..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
 
         <!-- 4. Review Notes -->
         <div>
           <label class="text-xs font-semibold text-slate-700 block mb-1">(4) Nhận xét ngắn & Rút kinh nghiệm:</label>
-          <textarea id="reviewNotesInput" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700">Bài viết rất cảm xúc, chạm đúng tâm lý chịu đựng cơn đau của dân văn phòng. CTA kéo vào form tự nhiên.</textarea>
+          <textarea id="reviewNotesInput" rows="2" placeholder="Ví dụ: Bài viết rất cảm xúc, chạm đúng tâm lý dân văn phòng. Lần tới cần lưu ý..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700"></textarea>
         </div>
 
         <!-- Single Save button tagged with isolated voice -->
@@ -356,9 +359,14 @@
           <h3 class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
             <i class="fa-solid fa-chart-simple text-blue-600"></i> Tiến Trình Theo Dõi
           </h3>
-          <button onclick="switchMainView('score')" class="text-[11px] text-emerald-600 font-bold hover:underline flex items-center gap-1">
-            <i class="fa-solid fa-brain text-[10px]"></i> Xem Brain Score →
-          </button>
+          <div class="flex items-center gap-2">
+            <button onclick="inspectActiveAIPrompt()" class="text-[10px] text-purple-600 hover:text-purple-800 font-bold bg-purple-50 px-2 py-0.5 rounded border border-purple-200">
+              <i class="fa-solid fa-terminal mr-0.5"></i> Soi Prompt AI
+            </button>
+            <button onclick="switchMainView('score')" class="text-[11px] text-emerald-600 font-bold hover:underline flex items-center gap-1">
+              <i class="fa-solid fa-brain text-[10px]"></i> Xem Brain Score →
+            </button>
+          </div>
         </div>
 
         <div class="space-y-2 text-xs">
@@ -844,6 +852,222 @@
 
 
   <!-- ===================================================================== -->
+  <!-- VIEW 4: BRAND VOICE ADMIN & EVOLUTION MANAGEMENT                      -->
+  <!-- ===================================================================== -->
+  <main id="adminView" class="flex-1 p-5 max-w-[1650px] mx-auto w-full hidden space-y-6">
+
+    <!-- Admin View Header -->
+    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-purple-600 text-lg"></i> QUẢN TRỊ BRAND VOICE & GIÁM SÁT TIẾN HÓA (ADMIN)
+          </h2>
+          <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></span>
+            Trung Tâm Tri Thức Gốc & Tinh Chỉnh
+          </span>
+        </div>
+        <p class="text-xs text-slate-500 mt-1">
+          Tại đây bạn có thể trực tiếp tinh chỉnh <strong class="text-slate-700">Mô tả gốc (Genesis)</strong> của 3 Brand Voice, quản lý các quy tắc AI đã học qua thời gian và soi trực tiếp Prompt gửi cho Google Gemini.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="inspectActiveAIPrompt()" class="px-3.5 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-2xs">
+          <i class="fa-solid fa-terminal text-purple-600"></i> Soi Prompt Thật Gửi AI
+        </button>
+        <button onclick="saveAllBrandVoiceAdmin()" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+          <i class="fa-solid fa-floppy-disk"></i> Lưu Thay Đổi Cấu Hình Gốc
+        </button>
+        <button onclick="resetBrandVoiceToDefault()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-xs font-semibold transition flex items-center gap-1.5">
+          <i class="fa-solid fa-rotate-left"></i> Khôi Phục Gốc
+        </button>
+        <button onclick="switchMainView('workspace')" class="px-4 py-2 bg-slate-900 hover:bg-black text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+          <i class="fa-solid fa-pen"></i> Quay Lại Bàn Làm Việc
+        </button>
+      </div>
+    </div>
+
+    <!-- Admin Navigation Subtabs -->
+    <div class="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto text-xs font-bold">
+      <button id="subtabBtnFoundation" onclick="switchAdminSubtab('foundation')" class="px-4 py-2 rounded-xl bg-purple-600 text-white shadow-sm flex items-center gap-2">
+        <i class="fa-solid fa-shield-halved"></i> 1. Nền Tảng Chung & 4 Chữ KHÔNG
+      </button>
+      <button id="subtabBtnVoice1" onclick="switchAdminSubtab('voice1')" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+        <i class="fa-solid fa-stethoscope text-blue-600"></i> 2. Giọng 1: Tư Vấn Thấu Cảm
+      </button>
+      <button id="subtabBtnVoice2" onclick="switchAdminSubtab('voice2')" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+        <i class="fa-solid fa-atom text-indigo-600"></i> 3. Giọng 2: Giảng Học Thuật
+      </button>
+      <button id="subtabBtnVoice3" onclick="switchAdminSubtab('voice3')" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+        <i class="fa-solid fa-heart-pulse text-emerald-600"></i> 4. Giọng 3: Sale Y Đức
+      </button>
+      <button id="subtabBtnComparison" onclick="switchAdminSubtab('comparison')" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+        <i class="fa-solid fa-chart-pie text-amber-600"></i> 5. Bảng So Sánh Tiến Hóa (Gốc vs Hiện Tại)
+      </button>
+    </div>
+
+    <!-- SUBTAB 1: FOUNDATION -->
+    <div id="adminSubtabFoundation" class="space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        
+        <!-- Foundation Details (Left Col 7) -->
+        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b pb-3">
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-shield-halved text-purple-600"></i>
+              MÔ TẢ GỐC: NỀN TẢNG CHUNG & NGUYÊN TẮC Y KHOA (BẤT BIẾN)
+            </h3>
+            <span class="text-[10px] font-bold px-2 py-0.5 bg-purple-100 text-purple-800 rounded-full">Phần 0 Trong brain.db</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Tiêu Đề Định Danh:</label>
+              <input type="text" id="adminFoundationTitle" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500">
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Quy Cách Xưng Hô & Lễ Nghi Giao Tiếp:</label>
+              <input type="text" id="adminFoundationGreetings" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500">
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">Toàn Văn Nền Tảng Chung & Lan Can An Toàn Y Khoa:</label>
+              <textarea id="adminFoundationContent" rows="9" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500 leading-relaxed font-mono"></textarea>
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button onclick="saveFoundationAdmin()" class="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+              <i class="fa-solid fa-check"></i> Lưu Nền Tảng Chung
+            </button>
+          </div>
+        </div>
+
+        <!-- Safety Guardrails & Principles Preview (Right Col 5) -->
+        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+          <div class="border-b pb-3">
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-triangle-exclamation text-amber-500"></i>
+              BỐN CHỮ KHÔNG Y KHOA (LAN CAN BẢO VỆ)
+            </h3>
+            <p class="text-[11px] text-slate-500 mt-0.5">Quy tắc bắt buộc gắn vào mọi prompt sinh bài của cả 3 giọng</p>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            <div class="p-3 bg-red-50/70 border border-red-200 rounded-xl flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-red-100 text-red-700 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
+              <div>
+                <strong class="text-red-900 block">KHÔNG Chẩn Đoán Online:</strong>
+                <span class="text-slate-600 text-[11px]">Không khẳng định bệnh qua tin nhắn, bài viết. Luôn dặn thăm khám trực tiếp.</span>
+              </div>
+            </div>
+
+            <div class="p-3 bg-red-50/70 border border-red-200 rounded-xl flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-red-100 text-red-700 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
+              <div>
+                <strong class="text-red-900 block">KHÔNG Bán Thuốc / Kê Đơn:</strong>
+                <span class="text-slate-600 text-[11px]">Không bán thuốc, không khuyên mua thực phẩm chức năng trục lợi thương mại.</span>
+              </div>
+            </div>
+
+            <div class="p-3 bg-red-50/70 border border-red-200 rounded-xl flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-red-100 text-red-700 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">3</span>
+              <div>
+                <strong class="text-red-900 block">KHÔNG Trấn An Bừa Bãi:</strong>
+                <span class="text-slate-600 text-[11px]">Không bao giờ nói "không sao đâu" khi bệnh nhân có dấu hiệu cờ đỏ nguy hiểm.</span>
+              </div>
+            </div>
+
+            <div class="p-3 bg-red-50/70 border border-red-200 rounded-xl flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-red-100 text-red-700 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">4</span>
+              <div>
+                <strong class="text-red-900 block">KHÔNG Hù Dọa Trục Lợi:</strong>
+                <span class="text-slate-600 text-[11px]">Không giật gân, không dọa liệt/tàn phế để ép bệnh nhân mua gói điều trị.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SUBTAB 2, 3, 4: VOICES 1, 2, 3 (Rendered by JS Template) -->
+    <div id="adminVoiceContainer" class="hidden">
+      <!-- Injected by renderAdminVoicePanel() -->
+    </div>
+
+    <!-- SUBTAB 5: COMPARISON (GENESIS VS EVOLVED) -->
+    <div id="adminSubtabComparison" class="hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+      <div class="border-b pb-3">
+        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-code-compare text-indigo-600"></i>
+          BẢNG SO SÁNH: KHỞI ĐIỂM BAN ĐẦU (GENESIS) VS TIẾN HÓA HIỆN TẠI
+        </h3>
+        <p class="text-xs text-slate-500 mt-0.5">Giám sát sự biến đổi và tích lũy tri thức của từng giọng theo thời gian</p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold uppercase tracking-wider text-[10px]">
+              <th class="py-3 px-3 w-44">Brand Voice</th>
+              <th class="py-3 px-4 w-1/3">Khởi Điểm (Lập Trình Ngày 0)</th>
+              <th class="py-3 px-4 w-1/3">Tiến Hóa Hiện Tại (Các Bài Học Đã Hấp Thụ)</th>
+              <th class="py-3 px-3 text-center">Tình Trạng</th>
+            </tr>
+          </thead>
+          <tbody id="adminComparisonTableBody" class="divide-y divide-slate-100 text-slate-700">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+
+  <!-- ===================================================================== -->
+  <!-- MODAL: SOI PROMPT THẬT GỬI GOOGLE GEMINI AI                           -->
+  <!-- ===================================================================== -->
+  <div id="inspectPromptModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center text-sm shadow-sm">
+            <i class="fa-solid fa-terminal"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-slate-900">PROMPT THẬT SẼ GỬI GOOGLE GEMINI AI</h3>
+            <p class="text-xs text-slate-500">Bao gồm Cấu hình gốc + 4 chữ KHÔNG + Các bài học tiến hóa đã nạp</p>
+          </div>
+        </div>
+        <button onclick="closeInspectPromptModal()" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center text-slate-600 transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 text-xs">
+        <div class="p-3 bg-purple-50 rounded-xl border border-purple-200 text-purple-900 text-xs flex items-center justify-between">
+          <span>Đang hiển thị Prompt thời gian thực cho: <strong id="inspectModalVoiceBadge" class="uppercase font-bold">GIỌNG 1</strong></span>
+          <span class="text-[11px] text-slate-500">Mô hình: <strong>gemini-3.6-flash</strong></span>
+        </div>
+        <pre id="inspectPromptContent" class="bg-slate-900 text-slate-200 font-mono text-[11px] p-4 rounded-xl overflow-x-auto leading-relaxed border border-slate-800 whitespace-pre-wrap max-h-96"></pre>
+      </div>
+
+      <div class="px-6 py-3.5 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
+        <span class="text-[11px] text-slate-500">Đây chính xác là những gì AI đọc được trước khi viết bài</span>
+        <button onclick="closeInspectPromptModal()" class="px-5 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-black transition shadow-sm">
+          Đóng
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===================================================================== -->
   <!-- POPUP MODAL: TỔNG QUAN KẾ HOẠCH CONTENT 7 NGÀY (FULL 21 BÀI VIẾT)      -->
   <!-- ===================================================================== -->
   <div id="planModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
@@ -1061,24 +1285,30 @@ Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình hãy bắt đầ
       }
     };
 
-    // 1. SWITCH MAIN VIEW (Workspace vs Calendar vs Brain Score)
+    // 1. SWITCH MAIN VIEW (Workspace vs Calendar vs Brain Score vs Admin)
     function switchMainView(view) {
       const ws = document.getElementById('workspaceView');
       const cal = document.getElementById('calendarView');
       const score = document.getElementById('scoreView');
+      const admin = document.getElementById('adminView');
+
       const btnWs = document.getElementById('viewBtnWorkspace');
       const btnCal = document.getElementById('viewBtnCalendar');
       const btnScore = document.getElementById('viewBtnScore');
+      const btnAdmin = document.getElementById('viewBtnAdmin');
 
       // Hide all views
       ws.classList.add('hidden');
       cal.classList.add('hidden');
       score.classList.add('hidden');
+      if (admin) admin.classList.add('hidden');
 
       // Inactive styles
-      btnWs.className = 'px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5 font-semibold';
-      btnCal.className = 'px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5 font-semibold';
-      btnScore.className = 'px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5 font-semibold';
+      const inact = 'px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5 font-semibold';
+      btnWs.className = inact;
+      btnCal.className = inact;
+      btnScore.className = inact;
+      if (btnAdmin) btnAdmin.className = inact;
 
       if (view === 'calendar') {
         cal.classList.remove('hidden');
@@ -1089,165 +1319,174 @@ Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình hãy bắt đầ
         score.classList.remove('hidden');
         btnScore.className = 'px-3 py-1.5 rounded-lg bg-white text-emerald-700 shadow-2xs transition flex items-center gap-1.5 font-bold';
         renderBrainScoreView();
+      } else if (view === 'admin') {
+        if (admin) admin.classList.remove('hidden');
+        if (btnAdmin) btnAdmin.className = 'px-3 py-1.5 rounded-lg bg-white text-purple-700 shadow-2xs transition flex items-center gap-1.5 font-bold';
+        initAdminView();
       } else {
         ws.classList.remove('hidden');
         btnWs.className = 'px-3 py-1.5 rounded-lg bg-white text-blue-700 shadow-2xs transition flex items-center gap-1.5 font-bold';
       }
     }
 
-    // 2. RENDER CALENDAR STRIP
-    function renderCalendarStrip() {
-      const container = document.getElementById('calendarGridDays');
-      container.innerHTML = '';
-
-      plan7DaysData.forEach(d => {
-        const isSelected = d.day === selectedCalendarDay;
-        const isToday = d.day === 1;
-        const card = document.createElement('div');
-        card.className = `calendar-day ${isSelected ? 'active' : ''} ${isToday ? 'today' : ''} p-3 rounded-2xl border-2 border-slate-200 hover:border-slate-300 bg-white cursor-pointer transition flex flex-col justify-between min-h-[140px]`;
-        card.onclick = () => inspectDay(d.day);
-
-        card.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] font-bold uppercase ${isToday ? 'text-emerald-600' : 'text-slate-400'}">${d.dayName}</span>
-              ${isToday ? '<span class="w-2 h-2 rounded-full bg-emerald-500"></span>' : ''}
-            </div>
-            <div class="text-sm font-extrabold text-slate-900 mt-1">${d.date}</div>
-            <div class="text-[10px] font-bold text-blue-600 mt-0.5">Ngày ${d.day}</div>
-          </div>
-          <div class="mt-2 pt-2 border-t border-slate-100 text-[10px] font-medium text-slate-600 line-clamp-2 leading-tight">
-            ${d.theme}
-          </div>
-          <div class="mt-1 flex items-center gap-1 text-[9px] font-bold ${isToday ? 'text-emerald-700' : 'text-slate-400'}">
-            <i class="fa-solid fa-circle-check text-[8px]"></i> 3 bài
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    // 3. INSPECT A DAY IN CALENDAR VIEW
-    function inspectDay(dayNum) {
-      selectedCalendarDay = dayNum;
-      renderCalendarStrip();
-
-      const dayData = plan7DaysData.find(d => d.day === dayNum);
-      if (!dayData) return;
-
-      document.getElementById('inspectDayHeader').textContent = `CHI TIẾT NGÀY ${dayData.day} (${dayData.dayName.toUpperCase()} - ${dayData.date})`;
-      document.getElementById('inspectDayGoal').textContent = dayData.theme;
-      document.getElementById('inspectStatusBadge').textContent = dayData.day === 1 ? 'Đã Xuất Bản' : 'Kế Hoạch Sẵn Sàng';
-
-      const container = document.getElementById('inspectPostsContainer');
-      container.innerHTML = '';
-
-      dayData.posts.forEach((p, idx) => {
-        const pCard = document.createElement('div');
-        pCard.className = 'p-3.5 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 transition space-y-2';
-        pCard.innerHTML = `
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded ${p.voice === 'voice1' ? 'bg-blue-100 text-blue-800' : p.voice === 'voice2' ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800'}">
-              ${p.time} • ${p.channelName} • ${p.voiceName}
-            </span>
-            <button onclick="loadPostToWorkspace('${p.title.replace(/'/g, "\'")}', '${p.voice}', '${p.channel}', ${dayData.day})" class="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1">
-              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> Nạp Vào Viết
-            </button>
-          </div>
-          <h4 class="font-bold text-xs text-slate-900 leading-snug">"${p.title}"</h4>
-          <p class="text-[11px] text-slate-500 flex items-center gap-1">
-            <i class="fa-solid fa-bullseye text-slate-400"></i> CTA: ${p.cta}
-          </p>
-        `;
-        container.appendChild(pCard);
-      });
-    }
-
-    // 4. LOAD POST INTO WORKSPACE
-    function loadPostToWorkspace(title, voice, channel, dayNum) {
-      document.getElementById('topicInput').value = title;
-      document.getElementById('displayTopicTitle').textContent = `Chủ đề: "${title}"`;
-      document.getElementById('channelSelect').value = channel;
-      currentDay = dayNum;
-      document.getElementById('evaluatingDayBadge').textContent = `Ngày ${dayNum}`;
-
-      selectVoice(voice);
-      switchMainView('workspace');
-      showToast(`Đã nạp bài Ngày ${dayNum} vào bàn làm việc!`);
-    }
-
-    // 5. RANDOM TOPIC (CHỦ ĐỀ NGẪU NHIÊN)
-    function randomTopic() {
-      const randomIndex = Math.floor(Math.random() * randomTopicBank.length);
-      const chosen = randomTopicBank[randomIndex];
-
-      document.getElementById('topicInput').value = chosen.title;
-      document.getElementById('displayTopicTitle').textContent = `Chủ đề: "${chosen.title}"`;
-      document.getElementById('channelSelect').value = chosen.channel;
-      selectVoice(chosen.voice);
-      generateLiveArticle();
-      showToast(`🎲 Đã đổi sang đề tài ngẫu nhiên: "${chosen.title.substring(0, 30)}..."`);
-    }
-
-    // 6. CALENDAR REGENERATE TOPIC (AI HOẶC Ý TƯỞNG CỦA TÔI)
-    function calendarRegenerateTopic() {
-      const customIdea = document.getElementById('calendarCustomIdea').value.trim();
-      const dayData = plan7DaysData.find(d => d.day === selectedCalendarDay);
-      if (!dayData) return;
-
-      if (customIdea) {
-        dayData.posts[0].title = customIdea;
-        showToast(`Đã cập nhật đề tài Ngày ${selectedCalendarDay} theo ý tưởng của bạn!`);
-      } else {
-        const rand = randomTopicBank[Math.floor(Math.random() * randomTopicBank.length)];
-        dayData.posts[0].title = rand.title;
-        showToast(`AI đã tự sáng tạo đề tài mới cho Ngày ${selectedCalendarDay}!`);
+    // =========================================================================
+    // BRAND VOICE BASELINE DATA & ADMIN ENGINE
+    // =========================================================================
+    const defaultBrandVoiceConfig = {
+      foundation: {
+        title: "Simon Center - Nền tảng chung & Ranh giới Y khoa (Bất biến cho cả 3 Giọng)",
+        greetings: "'anh/chị' - 'em'/'bên em', 'dạ' đầu câu, dùng 'nhé ạ'",
+        content: `Danh tính: Trợ lý mang tiếng nói người sáng lập Simon Center (Chiropractic & PHCN tại TP.HCM). Chuẩn mực y khoa và đạo đức nghề nghiệp cao.
+Nguyên tắc lõi: 'Dễ hiểu nhưng phải chuẩn'.
+Xưng hô: 'anh/chị' - 'em'/'bên em', 'dạ' đầu câu, không để chữ 'nhé' đứng một mình (dùng 'nhé ạ').
+Ranh giới y khoa (Bốn chữ KHÔNG):
+1. KHÔNG chẩn đoán bệnh qua mạng thay cho thăm khám trực tiếp.
+2. KHÔNG kê đơn, không bán thuốc, không gợi ý sản phẩm trục lợi.
+3. KHÔNG trấn an y khoa bừa bãi 'không sao đâu'.
+4. KHÔNG hù dọa, không giật gân để câu tương tác hay ép mua dịch vụ.
+Cảnh báo đỏ: Khi gặp triệu chứng cấp cứu -> khuyên đến bệnh viện ngay. Luôn có câu miễn trừ: 'Thông tin mang tính tham khảo y khoa, không thay thế thăm khám trực tiếp.'`
+      },
+      voice1: {
+        name: "Giọng 1: Tư Vấn & Chuyên Khoa",
+        persona: "Hong Van + Gabor Maté + BS Trần Văn Phúc",
+        description: `Ngữ cảnh: Tư vấn 1-1, người bệnh chia sẻ triệu chứng, nỗi lo cá nhân.
+Tinh thần: Thầy thuốc đồng hành, lắng nghe trước khi khuyên. Tìm gốc rễ hoàn cảnh ('Vì sao đau').
+Tone: Chậm rãi, ấm, trầm, kiên nhẫn, thấu cảm, không phán xét.`,
+        structure: `1. Thấu cảm / ghi nhận cảm xúc ('Dạ em hiểu điều anh/chị đang lo...').
+2. Hỏi để hiểu sâu (Bắt đầu bao lâu, ảnh hưởng sinh hoạt ra sao).
+3. Giải thích căn nguyên bằng ngôn ngữ đời thường + ẩn dụ nhẹ.
+4. Bước hành động thực tế + ranh giới khi nào cần gặp bác sĩ trực tiếp.`
+      },
+      voice2: {
+        name: "Giọng 2: Giảng Học Thuật & Đại Chúng",
+        persona: "Doctor Mike + Elon Musk",
+        description: `Ngữ cảnh: Giảng dạy, giải thích cơ chế, bài viết/video giáo dục sức khỏe đại chúng.
+Tinh thần: Relatable, understandable, fun; tư duy nguyên lý gốc First Principles; đập tan myth bằng nghiên cứu khoa học; ví dụ đời thường + chút hài khô; đóng khung bức tranh lớn.
+Tone: Tự tin, gãy gọn, sinh động, năng lượng tích cực, nhịp nhanh.`,
+        structure: `1. Hook lầm tưởng hoặc câu hỏi tò mò.
+2. Nguyên lý gốc cơ chế thật (Cột sống sinh ra để vận động).
+3. Bằng chứng khoa học đập tan myth.
+4. Ví dụ đời thường + chút hóm hỉnh.
+5. Đúc kết một câu dễ nhớ.`
+      },
+      voice3: {
+        name: "Giọng 3: Sale Y Đức & Chốt Deal",
+        persona: "Francis Hùng (Bán hàng có tâm)",
+        description: `Ngữ cảnh: Khách đã quan tâm, đang ở bước cân nhắc quyết định: hỏi giá, do dự, so sánh gói, cần chốt lịch đánh giá.
+Nguyên tắc tối thượng: SỨC KHỎE TRƯỚC DOANH SỐ. Nếu khách đang lo triệu chứng -> bắt buộc dùng Giọng 1 trước. Không bao giờ dùng kỹ thuật bán hàng tác động lên nỗi sợ sức khỏe.
+Tone: Tự tin, dứt khoát nhưng ấm áp và tôn trọng. Dẫn dắt chứ không ép. Tuyệt đối cấm: Khan hiếm giả, hù dọa bệnh, cam kết khỏi 100%.`,
+        structure: `1. Kết nối & tìm hiểu nhu cầu thật.
+2. Đóng khung giá trị gắn liền nhu cầu (khoản đầu tư cho sức khỏe vs chi phí chịu đau).
+3. Hóa giải băn khoăn (Feel-Felt-Found) + minh bạch chi phí.
+4. Bước tiếp theo nhẹ nhàng ('Mình bắt đầu bằng một buổi đánh giá chuyên sâu nhé ạ?').
+5. Tôn trọng quyết định của khách.`
       }
-      document.getElementById('calendarCustomIdea').value = '';
-      inspectDay(selectedCalendarDay);
+    };
+
+    function getBrandVoiceConfig() {
+      const stored = localStorage.getItem('simon_brand_voice_config');
+      if (stored) {
+        try { return JSON.parse(stored); } catch(e) {}
+      }
+      return defaultBrandVoiceConfig;
     }
 
-    // 7. SELECT VOICE FUNCTION (FULLY REACTIVE & ISOLATED)
-    function selectVoice(voiceKey) {
-      currentVoice = voiceKey;
+    function saveBrandVoiceConfig(cfg) {
+      localStorage.setItem('simon_brand_voice_config', JSON.stringify(cfg));
+    }
 
-      const cards = document.querySelectorAll('.voice-card');
-      cards.forEach(card => {
-        card.classList.remove('active');
-        const icon = card.querySelector('.check-icon');
-        if (icon) icon.className = 'check-icon fa-regular fa-circle text-slate-300 text-sm mt-0.5';
+    // =========================================================================
+    // 100% REAL EVALUATION DATA (NO FAKE / NO RANDOM MOCK)
+    // =========================================================================
+    const initialRealEvaluations = [
+      {
+        id: 1,
+        timestamp: "15/09/2026 09:50",
+        day: 1,
+        voiceKey: "voice1",
+        voiceName: "Giọng 1 (Tư Vấn Thấu Cảm)",
+        score: 9.0,
+        feedback: "Khách khen bài ấm áp. Bài tết mà thấy viết ổn",
+        rules: "Giữ phong cách thấu cảm, bài viết ấm áp chạm tâm lý",
+        notes: "Bài viết ổn"
+      }
+    ];
+
+    function getEvaluations() {
+      const stored = localStorage.getItem('simon_real_evaluations');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        } catch(e) {}
+      }
+      localStorage.setItem('simon_real_evaluations', JSON.stringify(initialRealEvaluations));
+      return initialRealEvaluations;
+    }
+
+    function saveEvaluationsList(list) {
+      localStorage.setItem('simon_real_evaluations', JSON.stringify(list));
+    }
+
+    // Return list of real rules accumulated for a specific voice
+    function getLearnedRulesForVoice(vKey) {
+      const list = getEvaluations();
+      const rules = [];
+      list.filter(e => e.voiceKey === vKey).forEach(e => {
+        if (e.rules && e.rules.trim() && e.rules.trim() !== 'chưa' && e.rules.trim() !== 'chua') {
+          if (!rules.includes(e.rules.trim())) {
+            rules.push(e.rules.trim());
+          }
+        }
       });
+      return rules;
+    }
 
-      const activeCard = document.getElementById('card_' + voiceKey);
-      if (activeCard) {
-        activeCard.classList.add('active');
-        const activeIcon = activeCard.querySelector('.check-icon');
-        if (activeIcon) activeIcon.className = 'check-icon fa-solid fa-circle-check text-blue-600 text-sm mt-0.5';
+    // Build the exact prompt sent to Gemini AI
+    function buildGeminiSystemPrompt(topic, channel, voiceKey, customPrompt) {
+      const cfg = getBrandVoiceConfig();
+      const baseVoice = cfg[voiceKey] || cfg.voice1;
+      const learnedRules = getLearnedRulesForVoice(voiceKey);
+
+      let p = `Bạn là trợ lý mang tiếng nói của người sáng lập Simon Center (Chiropractic & PHCN tại TP.HCM).
+
+=== PHẦN 0: NỀN TẢNG Y KHOA BẤT BIẾN ===
+${cfg.foundation.content}
+
+=== ĐỊNH VỊ BRAND VOICE ĐƯỢC CHỌN: ${baseVoice.name.toUpperCase()} ===
+- Hình mẫu: ${baseVoice.persona}
+- Mô tả tinh thần & ngữ cảnh:
+${baseVoice.description}
+- Cấu trúc bài viết chuẩn:
+${baseVoice.structure}`;
+
+      if (learnedRules.length > 0) {
+        p += `
+
+=== CÁC BÀI HỌC & QUY TẮC BỘ NÃO ĐÃ HẤP THỤ TỪ ĐÁNH GIÁ THỰC TẾ (BẮT BUỘC TUÂN THỦ) ===
+`;
+        learnedRules.forEach((r, idx) => {
+          p += `${idx + 1}. ${r}
+`;
+        });
       }
 
-      const voiceNamesShort = { voice1: 'Giọng 1', voice2: 'Giọng 2', voice3: 'Giọng 3' };
-      const voiceNamesFull = { voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', voice2: 'Giọng 2 (Học Thuật First Principles)', voice3: 'Giọng 3 (Sale Y Đức Chốt Deal)' };
+      p += `
+---
+YÊU CẦU BÀI VIẾT HIỆN TẠI:
+- Chủ đề: "${topic}"
+- Kênh đăng: ${channel}
+- Tone giọng yêu cầu: ${voiceKey.toUpperCase()}
+- Lưu ý riêng: ${customPrompt ? customPrompt : "Không có"}
 
-      document.getElementById('outputBadge').textContent = `Bài Viết Đang Hiển Thị (${voiceNamesShort[voiceKey]})`;
-      document.getElementById('evaluatingVoiceBadge').textContent = voiceNamesShort[voiceKey];
-      document.getElementById('saveEvalBtnText').textContent = `Lưu Đánh Giá Riêng Cho [${voiceNamesShort[voiceKey]}] Vào brain_score.md`;
+HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắc đúng tone, CTA kéo vào form danh sách chờ (Waitlist) buổi đánh giá cột sống 1-1, và câu miễn trừ y khoa cuối bài.`;
 
-      updateOutputPreview();
-      showToast(`Đã chuyển sang: ${voiceNamesFull[voiceKey]}`);
+      return p;
     }
 
-    function updateOutputPreview() {
-      const vData = voiceDataStore[currentVoice];
-      if (!vData) return;
-
-      document.getElementById('bannerVoiceText').innerHTML = `<i class="${vData.icon}"></i> Đang áp dụng: ${vData.badge}`;
-      document.getElementById('postTextContent').textContent = vData.content;
-      
-      const words = vData.content.trim().split(/\s+/).length;
-      document.getElementById('charCount').innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
-    }
-
-    // 8. GENERATE LIVE ARTICLE (WITH REAL GEMINI API)
+    // =========================================================================
+    // GENERATE LIVE ARTICLE (CALLING GEMINI 3.6 FLASH WITH REAL PROMPT)
+    // =========================================================================
     async function generateLiveArticle() {
       const topic = document.getElementById('topicInput').value;
       const customPrompt = document.getElementById('customPromptInput').value;
@@ -1257,35 +1496,19 @@ Anh/chị chưa cần đăng ký cả liệu trình ngay. Mình hãy bắt đầ
       const _DEFAULT_KEY = atob('QVEuQWI4Uk42THFscXpIZ0pKeldjREZ5bGVRU2I0eGZkODUxS2IxbzlwOGY1VnR6RjVxdXc=');
       const apiKey = localStorage.getItem('simon_gemini_api_key') || (document.getElementById('geminiApiKeyInput') ? document.getElementById('geminiApiKeyInput').value.trim() : '') || _DEFAULT_KEY;
 
-      // If user provided an API key, call real Gemini AI!
+      const fullPrompt = buildGeminiSystemPrompt(topic, channel, currentVoice, customPrompt);
+
       if (apiKey) {
-        showToast('Đang gọi Google Gemini tạo bài viết thật...');
-        document.getElementById('postTextContent').textContent = 'Đang suy luận theo Brand Voice của Simon Center từ database...';
+        showToast('Đang gọi Google Gemini 3.6 Flash với bài học đã tiến hóa...');
+        document.getElementById('postTextContent').textContent = 'Đang suy luận theo Brand Voice và áp dụng các bài học thực tế đã nạp...';
         
         try {
-          // Direct call to Gemini 3.6 Flash endpoint
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               contents: [{
-                parts: [{
-                  text: `Bạn là trợ lý mang tiếng nói của người sáng lập Simon Center (Chiropractic & PHCN tại TP.HCM).
-Dưới đây là tri thức Brand Voice từ database brain.db:
-- Giọng 1: Thấu cảm, ấm áp, lắng nghe nỗi đau bệnh nhân (Gabor Maté + BS Trần Văn Phúc).
-- Giọng 2: Giảng học thuật sinh động, First Principles, đập tan myth bằng khoa học, hóm hỉnh (Doctor Mike + Elon Musk).
-- Giọng 3: Sale y đức, Feel-Felt-Found, sức khỏe trước doanh số, chốt lịch đánh giá (Francis Hùng).
-- Bốn chữ KHÔNG y khoa: Không chẩn đoán online, không bán thuốc, không trấn an bừa, không hù dọa.
-- Xưng hô: anh/chị - em, dạ đầu câu, dùng 'nhé ạ'.
-
-YÊU CẦU BÀI VIẾT:
-- Chủ đề: "${topic}"
-- Kênh: ${channel}
-- Tone giọng yêu cầu: ${currentVoice.toUpperCase()}
-- Lưu ý riêng của bạn: ${customPrompt ? customPrompt : "Không có"}
-
-HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắc, đúng tone, CTA kéo vào form danh sách chờ (Waitlist) buổi đánh giá cột sống 1-1, và câu miễn trừ y khoa cuối bài.`
-                }]
+                parts: [{ text: fullPrompt }]
               }],
               generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
             })
@@ -1297,7 +1520,7 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
             document.getElementById('postTextContent').textContent = aiText;
             const words = aiText.trim().split(/\s+/).length;
             document.getElementById('charCount').innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
-            showToast('Google Gemini đã sinh bài viết thật 100%!');
+            showToast('Google Gemini đã sinh bài viết thật và áp dụng bài học tiến hóa!');
             return;
           }
         } catch (err) {
@@ -1305,265 +1528,29 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
         }
       }
 
-      let generated = "";
-      if (currentVoice === 'voice1') {
-        generated = `Dạ em chào anh/chị,
-
-Hôm nay có một anh/chị nhắn cho bên em về vấn đề: "${topic}". Em rất hiểu cảm giác mệt mỏi và bất an khi cơn đau cứ lặp đi lặp lại mỗi ngày.
-
-${customPrompt ? "Lưu ý riêng: " + customPrompt + "\n\n" : ""}Về bản chất, cơ thể con người không sinh ra để "làm quen" với cơn đau. Khi cột sống chịu tải sai tư thế, cơ sâu co rút và chèn ép rễ thần kinh. Điều quan trọng nhất lúc này là lắng nghe cơ thể và kiểm tra lại trục đốt sống trước khi tổn thương tiến triển nặng hơn.
-
-Simon Center đang mở cổng Form Danh Sách Chờ (Waitlist) cho Buổi Đánh Giá Cột Sống 1-1 chuyên sâu cùng chuyên gia. Anh/chị hãy điền tên để nhận lịch ưu tiên nhé ạ!
-
-👉 Link Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]
-
-*(Chia sẻ mang tính tham khảo y khoa, không thay thế khám trực tiếp.)*`;
-      } else if (currentVoice === 'voice2') {
-        generated = `[GIẢI PHẪU CƠ CHẾ KHOA HỌC: ${topic.toUpperCase()}]
-
-Nhiều người lầm tưởng rằng gặp tình trạng này thì cứ nằm nghỉ trên giường là khỏi. Nhưng khoa học nói khác!
-
-${customPrompt ? "Điểm mấu chốt: " + customPrompt + "\n\n" : ""}Từ nguyên lý gốc (First Principles): Cột sống sinh ra để vận động! Khi bạn ngồi lì hoặc chịu lực sai góc, đĩa đệm bị mất dịch bôi trơn và bao khớp bị ứ trệ tuần hoàn. Kẻ thù thật sự của cột sống không phải là vận động — mà là BẤT ĐỘNG!
-
-Muốn biết chính xác các đốt sống của bạn đang sai lệch ở mức nào? Hãy đăng ký Buổi Đánh Giá Cột Sống Chuyên Sâu 1-1 tại Simon Center qua link Danh Sách Chờ ở đầu trang bio nhé!`;
-      } else {
-        generated = `Dạ em chào anh/chị,
-
-Về chủ đề "${topic}", rất nhiều khách hàng khi mới tìm hiểu cũng có băn khoăn tương tự như anh/chị (Feel).
-
-${customPrompt ? customPrompt + "\n\n" : ""}Nhưng sau khi trực tiếp được bác sĩ tầm soát tại Simon Center, mọi người đều nhận ra (Found): Khoản đầu tư để nắn chỉnh đúng trục và phục hồi tận gốc luôn tiết kiệm hơn rất nhiều so với chi phí mua thuốc giảm đau lặp lại hay chịu đựng cơn đau mỏi triền miên.
-
-Bên em đề xuất mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống 1-1: Bác sĩ chỉ rõ cần làm gì và KHÔNG CẦN làm gì, anh/chị nắm rõ rồi mới quyết định, hoàn toàn không có áp lực gì ạ!
-
-👉 Link Form Danh Sách Chờ: [ĐIỀN FORM TẠI ĐÂY]`;
-      }
-
-      document.getElementById('postTextContent').textContent = generated;
-      const words = generated.trim().split(/\s+/).length;
-      document.getElementById('charCount').innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
-      showToast('Đã sinh bài viết mới từ brain.db!');
+      // Fallback local
+      updateOutputPreview();
     }
 
-    function updateApiStatus(hasKey) {
-      const headerInputGroup = document.getElementById('headerApiInputGroup');
-      const headerLockedGroup = document.getElementById('headerApiLockedGroup');
-      const sidebarInputGroup = document.getElementById('sidebarApiInputGroup');
-      const sidebarLockedGroup = document.getElementById('sidebarApiLockedGroup');
-      const badge = document.getElementById('apiStatusBadge');
+    // Modal Inspect Active Prompt
+    function inspectActiveAIPrompt() {
+      const topic = document.getElementById('topicInput') ? document.getElementById('topicInput').value : 'Chăm sóc cột sống';
+      const channel = document.getElementById('channelSelect') ? document.getElementById('channelSelect').selectedOptions[0].text : 'FB Cá Nhân';
+      const customPrompt = document.getElementById('customPromptInput') ? document.getElementById('customPromptInput').value : '';
+      const fullPrompt = buildGeminiSystemPrompt(topic, channel, currentVoice, customPrompt);
 
-      if (hasKey) {
-        if (headerInputGroup) headerInputGroup.classList.add('hidden');
-        if (headerLockedGroup) {
-          headerLockedGroup.classList.remove('hidden');
-          headerLockedGroup.classList.add('flex');
-        }
-        if (sidebarInputGroup) sidebarInputGroup.classList.add('hidden');
-        if (sidebarLockedGroup) {
-          sidebarLockedGroup.classList.remove('hidden');
-          sidebarLockedGroup.classList.add('flex');
-        }
-        if (badge) {
-          badge.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 flex items-center gap-1';
-          badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Đã bảo mật & ẩn Key';
-        }
-      } else {
-        if (headerInputGroup) headerInputGroup.classList.remove('hidden');
-        if (headerLockedGroup) {
-          headerLockedGroup.classList.add('hidden');
-          headerLockedGroup.classList.remove('flex');
-        }
-        if (sidebarInputGroup) sidebarInputGroup.classList.remove('hidden');
-        if (sidebarLockedGroup) {
-          sidebarLockedGroup.classList.add('hidden');
-          sidebarLockedGroup.classList.remove('flex');
-        }
-        if (badge) {
-          badge.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800';
-          badge.textContent = 'Chưa có Key';
-        }
-      }
+      document.getElementById('inspectModalVoiceBadge').textContent = currentVoice.toUpperCase();
+      document.getElementById('inspectPromptContent').textContent = fullPrompt;
+      document.getElementById('inspectPromptModal').classList.remove('hidden');
     }
 
-    function unlockApiKey() {
-      if (confirm('Bạn có muốn mở lại ô nhập để thay đổi hoặc xóa Gemini API Key?')) {
-        localStorage.removeItem('simon_gemini_api_key');
-        document.getElementById('geminiApiKeyInput').value = '';
-        document.getElementById('geminiApiKeySidebar').value = '';
-        updateApiStatus(false);
-        showToast('Đã mở khóa. Bạn có thể nhập mã API Key mới.');
-      }
+    function closeInspectPromptModal() {
+      document.getElementById('inspectPromptModal').classList.add('hidden');
     }
 
-    function saveApiKey() {
-      const k = document.getElementById('geminiApiKeyInput').value.trim();
-      if (!k) {
-        alert('Vui lòng dán mã Gemini API Key.');
-        return;
-      }
-      localStorage.setItem('simon_gemini_api_key', k);
-      const sideInput = document.getElementById('geminiApiKeySidebar');
-      if (sideInput) sideInput.value = k;
-      updateApiStatus(true);
-      showToast('Đã kết nối Google Gemini API thành công! Giờ bạn có thể sinh bài thật 100%!');
-    }
-
-    function saveApiKeySidebar() {
-      const k = document.getElementById('geminiApiKeySidebar').value.trim();
-      if (!k) {
-        alert('Vui lòng dán mã Gemini API Key.');
-        return;
-      }
-      localStorage.setItem('simon_gemini_api_key', k);
-      const topInput = document.getElementById('geminiApiKeyInput');
-      if (topInput) topInput.value = k;
-      updateApiStatus(true);
-      showToast('Đã kết nối Google Gemini API thành công! Giờ bạn có thể sinh bài thật 100%!');
-    }
-
-    function checkSavedApiKey() {
-      const _DEFAULT_KEY = atob('QVEuQWI4Uk42THFscXpIZ0pKeldjREZ5bGVRU2I0eGZkODUxS2IxbzlwOGY1VnR6RjVxdXc=');
-      let saved = localStorage.getItem('simon_gemini_api_key');
-      if (!saved) {
-        saved = _DEFAULT_KEY;
-        localStorage.setItem('simon_gemini_api_key', saved);
-      }
-      const topInput = document.getElementById('geminiApiKeyInput');
-      if (topInput) topInput.value = saved;
-      const sideInput = document.getElementById('geminiApiKeySidebar');
-      if (sideInput) sideInput.value = saved;
-      updateApiStatus(true);
-    }
-
-    // 9. RENDER ALL 7 DAYS IN MODAL
-    function renderFullPlanModal() {
-      const container = document.getElementById('fullPlanModalContent');
-      container.innerHTML = '';
-
-      plan7DaysData.forEach(d => {
-        const dayBox = document.createElement('div');
-        dayBox.className = 'border border-slate-200 rounded-2xl p-4 bg-slate-50/60 space-y-3';
-        
-        let postsHtml = '';
-        d.posts.forEach(p => {
-          postsHtml += `
-            <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 flex flex-col justify-between shadow-2xs">
-              <div>
-                <span class="text-[10px] font-extrabold uppercase ${p.voice === 'voice1' ? 'text-blue-600' : p.voice === 'voice2' ? 'text-indigo-600' : 'text-amber-600'}">
-                  ${p.time} • ${p.channelName}
-                </span>
-                <div class="font-bold text-slate-800 mt-1 line-clamp-2">"${p.title}"</div>
-                <div class="text-[11px] text-slate-500 mt-1">Tone: ${p.voiceName}</div>
-              </div>
-              <button onclick="applyPlanTopic('${p.title.replace(/'/g, "\'")}', '${p.voice}', '${p.channel}', ${d.day})" class="w-full mt-2 py-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 font-bold rounded-lg transition text-[11px]">
-                Chọn đề tài này
-              </button>
-            </div>
-          `;
-        });
-
-        dayBox.innerHTML = `
-          <div class="flex items-center justify-between border-b pb-2">
-            <span class="font-extrabold text-xs text-slate-900 uppercase tracking-wide flex items-center gap-2">
-              <i class="fa-solid fa-calendar-day text-blue-600"></i> NGÀY ${d.day} (${d.dayName.toUpperCase()} - ${d.date}): ${d.theme.toUpperCase()}
-            </span>
-            <span class="text-[10px] ${d.day === 1 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'} px-2.5 py-0.5 rounded-full font-bold">
-              ${d.status}
-            </span>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            ${postsHtml}
-          </div>
-        `;
-        container.appendChild(dayBox);
-      });
-    }
-
-    function openPlanModal() {
-      renderFullPlanModal();
-      document.getElementById('planModal').classList.remove('hidden');
-    }
-    function closePlanModal() {
-      document.getElementById('planModal').classList.add('hidden');
-    }
-
-    function applyPlanTopic(topic, voice, channel, dayNum) {
-      loadPostToWorkspace(topic, voice, channel, dayNum);
-      closePlanModal();
-    }
-
-    // 10. BRAIN SCORE EVOLUTION DATA & LOGIC
-    let currentScoreFilter = 'all';
-
-    const defaultEvaluations = [
-      {
-        day: 1,
-        voiceKey: 'voice1',
-        voiceName: 'Giọng 1 (Tư Vấn Thấu Cảm)',
-        score: 9.0,
-        feedback: 'Khách khen bài ấm áp, thấu cảm; 3 người nhắn tin hỏi link form danh sách chờ.',
-        rules: 'Nhấn mạnh lắng nghe trước khi khuyên; giữ ranh giới 4 chữ KHÔNG y khoa.',
-        notes: 'Bài viết rất cảm xúc, chạm đúng tâm lý chịu đựng của dân văn phòng. CTA kéo vào form tự nhiên.'
-      },
-      {
-        day: 1,
-        voiceKey: 'voice2',
-        voiceName: 'Giọng 2 (Giảng Học Thuật)',
-        score: 8.5,
-        feedback: 'Tương tác Reels cao, nhiều comment đồng tình: "giờ mới biết nằm yên không tốt".',
-        rules: 'Giải thích nguyên lý gốc (First Principles) bằng hình ảnh đĩa đệm thực tế, ngắn gọn dưới 60s.',
-        notes: 'Cách đặt vấn đề phản trực giác rất cuốn hút. Cần thêm phụ đề to rõ cho TikTok.'
-      },
-      {
-        day: 1,
-        voiceKey: 'voice3',
-        voiceName: 'Giọng 3 (Sale Y Đức)',
-        score: 8.8,
-        feedback: 'Khách hàng quan tâm về chi phí buổi đánh giá 1-1, không thấy ai chê giá đắt.',
-        rules: 'Ứng dụng Feel-Felt-Found: Đồng cảm với nỗi lo chi phí trước, phân tích bài toán đầu tư sức khỏe sau.',
-        notes: 'Thông điệp chân thành, không có mùi vị chèo kéo bán hàng. Giữ vững y đức phòng khám.'
-      },
-      {
-        day: 2,
-        voiceKey: 'voice1',
-        voiceName: 'Giọng 1 (Tư Vấn Thấu Cảm)',
-        score: 9.2,
-        feedback: '2 bệnh nhân cũ để lại bình luận xác nhận đúng tình trạng gai cột sống của họ.',
-        rules: 'Dùng từ ngữ dân dã, tránh thuật ngữ y khoa khô khan; luôn có câu dặn khám trực tiếp.',
-        notes: 'Xây dựng được niềm tin vững chắc, chuyển đổi bình luận thành đăng ký form tư vấn.'
-      },
-      {
-        day: 2,
-        voiceKey: 'voice2',
-        voiceName: 'Giọng 2 (Giảng Học Thuật)',
-        score: 8.7,
-        feedback: 'Nhiều lượt share từ các hội nhóm văn phòng, bài viết khoa học rõ ràng.',
-        rules: 'Đập tan myth "thoái hóa là phải mổ" bằng cơ chế thích nghi tự nhiên của bao khớp.',
-        notes: 'Lập luận sắc bén, Doctor Mike style rất hợp với độc giả trẻ hiểu biết.'
-      },
-      {
-        day: 2,
-        voiceKey: 'voice3',
-        voiceName: 'Giọng 3 (Sale Y Đức)',
-        score: 9.0,
-        feedback: 'Có 5 người bấm vào link form Waitlist để xem thông tin chi tiết buổi đánh giá.',
-        rules: 'Nhấn mạnh ưu đãi suất đánh giá giới hạn để tạo động lực hành động có trách nhiệm.',
-        notes: 'Tạo được cảm giác an tâm và trân trọng cơ hội chăm sóc sức khỏe.'
-      }
-    ];
-
-    function getEvaluations() {
-      const stored = localStorage.getItem('simon_brain_evaluations');
-      if (stored) {
-        try { return JSON.parse(stored); } catch(e) {}
-      }
-      localStorage.setItem('simon_brain_evaluations', JSON.stringify(defaultEvaluations));
-      return defaultEvaluations;
-    }
-
-    function saveEvaluationsList(list) {
-      localStorage.setItem('simon_brain_evaluations', JSON.stringify(list));
-    }
-
+    // =========================================================================
+    // EVALUATION FORM IN WORKSPACE SIDEBAR
+    // =========================================================================
     function updateScoreVal(val) {
       document.getElementById('scoreDisplay').textContent = Number(val).toFixed(1) + ' / 10';
     }
@@ -1578,70 +1565,55 @@ Bên em đề xuất mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống
       const vName = voiceNames[currentVoice];
 
       const list = getEvaluations();
-      // Check if already exists for currentDay & currentVoice
-      const idx = list.findIndex(e => e.day === currentDay && e.voiceKey === currentVoice);
+      const nowStr = new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+      
       const newEntry = {
+        id: Date.now(),
+        timestamp: nowStr,
         day: currentDay,
         voiceKey: currentVoice,
         voiceName: vName,
         score: score,
-        feedback: feedback || 'Đã ghi nhận phản hồi từ độc giả',
-        rules: rules || 'Đã nạp bổ sung vào Brand Voice',
-        notes: notes || 'Bài viết đạt chuẩn Brand Voice Simon Center'
+        feedback: feedback || 'Người xem phản hồi bài viết ổn',
+        rules: rules || '',
+        notes: notes || 'Bài viết đạt yêu cầu'
       };
 
-      if (idx >= 0) {
-        list[idx] = newEntry;
-      } else {
-        list.push(newEntry);
-      }
+      list.push(newEntry);
       saveEvaluationsList(list);
 
-      // Also try sync with backend if running locally
-      try {
-        fetch('/api/evaluate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            day: currentDay,
-            voice_key: currentVoice,
-            voice_name: vName,
-            channel: document.getElementById('channelSelect').selectedOptions[0].text,
-            topic: document.getElementById('topicInput').value,
-            score: score,
-            feedback: newEntry.feedback,
-            rules: newEntry.rules,
-            notes: newEntry.notes
-          })
-        }).catch(() => {});
-      } catch(e) {}
+      // Clear input values after saving so next time placeholder is shown
+      document.getElementById('feedbackInput').value = '';
+      document.getElementById('voiceAdditionInput').value = '';
+      document.getElementById('reviewNotesInput').value = '';
 
       if (currentVoice === 'voice1' && currentDay === 1) {
         document.getElementById('trackerDay1Score').textContent = score.toFixed(1) + '/10';
       }
-      showToast(`Đã lưu đánh giá riêng cho [${vName}] (${score.toFixed(1)}/10)! Bấm tab "Tiến Hóa Brain Score" để xem.`);
+      showToast(`Đã lưu bài học cho [${vName}] (${score.toFixed(1)}/10)! AI sẽ áp dụng ngay lần viết tới.`);
     }
+
+    // =========================================================================
+    // BRAIN SCORE TAB RENDERING (100% REAL DATA ONLY)
+    // =========================================================================
+    let currentScoreFilter = 'all';
 
     function filterScoreTable(vKey) {
       currentScoreFilter = vKey;
       ['All', 'V1', 'V2', 'V3'].forEach(k => {
         const b = document.getElementById('filterBtn' + k);
-        if (b) {
-          b.className = 'px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 font-semibold transition';
-        }
+        if (b) b.className = 'px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 font-semibold transition';
       });
       const activeMap = { all: 'filterBtnAll', voice1: 'filterBtnV1', voice2: 'filterBtnV2', voice3: 'filterBtnV3' };
       const activeBtn = document.getElementById(activeMap[vKey]);
-      if (activeBtn) {
-        activeBtn.className = 'px-3 py-1 rounded-lg bg-white text-slate-900 shadow-2xs font-bold transition';
-      }
+      if (activeBtn) activeBtn.className = 'px-3 py-1 rounded-lg bg-white text-slate-900 shadow-2xs font-bold transition';
       renderBrainScoreView();
     }
 
     function renderBrainScoreView() {
       const list = getEvaluations();
 
-      // 1. Calculate stats per voice
+      // Calculate stats per voice strictly from REAL evaluations
       const stats = {
         voice1: { sum: 0, count: 0, rules: [] },
         voice2: { sum: 0, count: 0, rules: [] },
@@ -1652,42 +1624,48 @@ Bên em đề xuất mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống
         if (stats[item.voiceKey]) {
           stats[item.voiceKey].sum += item.score;
           stats[item.voiceKey].count += 1;
-          if (item.rules && !stats[item.voiceKey].rules.includes(item.rules)) {
-            stats[item.voiceKey].rules.push(item.rules);
+          if (item.rules && item.rules !== 'chưa' && item.rules.trim() && !stats[item.voiceKey].rules.includes(item.rules.trim())) {
+            stats[item.voiceKey].rules.push(item.rules.trim());
           }
         }
       });
 
-      // Update Voice Cards
-      const updateCard = (key, cardId, barId, percentId, rulesId, defaultScore, defaultRules) => {
+      const updateCard = (key, cardId, barId, percentId, rulesId, defaultName) => {
         const s = stats[key];
-        const avg = s.count > 0 ? (s.sum / s.count) : defaultScore;
-        const percent = Math.min(100, Math.round(avg * 10));
         const cardElem = document.getElementById(cardId);
         const barElem = document.getElementById(barId);
         const percentElem = document.getElementById(percentId);
         const rulesElem = document.getElementById(rulesId);
 
-        if (cardElem) cardElem.textContent = avg.toFixed(1) + ' / 10';
-        if (barElem) barElem.style.width = percent + '%';
-        if (percentElem) percentElem.textContent = percent + '%';
-        if (rulesElem && s.rules.length > 0) {
-          rulesElem.textContent = s.rules.slice(-2).join('; ');
+        if (s.count > 0) {
+          const avg = s.sum / s.count;
+          const pct = Math.min(100, Math.round(avg * 10));
+          if (cardElem) cardElem.textContent = avg.toFixed(1) + ' / 10 (' + s.count + ' đánh giá)';
+          if (barElem) barElem.style.width = pct + '%';
+          if (percentElem) percentElem.textContent = pct + '%';
+          if (rulesElem) {
+            rulesElem.textContent = s.rules.length > 0 ? s.rules.join('; ') : 'Đã ghi nhận bài học. Đang chờ nạp quy tắc sâu hơn.';
+          }
+        } else {
+          if (cardElem) cardElem.textContent = 'Chưa có đánh giá';
+          if (barElem) barElem.style.width = '0%';
+          if (percentElem) percentElem.textContent = '0%';
+          if (rulesElem) rulesElem.textContent = 'Chưa có đánh giá thực tế (Chờ bạn xuất bản & nhập đánh giá).';
         }
       };
 
-      updateCard('voice1', 'v1ScoreCard', 'v1Bar', 'v1BarPercent', 'v1RulesLearned', 9.1);
-      updateCard('voice2', 'v2ScoreCard', 'v2Bar', 'v2BarPercent', 'v2RulesLearned', 8.6);
-      updateCard('voice3', 'v3ScoreCard', 'v3Bar', 'v3BarPercent', 'v3RulesLearned', 8.9);
+      updateCard('voice1', 'v1ScoreCard', 'v1Bar', 'v1BarPercent', 'v1RulesLearned');
+      updateCard('voice2', 'v2ScoreCard', 'v2Bar', 'v2BarPercent', 'v2RulesLearned');
+      updateCard('voice3', 'v3ScoreCard', 'v3Bar', 'v3BarPercent', 'v3RulesLearned');
 
-      // 2. Render Table Rows
+      // Render Table Rows (REAL DATA ONLY)
       const tbody = document.getElementById('scoreTableBody');
       tbody.innerHTML = '';
 
       const filtered = list.filter(item => {
         if (currentScoreFilter === 'all') return true;
         return item.voiceKey === currentScoreFilter;
-      }).sort((a, b) => a.day - b.day || a.voiceKey.localeCompare(b.voiceKey));
+      }).sort((a, b) => (b.id || 0) - (a.id || 0));
 
       const voiceBadges = {
         voice1: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">Giọng 1 • Tư Vấn</span>',
@@ -1695,169 +1673,130 @@ Bên em đề xuất mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống
         voice3: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Giọng 3 • Sale Y Đức</span>'
       };
 
-      filtered.forEach((row, idx) => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50/80 transition';
-        tr.innerHTML = `
-          <td class="py-3 px-3 text-center font-bold text-slate-800">Ngày ${row.day}</td>
-          <td class="py-3 px-3">${voiceBadges[row.voiceKey] || row.voiceName}</td>
-          <td class="py-3 px-3 text-center">
-            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-800 font-extrabold border border-emerald-200">
-              <i class="fa-solid fa-star text-amber-500 text-[9px]"></i> ${row.score.toFixed(1)} / 10
-            </span>
-          </td>
-          <td class="py-3 px-4 text-slate-600 leading-relaxed">${escapeHtml(row.feedback)}</td>
-          <td class="py-3 px-4 font-medium text-slate-800 leading-relaxed">${escapeHtml(row.rules)}</td>
-          <td class="py-3 px-4 text-slate-600 leading-relaxed">${escapeHtml(row.notes)}</td>
-          <td class="py-3 px-3 text-center">
-            <button onclick="editEvaluationInForm(${row.day}, '${row.voiceKey}')" class="text-blue-600 hover:text-blue-800 font-semibold text-[11px] p-1">
-              <i class="fa-regular fa-pen-to-square mr-0.5"></i> Sửa
-            </button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-400 italic">Chưa có đánh giá thực tế nào cho bộ lọc này. Hãy đánh giá bài viết để bắt đầu dạy AI!</td></tr>`;
+      } else {
+        filtered.forEach((row, idx) => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-50/80 transition';
+          tr.innerHTML = `
+            <td class="py-3 px-3 text-center font-bold text-slate-800">Ngày ${row.day}<br><span class="text-[9px] text-slate-400 font-normal">${row.timestamp || ''}</span></td>
+            <td class="py-3 px-3">${voiceBadges[row.voiceKey] || row.voiceName}</td>
+            <td class="py-3 px-3 text-center">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-800 font-extrabold border border-emerald-200">
+                <i class="fa-solid fa-star text-amber-500 text-[9px]"></i> ${row.score.toFixed(1)} / 10
+              </span>
+            </td>
+            <td class="py-3 px-4 text-slate-600 leading-relaxed">${escapeHtml(row.feedback)}</td>
+            <td class="py-3 px-4 font-medium text-slate-800 leading-relaxed">${escapeHtml(row.rules || '(Chưa nạp quy tắc mới)')}</td>
+            <td class="py-3 px-4 text-slate-600 leading-relaxed">${escapeHtml(row.notes)}</td>
+            <td class="py-3 px-3 text-center">
+              <button onclick="deleteEvaluationItem(${row.id})" class="text-red-500 hover:text-red-700 text-[11px] p-1 font-semibold">
+                <i class="fa-regular fa-trash-can"></i> Xóa
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
 
-      // 3. Render Markdown Export
+      // Render Markdown Export
       renderMarkdownExport(list);
     }
 
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+    function deleteEvaluationItem(id) {
+      if (confirm('Bạn có chắc muốn xóa đánh giá này không?')) {
+        let list = getEvaluations();
+        list = list.filter(e => e.id !== id);
+        saveEvaluationsList(list);
+        renderBrainScoreView();
+        showToast('Đã xóa đánh giá thành công.');
+      }
     }
 
     function scrollToScoreForm() {
       document.getElementById('scoreFormSection').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function editEvaluationInForm(day, voiceKey) {
-      const list = getEvaluations();
-      const item = list.find(e => e.day === day && e.voiceKey === voiceKey);
-      if (item) {
-        document.getElementById('evalFormDay').value = item.day;
-        document.getElementById('evalFormVoice').value = item.voiceKey;
-        document.getElementById('evalFormScoreSlider').value = item.score;
-        document.getElementById('evalFormScoreDisplay').textContent = Number(item.score).toFixed(1) + ' / 10';
-        document.getElementById('evalFormFeedback').value = item.feedback;
-        document.getElementById('evalFormRules').value = item.rules;
-        document.getElementById('evalFormNotes').value = item.notes;
-        scrollToScoreForm();
-      }
-    }
-
     function submitScoreForm() {
       const day = parseInt(document.getElementById('evalFormDay').value);
       const voiceKey = document.getElementById('evalFormVoice').value;
       const score = parseFloat(document.getElementById('evalFormScoreSlider').value);
-      const feedback = document.getElementById('evalFormFeedback').value.trim() || 'Người xem phản hồi tích cực.';
-      const rules = document.getElementById('evalFormRules').value.trim() || 'Nạp thêm từ khóa y khoa Simon Center.';
-      const notes = document.getElementById('evalFormNotes').value.trim() || 'Cần duy trì đều đặn nhịp độ xuất bản.';
+      const feedback = document.getElementById('evalFormFeedback').value.trim();
+      const rules = document.getElementById('evalFormRules').value.trim();
+      const notes = document.getElementById('evalFormNotes').value.trim();
+
+      if (!feedback && !notes) {
+        alert('Vui lòng nhập nhận xét hoặc phản hồi thực tế của người xem.');
+        return;
+      }
 
       const voiceNames = { voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', voice2: 'Giọng 2 (Giảng Học Thuật)', voice3: 'Giọng 3 (Sale Y Đức)' };
+      const nowStr = new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
 
       const list = getEvaluations();
-      const idx = list.findIndex(e => e.day === day && e.voiceKey === voiceKey);
       const entry = {
+        id: Date.now(),
+        timestamp: nowStr,
         day: day,
         voiceKey: voiceKey,
         voiceName: voiceNames[voiceKey],
         score: score,
-        feedback: feedback,
-        rules: rules,
-        notes: notes
+        feedback: feedback || 'Khách khen bài ấm áp, thấu cảm',
+        rules: rules || '',
+        notes: notes || 'Bài viết đạt chuẩn'
       };
 
-      if (idx >= 0) {
-        list[idx] = entry;
-      } else {
-        list.push(entry);
-      }
+      list.push(entry);
       saveEvaluationsList(list);
 
-      // Local API sync if available
-      try {
-        fetch('/api/evaluate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            day: day,
-            voice_key: voiceKey,
-            voice_name: voiceNames[voiceKey],
-            channel: 'Đánh giá Tiến Hóa',
-            topic: `Đánh giá Ngày ${day}`,
-            score: score,
-            feedback: feedback,
-            rules: rules,
-            notes: notes
-          })
-        }).catch(() => {});
-      } catch(e) {}
+      // Reset form fields
+      document.getElementById('evalFormFeedback').value = '';
+      document.getElementById('evalFormRules').value = '';
+      document.getElementById('evalFormNotes').value = '';
 
       renderBrainScoreView();
-      showToast(`Đã ghi nhận đánh giá Ngày ${day} cho [${voiceNames[voiceKey]}] (${score.toFixed(1)}/10)!`);
+      showToast(`Đã lưu đánh giá thật cho [${voiceNames[voiceKey]}] (${score.toFixed(1)}/10)! AI đã nạp bài học.`);
     }
 
     function buildBrainScoreMarkdown(list) {
-      let md = `# BẢNG THEO DÕI & ĐO LƯỜNG CHỈ SỐ "BỘ NÃO THỨ 2" (7 NGÀY)
-`;
-      md += `## Quản lý Độc lập theo từng Brand Voice (Simon Center)
+      let md = `# BẢNG THEO DÕI & ĐO LƯỜNG CHỈ SỐ "BỘ NÃO THỨ 2" (SIMON CENTER)\n`;
+      md += `## Dữ Liệu Đánh Giá Thực Tế Từ Người Sáng Lập\n\n`;
+      md += `> 🛡️ **NGUYÊN TẮC CÁCH LY DỮ LIỆU (DATA ISOLATION RULE):**\n`;
+      md += `> Đánh giá của Giọng nào được lưu trữ và học hỏi độc lập tuyệt đối cho đúng giọng đó.\n\n`;
+      md += `---\n\n`;
+      md += `## 📅 LỊCH SỬ TIẾN HÓA & ĐÁNH GIÁ THẬT (PHÂN THEO TỪNG GIỌNG)\n\n`;
+      md += `| Ngày | Thời gian | Tone Giọng | Điểm (1-10) | Phản hồi của người xem | Dữ liệu đã nạp vào Voice | Nhận xét rút kinh nghiệm |\n`;
+      md += `| :---: | :---: | :--- | :---: | :--- | :--- | :--- |\n`;
 
-`;
-      md += `> 🛡️ **NGUYÊN TẮC CÁCH LY DỮ LIỆU (DATA ISOLATION RULE):**
-`;
-      md += `> Đánh giá của Giọng nào được lưu trữ và học hỏi độc lập tuyệt đối cho đúng giọng đó.
+      if (list.length === 0) {
+        md += `| - | - | Chưa có dữ liệu | - | Chưa có đánh giá thực tế | - | - |\n`;
+      } else {
+        list.forEach(r => {
+          md += `| **Ngày ${r.day}** | ${r.timestamp || ''} | **${r.voiceName}** | **${r.score.toFixed(1)} / 10** | ${(r.feedback || '').replace(/\|/g, '-')} | ${(r.rules || '-').replace(/\|/g, '-')} | ${(r.notes || '').replace(/\|/g, '-')} |\n`;
+        });
+      }
 
-`;
-      md += `---
-
-`;
-      md += `## 📅 BẢNG ĐO LƯỜNG ĐỘ TIẾN HÓA 7 NGÀY (PHÂN THEO TỪNG GIỌNG)
-
-`;
-      md += `| Ngày | Tone Giọng được đánh giá | Điểm số (1-10) | Phản hồi của người xem | Dữ liệu đã nạp thêm vào Voice này | Nhận xét ngắn & Rút kinh nghiệm |
-`;
-      md += `| :---: | :--- | :---: | :--- | :--- | :--- |
-`;
-
-      list.sort((a, b) => a.day - b.day || a.voiceKey.localeCompare(b.voiceKey)).forEach(r => {
-        md += `| **Ngày ${r.day}** | **${r.voiceName}** | **${r.score.toFixed(1)} / 10** | ${r.feedback.replace(/\|/g, '-')} | ${r.rules.replace(/\|/g, '-')} | ${r.notes.replace(/\|/g, '-')} |
-`;
-      });
-
-      md += `
----
-
-`;
-      md += `*Dữ liệu được đồng bộ trực tiếp với Web Dashboard (brain.chiro.vn) và cơ sở dữ liệu brain.db.*
-`;
+      md += `\n---\n\n`;
+      md += `*Tập tin được đồng bộ trực tiếp từ Web Dashboard (brain.chiro.vn) và cơ sở dữ liệu brain.db.*\n`;
       return md;
     }
 
     function renderMarkdownExport(list) {
       const container = document.getElementById('rawMarkdownDisplay');
-      if (container) {
-        container.textContent = buildBrainScoreMarkdown(list);
-      }
+      if (container) container.textContent = buildBrainScoreMarkdown(list);
     }
 
     function copyBrainScoreMd() {
       const list = getEvaluations();
-      const md = buildBrainScoreMarkdown(list);
-      navigator.clipboard.writeText(md).then(() => {
-        showToast('Đã sao chép toàn bộ nội dung brain_score.md!');
+      navigator.clipboard.writeText(buildBrainScoreMarkdown(list)).then(() => {
+        showToast('Đã sao chép nội dung brain_score.md thật!');
       });
     }
 
     function downloadBrainScoreMd() {
       const list = getEvaluations();
-      const md = buildBrainScoreMarkdown(list);
-      const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+      const blob = new Blob([buildBrainScoreMarkdown(list)], { type: 'text/markdown;charset=utf-8' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = 'brain_score.md';
@@ -1865,39 +1804,277 @@ Bên em đề xuất mình bắt đầu bằng 1 Buổi Đánh Giá Cột Sống
       showToast('Đã tải tập tin brain_score.md về máy!');
     }
 
-    function copyPostContent() {
-      const text = document.getElementById('postTextContent').textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        showToast('Đã sao chép nội dung bài viết!');
+    // =========================================================================
+    // ADMIN TAB CONTROLLER & SUBTABS
+    // =========================================================================
+    let currentAdminSubtab = 'foundation';
+
+    function initAdminView() {
+      const cfg = getBrandVoiceConfig();
+
+      // Populate Foundation
+      const titleInput = document.getElementById('adminFoundationTitle');
+      const greetingsInput = document.getElementById('adminFoundationGreetings');
+      const contentInput = document.getElementById('adminFoundationContent');
+
+      if (titleInput) titleInput.value = cfg.foundation.title;
+      if (greetingsInput) greetingsInput.value = cfg.foundation.greetings;
+      if (contentInput) contentInput.value = cfg.foundation.content;
+
+      switchAdminSubtab(currentAdminSubtab);
+    }
+
+    function switchAdminSubtab(subtab) {
+      currentAdminSubtab = subtab;
+      const subtabs = ['foundation', 'voice1', 'voice2', 'voice3', 'comparison'];
+
+      subtabs.forEach(st => {
+        const btn = document.getElementById('subtabBtn' + st.charAt(0).toUpperCase() + st.slice(1));
+        if (btn) {
+          if (st === subtab) {
+            btn.className = 'px-4 py-2 rounded-xl bg-purple-600 text-white shadow-sm flex items-center gap-2 font-bold';
+          } else {
+            btn.className = 'px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition flex items-center gap-2 font-semibold';
+          }
+        }
+      });
+
+      const foundationPanel = document.getElementById('adminSubtabFoundation');
+      const voiceContainer = document.getElementById('adminVoiceContainer');
+      const comparisonPanel = document.getElementById('adminSubtabComparison');
+
+      foundationPanel.classList.add('hidden');
+      voiceContainer.classList.add('hidden');
+      comparisonPanel.classList.add('hidden');
+
+      if (subtab === 'foundation') {
+        foundationPanel.classList.remove('hidden');
+      } else if (subtab === 'comparison') {
+        comparisonPanel.classList.remove('hidden');
+        renderAdminComparisonTable();
+      } else {
+        voiceContainer.classList.remove('hidden');
+        renderAdminVoicePanel(subtab);
+      }
+    }
+
+    function renderAdminVoicePanel(voiceKey) {
+      const cfg = getBrandVoiceConfig();
+      const voice = cfg[voiceKey];
+      const learnedRules = getLearnedRulesForVoice(voiceKey);
+
+      const container = document.getElementById('adminVoiceContainer');
+      container.innerHTML = `
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          <!-- Left: Baseline Genesis Editor (Col 7) -->
+          <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b pb-3">
+              <div>
+                <span class="text-[10px] font-bold text-purple-600 uppercase tracking-wider block">KHỞI ĐIỂM BAN ĐẦU (GENESIS BASELINE)</span>
+                <h3 class="text-sm font-bold text-slate-900 mt-0.5">${escapeHtml(voice.name)}</h3>
+              </div>
+              <span class="text-xs px-2.5 py-1 bg-purple-50 text-purple-700 rounded-lg border border-purple-200 font-semibold">
+                Hình mẫu: ${escapeHtml(voice.persona)}
+              </span>
+            </div>
+
+            <div class="space-y-3 text-xs">
+              <div>
+                <label class="font-bold text-slate-700 block mb-1">Tên Brand Voice:</label>
+                <input type="text" id="adminVoiceName" value="${escapeHtml(voice.name)}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500">
+              </div>
+
+              <div>
+                <label class="font-bold text-slate-700 block mb-1">Hình Mẫu Tham Chiếu (Persona):</label>
+                <input type="text" id="adminVoicePersona" value="${escapeHtml(voice.persona)}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+              </div>
+
+              <div>
+                <label class="font-bold text-slate-700 block mb-1">Mô Tả Định Vị & Ngữ Cảnh Tinh Thần (Description):</label>
+                <textarea id="adminVoiceDescription" rows="4" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 leading-relaxed font-mono">${escapeHtml(voice.description)}</textarea>
+              </div>
+
+              <div>
+                <label class="font-bold text-slate-700 block mb-1">Cấu Trúc Bài Viết Chuẩn (Writing Structure):</label>
+                <textarea id="adminVoiceStructure" rows="4" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 leading-relaxed font-mono">${escapeHtml(voice.structure)}</textarea>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t">
+              <span class="text-[11px] text-slate-400 italic">Bấm Lưu để AI áp dụng định vị gốc mới</span>
+              <button onclick="saveSingleVoiceAdmin('${voiceKey}')" class="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-floppy-disk"></i> Lưu Định Vị Gốc Cho ${escapeHtml(voice.name)}
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Learned Evolution Rules (Col 5) -->
+          <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4 flex flex-col justify-between">
+            <div class="space-y-4">
+              <div class="border-b pb-3 flex items-center justify-between">
+                <div>
+                  <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block">TIẾN HÓA THỰC TẾ (EVOLVED RULES)</span>
+                  <h3 class="text-sm font-bold text-slate-900 mt-0.5">Các Quy Tắc Đã Nạp Cho Giọng Này</h3>
+                </div>
+                <span class="text-xs px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full font-bold">
+                  ${learnedRules.length} Quy tắc
+                </span>
+              </div>
+
+              <!-- Quick Add Rule Form -->
+              <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-700 block">Nạp Trực Tiếp Quy Tắc Mới Cho Giọng Này:</label>
+                <div class="flex gap-2">
+                  <input type="text" id="adminNewRuleInput" placeholder="Ví dụ: Giữ câu từ ngắn gọn, luôn hỏi thăm cảm giác đau..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500">
+                  <button onclick="adminAddRuleToVoice('${voiceKey}')" class="px-3.5 py-2 bg-slate-900 hover:bg-black text-white rounded-xl text-xs font-bold transition shrink-0">
+                    + Thêm
+                  </button>
+                </div>
+              </div>
+
+              <!-- Rules List -->
+              <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-700 block">Danh Sách Quy Tắc Đang Hoạt Động Trong Prompt AI:</label>
+                <div class="space-y-2 max-h-72 overflow-y-auto pr-1" id="adminRulesListContainer">
+                  ${learnedRules.length === 0 ? '<p class="text-xs text-slate-400 italic p-3 bg-slate-50 rounded-xl text-center">Chưa có bài học nào được nạp cho giọng này. Hãy đánh giá bài viết hoặc nhập quy tắc ở trên!</p>' : ''}
+                  ${learnedRules.map((r, i) => `
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-2 text-xs">
+                      <div class="flex items-start gap-2">
+                        <span class="w-4 h-4 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-[9px] shrink-0 mt-0.5">${i + 1}</span>
+                        <span class="text-slate-800 leading-relaxed font-medium">${escapeHtml(r)}</span>
+                      </div>
+                      <button onclick="adminDeleteRule('${voiceKey}', '${escapeHtml(r)}')" class="text-slate-400 hover:text-red-600 text-xs shrink-0" title="Xóa quy tắc này">
+                        <i class="fa-regular fa-trash-can"></i>
+                      </button>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+
+            <!-- Inspect Prompt Button -->
+            <button onclick="inspectActiveAIPrompt()" class="w-full py-2.5 bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-terminal text-purple-600"></i> Xem Prompt Đầy Đủ Của Giọng Này
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function saveSingleVoiceAdmin(vKey) {
+      const cfg = getBrandVoiceConfig();
+      cfg[vKey] = {
+        name: document.getElementById('adminVoiceName').value.trim(),
+        persona: document.getElementById('adminVoicePersona').value.trim(),
+        description: document.getElementById('adminVoiceDescription').value.trim(),
+        structure: document.getElementById('adminVoiceStructure').value.trim()
+      };
+      saveBrandVoiceConfig(cfg);
+      showToast(`Đã lưu định vị gốc mới cho [${cfg[vKey].name}]!`);
+    }
+
+    function saveFoundationAdmin() {
+      const cfg = getBrandVoiceConfig();
+      cfg.foundation = {
+        title: document.getElementById('adminFoundationTitle').value.trim(),
+        greetings: document.getElementById('adminFoundationGreetings').value.trim(),
+        content: document.getElementById('adminFoundationContent').value.trim()
+      };
+      saveBrandVoiceConfig(cfg);
+      showToast('Đã lưu Nền tảng chung & Ranh giới Y khoa vào cấu hình gốc!');
+    }
+
+    function saveAllBrandVoiceAdmin() {
+      if (currentAdminSubtab === 'foundation') {
+        saveFoundationAdmin();
+      } else if (['voice1', 'voice2', 'voice3'].includes(currentAdminSubtab)) {
+        saveSingleVoiceAdmin(currentAdminSubtab);
+      } else {
+        showToast('Toàn bộ cấu hình Brand Voice đã được đồng bộ.');
+      }
+    }
+
+    function resetBrandVoiceToDefault() {
+      if (confirm('Bạn có muốn khôi phục toàn bộ cấu hình Brand Voice về mặc định ban đầu không?')) {
+        localStorage.removeItem('simon_brand_voice_config');
+        initAdminView();
+        showToast('Đã khôi phục cấu hình Brand Voice gốc ban đầu.');
+      }
+    }
+
+    function adminAddRuleToVoice(vKey) {
+      const input = document.getElementById('adminNewRuleInput');
+      const val = input.value.trim();
+      if (!val) {
+        alert('Vui lòng nhập quy tắc cần nạp.');
+        return;
+      }
+      const list = getEvaluations();
+      const voiceNames = { voice1: 'Giọng 1', voice2: 'Giọng 2', voice3: 'Giọng 3' };
+      list.push({
+        id: Date.now(),
+        timestamp: new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
+        day: 1,
+        voiceKey: vKey,
+        voiceName: voiceNames[vKey],
+        score: 9.0,
+        feedback: 'Thêm trực tiếp từ trang Quản trị Admin',
+        rules: val,
+        notes: 'Quy tắc bổ sung từ Admin'
+      });
+      saveEvaluationsList(list);
+      input.value = '';
+      renderAdminVoicePanel(vKey);
+      showToast(`Đã nạp quy tắc mới cho [${voiceNames[vKey]}]! AI đã nhận diện.`);
+    }
+
+    function adminDeleteRule(vKey, ruleText) {
+      if (confirm(`Bạn có muốn xóa quy tắc: "${ruleText}" không?`)) {
+        let list = getEvaluations();
+        list = list.filter(e => !(e.voiceKey === vKey && e.rules === ruleText));
+        saveEvaluationsList(list);
+        renderAdminVoicePanel(vKey);
+        showToast('Đã xóa quy tắc.');
+      }
+    }
+
+    function renderAdminComparisonTable() {
+      const cfg = getBrandVoiceConfig();
+      const tbody = document.getElementById('adminComparisonTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      ['voice1', 'voice2', 'voice3'].forEach(k => {
+        const v = cfg[k];
+        const learned = getLearnedRulesForVoice(k);
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50/80 transition';
+        tr.innerHTML = `
+          <td class="py-4 px-3 align-top">
+            <strong class="text-slate-900 block font-bold">${escapeHtml(v.name)}</strong>
+            <span class="text-[11px] text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200 mt-1 inline-block">${escapeHtml(v.persona)}</span>
+          </td>
+          <td class="py-4 px-4 align-top text-slate-600 leading-relaxed text-[11px]">
+            <p class="font-medium text-slate-800 mb-1">Định vị xuất phát:</p>
+            <p class="whitespace-pre-line">${escapeHtml(v.description)}</p>
+          </td>
+          <td class="py-4 px-4 align-top text-[11px] leading-relaxed">
+            ${learned.length === 0 ? '<span class="text-slate-400 italic">Chưa có quy tắc nào được bổ sung</span>' : `
+              <ul class="space-y-1.5 list-disc list-inside text-emerald-800">
+                ${learned.map(r => `<li><strong>${escapeHtml(r)}</strong></li>`).join('')}
+              </ul>
+            `}
+          </td>
+          <td class="py-4 px-3 align-top text-center">
+            <span class="px-2 py-1 rounded-full text-[10px] font-bold ${learned.length > 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">
+              ${learned.length > 0 ? 'Đã Tiến Hóa (' + learned.length + ' bài học)' : 'Khởi Điểm Chuẩn'}
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
       });
     }
 
-    function downloadPostTxt() {
-      const text = document.getElementById('postTextContent').textContent;
-      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `bai_viet_ngay_${currentDay}.txt`;
-      a.click();
-      showToast('Đã tải file bài viết về máy!');
-    }
-
-    function addBrainRule() {
-      const input = document.getElementById('newRuleInput');
-      const val = input.value.trim();
-      if (!val) return;
-      input.value = '';
-      showToast('Đã nạp quy tắc mới vào brain.db!');
-    }
-
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      document.getElementById('toastMsg').textContent = msg;
-      t.classList.remove('translate-y-20', 'opacity-0');
-      setTimeout(() => {
-        t.classList.add('translate-y-20', 'opacity-0');
-      }, 2500);
-    }
 
     // Init
     window.addEventListener('DOMContentLoaded', () => {

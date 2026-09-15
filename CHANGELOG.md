@@ -6,6 +6,20 @@ Tất cả những thay đổi quan trọng của project sẽ được ghi lạ
 - Chuẩn bị nạp Brand Voice thực tế từ người dùng.
 - Sinh bài viết Facebook post mẫu theo Brand Voice.
 
+## [0.19.0] - 2026-09-15
+### Added & Enhanced
+- **Sửa ô nhập liệu đánh giá**: Thay thế toàn bộ `value` bằng `placeholder` mẫu, click vào gõ phím là chữ mẫu tự động biến mất, không bắt người dùng phải xóa tay.
+- **Làm sạch 100% dữ liệu mẫu (Purge Mock Data)**: Loại bỏ toàn bộ các dòng đánh giá giả lập bịa đặt; chỉ hiển thị đúng các đánh giá thật do người dùng thực tế nhập.
+- **Cơ chế Tự Học Thật & Nạp Bài Học Vào Gemini AI**:
+  + Mọi bài học và quy tắc người dùng nạp cho từng Brand Voice đều được tích lũy vào dòng thời gian (không bị ghi đè mất).
+  + Khi bấm "Sinh Lại Bài Viết", hệ thống tự động quét các bài học thật của giọng đó và truyền trực tiếp vào System Prompt của Google Gemini 3.6 Flash.
+  + Bổ sung nút "Soi Prompt Thật Gửi AI" để người dùng kiểm chứng tận mắt những bài học đang nằm trong đầu AI.
+- **Bổ sung Trang Quản Trị Brand Voice (Admin Tab)**:
+  + Nút tab thứ 4 trên menu: `Quản Trị Brand Voice`.
+  + Cho phép xem và trực tiếp SỬA định vị gốc (Genesis Baseline) của Nền tảng chung và 3 Brand Voice.
+  + Quản lý danh sách quy tắc tiến hóa đã nạp (cho phép thêm/xóa từng quy tắc).
+  + Bảng so sánh tiến hóa trực quan: Khởi điểm Ngày 0 vs Hiện tại.
+
 ## [0.18.0] - 2026-09-15
 ### Added & Enhanced
 - **Bổ sung Tab "Tiến Hóa Brain Score" trực tiếp trên Web Dashboard (brain.chiro.vn):**
