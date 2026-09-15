@@ -14,15 +14,8 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .voice-card.active {
-      border-color: #2563eb !important;
-      background-color: #eff6ff !important;
-    }
-    .voice-card.active .check-icon {
-      color: #2563eb !important;
-    }
-    .voice-card.active .voice-title {
-      color: #1e3a8a !important;
+    .voice-card {
+      transition: all 0.2s ease;
     }
     .calendar-day.active {
       border-color: #2563eb !important;
@@ -146,12 +139,14 @@
           <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
             <i class="fa-solid fa-sliders text-blue-600"></i> 1. Chọn Brand Voice
           </h2>
-          <span class="text-[11px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Tự động đổi giọng</span>
+          <span class="text-[11px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded flex items-center gap-1">
+            <i class="fa-solid fa-hand-pointer text-slate-400"></i> Bấm vào giọng để đổi
+          </span>
         </div>
 
         <div class="space-y-2" id="voiceContainer">
           <!-- Voice 1 -->
-          <div onclick="selectVoice('voice1')" id="card_voice1" class="voice-card active p-3 rounded-xl border-2 border-blue-600 bg-blue-50/50 cursor-pointer transition flex items-start justify-between">
+          <div onclick="selectVoice('voice1')" id="card_voice1" class="voice-card active p-3 rounded-xl border-2 border-blue-600 bg-blue-50/60 cursor-pointer transition shadow-xs flex items-start justify-between">
             <div>
               <span class="voice-title text-xs font-bold text-blue-900 block flex items-center gap-1.5">
                 <i class="fa-solid fa-heart-pulse text-blue-600"></i> Giọng 1: Tư Vấn & Đồng Hành
@@ -164,7 +159,7 @@
           </div>
 
           <!-- Voice 2 -->
-          <div onclick="selectVoice('voice2')" id="card_voice2" class="voice-card p-3 rounded-xl border-2 border-slate-200 hover:border-slate-300 cursor-pointer transition flex items-start justify-between">
+          <div onclick="selectVoice('voice2')" id="card_voice2" class="voice-card p-3 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition flex items-start justify-between">
             <div>
               <span class="voice-title text-xs font-bold text-slate-800 block flex items-center gap-1.5">
                 <i class="fa-solid fa-graduation-cap text-indigo-600"></i> Giọng 2: Giảng Học Thuật
@@ -177,7 +172,7 @@
           </div>
 
           <!-- Voice 3 -->
-          <div onclick="selectVoice('voice3')" id="card_voice3" class="voice-card p-3 rounded-xl border-2 border-slate-200 hover:border-slate-300 cursor-pointer transition flex items-start justify-between">
+          <div onclick="selectVoice('voice3')" id="card_voice3" class="voice-card p-3 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition flex items-start justify-between">
             <div>
               <span class="voice-title text-xs font-bold text-slate-800 block flex items-center gap-1.5">
                 <i class="fa-solid fa-handshake-simple text-amber-600"></i> Giọng 3: Sale Y Đức & Chốt Deal
@@ -224,9 +219,9 @@
           <textarea id="customPromptInput" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-600" placeholder="Ví dụ: Nhấn mạnh vào việc không nên tự ý vặn bẻ cổ, thêm lời mời tham gia danh sách chờ..."></textarea>
         </div>
 
-        <button onclick="generateLiveArticle()" class="w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-blue-500/20 transition">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
-          <span>Sinh Lại Bài Viết Theo Giọng Đã Chọn</span>
+        <button id="btnGenerateArticle" onclick="generateLiveArticle()" class="w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-blue-500/20 transition">
+          <i id="btnGenerateArticleIcon" class="fa-solid fa-wand-magic-sparkles"></i>
+          <span id="btnGenerateArticleText">Sinh Lại Bài Viết Theo Giọng Đã Chọn</span>
         </button>
       </div>
 
@@ -1543,10 +1538,15 @@ ${baseVoice.structure}`;
 YÊU CẦU BÀI VIẾT HIỆN TẠI:
 - Chủ đề: "${topic}"
 - Kênh đăng: ${channel}
-- Tone giọng yêu cầu: ${voiceKey.toUpperCase()}
-- Lưu ý riêng: ${customPrompt ? customPrompt : "Không có"}
+- Tone giọng yêu cầu: ${voiceKey.toUpperCase()} - ${baseVoice.name}
+- Gợi ý bổ sung từ người sáng lập: ${customPrompt ? customPrompt : "Tự do sáng tạo bám sát tinh thần"}
 
-HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắc đúng tone, CTA kéo vào form danh sách chờ (Waitlist) buổi đánh giá cột sống 1-1, và câu miễn trừ y khoa cuối bài.`;
+HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
+1. ĐỘ DÀI & ĐỘ HOÀN THIỆN: Viết trọn vẹn từ 350 đến 550 từ. TUYỆT ĐỐI VIẾT HOÀN CHỈNH ĐẦY ĐỦ TỪ MỞ ĐẦU ĐẾN CÂU KẾT, KHÔNG ĐƯỢC DỪNG DỞ DANG GIỮA CHỪNG.
+2. MỞ ĐẦU (HOOK): Bắt đầu bằng lời chào ('Dạ em chào anh/chị nhé ạ' hoặc câu chuyện/trăn trở thật), chạm ngay vào nỗi đau hoặc băn khoăn tâm lý của người đọc, xưng hô gần gũi như người bạn hoặc chuyên gia tận tâm.
+3. THÂN BÀI SÂU SẮC: Đi thẳng vào nguyên lý gốc rễ, phân tích giữa 'chi phí' và 'giá trị lâu dài cho sức khỏe', dùng kiến thức giải phẫu dễ hiểu, không sáo rỗng, không dùng từ ngữ giật gân.
+4. KÊU GỌI HÀNH ĐỘNG (CTA): Nhẹ nhàng mời điền Form Danh Sách Chờ (Waitlist) Buổi Đánh Giá Cột Sống 1-1 Chuyên Sâu để giữ chỗ ưu tiên (không giục giã, không ép mua hàng).
+5. KẾT BÀI: Luôn có 1 dòng ghi chú miễn trừ trách nhiệm y khoa trang trọng ở cuối bài: '*(Lưu ý: Chia sẻ mang tính tham khảo y khoa, không thay thế cho việc thăm khám trực tiếp từ bác sĩ chuyên khoa ạ.)*'`;
 
       return p;
     }
@@ -1600,31 +1600,48 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
     // =========================================================================
     // 5. WORKSPACE CORE: SELECT VOICE & OUTPUT PREVIEW
     // =========================================================================
+    const voiceCardThemes = {
+      voice1: { border: 'border-blue-600', bg: 'bg-blue-50/60', text: 'text-blue-900', icon: 'fa-solid fa-circle-check text-blue-600' },
+      voice2: { border: 'border-indigo-600', bg: 'bg-indigo-50/60', text: 'text-indigo-900', icon: 'fa-solid fa-circle-check text-indigo-600' },
+      voice3: { border: 'border-amber-600', bg: 'bg-amber-50/60', text: 'text-amber-900', icon: 'fa-solid fa-circle-check text-amber-600' }
+    };
+
     function selectVoice(voiceKey) {
       currentVoice = voiceKey;
 
-      const cards = document.querySelectorAll('.voice-card');
-      cards.forEach(card => {
-        card.classList.remove('active');
+      ['voice1', 'voice2', 'voice3'].forEach(k => {
+        const card = document.getElementById('card_' + k);
+        if (!card) return;
+        const title = card.querySelector('.voice-title');
         const icon = card.querySelector('.check-icon');
-        if (icon) icon.className = 'check-icon fa-regular fa-circle text-slate-300 text-sm mt-0.5';
+        const theme = voiceCardThemes[k];
+
+        if (k === voiceKey) {
+          card.className = `voice-card active p-3 rounded-xl border-2 ${theme.border} ${theme.bg} cursor-pointer transition shadow-xs flex items-start justify-between`;
+          if (title) title.className = `voice-title text-xs font-bold ${theme.text} block flex items-center gap-1.5`;
+          if (icon) icon.className = `check-icon ${theme.icon} text-sm mt-0.5`;
+        } else {
+          card.className = 'voice-card p-3 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition flex items-start justify-between';
+          if (title) title.className = 'voice-title text-xs font-bold text-slate-800 block flex items-center gap-1.5';
+          if (icon) icon.className = 'check-icon fa-regular fa-circle text-slate-300 text-sm mt-0.5';
+        }
       });
 
-      const activeCard = document.getElementById('card_' + voiceKey);
-      if (activeCard) {
-        activeCard.classList.add('active');
-        const activeIcon = activeCard.querySelector('.check-icon');
-        if (activeIcon) activeIcon.className = 'check-icon fa-solid fa-circle-check text-blue-600 text-sm mt-0.5';
-      }
-
       const voiceNamesShort = { voice1: 'Giọng 1', voice2: 'Giọng 2', voice3: 'Giọng 3' };
-      const voiceNamesFull = { voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', voice2: 'Giọng 2 (Học Thuật First Principles)', voice3: 'Giọng 3 (Sale Y Đức Chốt Deal)' };
+      const voiceNamesFull = { 
+        voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', 
+        voice2: 'Giọng 2 (Học Thuật First Principles)', 
+        voice3: 'Giọng 3 (Sale Y Đức Chốt Deal)' 
+      };
 
       const outBadge = document.getElementById('outputBadge');
       if (outBadge) outBadge.textContent = `Bài Viết Đang Hiển Thị (${voiceNamesShort[voiceKey]})`;
 
       const evalBadge = document.getElementById('evaluatingVoiceBadge');
       if (evalBadge) evalBadge.textContent = voiceNamesShort[voiceKey];
+
+      const evalFormVoice = document.getElementById('evalFormVoice');
+      if (evalFormVoice) evalFormVoice.value = voiceKey;
 
       updateOutputPreview();
       showToast(`Đã chuyển sang: ${voiceNamesFull[voiceKey]}`);
@@ -1777,48 +1794,103 @@ HÃY VIẾT 1 BÀI ĐĂNG HOÀN CHỈNH: Có hook thu hút, nội dung sâu sắ
     // 7. GENERATE LIVE ARTICLE (CALLING GEMINI 3.6 FLASH WITH REAL PROMPT)
     // =========================================================================
     async function generateLiveArticle() {
-      const topic = document.getElementById('topicInput').value;
-      const customPrompt = document.getElementById('customPromptInput').value;
-      const channel = document.getElementById('channelSelect').selectedOptions[0].text;
-      document.getElementById('displayTopicTitle').textContent = `Chủ đề: "${topic}"`;
+      const topicInput = document.getElementById('topicInput');
+      const topic = (topicInput && topicInput.value.trim()) ? topicInput.value.trim() : 'Chăm sóc và phục hồi cột sống chuẩn y khoa';
+      const customPrompt = document.getElementById('customPromptInput') ? document.getElementById('customPromptInput').value.trim() : '';
+      const channelSelect = document.getElementById('channelSelect');
+      const channel = (channelSelect && channelSelect.selectedOptions && channelSelect.selectedOptions[0]) ? channelSelect.selectedOptions[0].text : 'Facebook Cá Nhân';
+      
+      const topicTitleElem = document.getElementById('displayTopicTitle');
+      if (topicTitleElem) topicTitleElem.textContent = `Chủ đề: "${topic}"`;
+
+      const voiceNames = {
+        voice1: 'Giọng 1: Tư Vấn & Đồng Hành',
+        voice2: 'Giọng 2: Giảng Học Thuật',
+        voice3: 'Giọng 3: Sale Y Đức & Chốt Deal'
+      };
+      const vName = voiceNames[currentVoice] || 'Brand Voice';
+
+      const btn = document.getElementById('btnGenerateArticle');
+      const btnIcon = document.getElementById('btnGenerateArticleIcon');
+      const btnText = document.getElementById('btnGenerateArticleText');
+      const postElem = document.getElementById('postTextContent');
+
+      // Set animated loading state on button
+      if (btn) {
+        btn.disabled = true;
+        btn.classList.add('opacity-75', 'cursor-not-allowed');
+        if (btnIcon) btnIcon.className = 'fa-solid fa-spinner fa-spin text-white';
+        if (btnText) btnText.textContent = `Đang viết bài hoàn chỉnh theo ${vName}...`;
+      }
+
+      showToast(`Đang kết nối Gemini AI viết bài theo ${vName}...`);
+      if (postElem) {
+        postElem.textContent = `⏳ Đang kết nối Gemini AI để sáng tạo bài viết hoàn chỉnh (350 - 550 từ) theo đúng ${vName}...\n\nÁp dụng bộ 5 câu hỏi SOP, văn mẫu người sáng lập và các bài học trong não bộ. Vui lòng đợi trong giây lát...`;
+      }
 
       const _DEFAULT_KEY = atob('QVEuQWI4Uk42THFscXpIZ0pKeldjREZ5bGVRU2I0eGZkODUxS2IxbzlwOGY1VnR6RjVxdXc=');
       const apiKey = localStorage.getItem('simon_gemini_api_key') || (document.getElementById('geminiApiKeyInput') ? document.getElementById('geminiApiKeyInput').value.trim() : '') || _DEFAULT_KEY;
 
       const fullPrompt = buildGeminiSystemPrompt(topic, channel, currentVoice, customPrompt);
 
+      let success = false;
+      let aiText = '';
+
       if (apiKey) {
-        showToast('Đang gọi Google Gemini 3.6 Flash với văn mẫu và bài học đã nạp...');
-        document.getElementById('postTextContent').textContent = 'Đang suy luận theo Brand Voice và áp dụng các bài học thực tế cùng văn mẫu người sáng lập...';
-        
-        try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{
-                parts: [{ text: fullPrompt }]
-              }],
-              generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
-            })
-          });
-          
-          const json = await res.json();
-          if (json.candidates && json.candidates[0].content.parts[0].text) {
-            const aiText = json.candidates[0].content.parts[0].text;
-            document.getElementById('postTextContent').textContent = aiText;
-            const words = aiText.trim().split(/\s+/).length;
-            document.getElementById('charCount').innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
-            showToast('Google Gemini đã sinh bài viết và bắt chước đúng văn mẫu bạn dạy!');
-            return;
+        // High speed + high quality model chain
+        const candidateModels = [
+          { name: 'gemini-3.5-flash-lite', config: { temperature: 0.7, maxOutputTokens: 4096 } },
+          { name: 'gemini-3.6-flash', config: { temperature: 0.7, maxOutputTokens: 4096, thinkingConfig: { thinkingBudget: 0 } } }
+        ];
+
+        for (const cand of candidateModels) {
+          try {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${cand.name}:generateContent?key=${apiKey}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{
+                  parts: [{ text: fullPrompt }]
+                }],
+                generationConfig: cand.config
+              })
+            });
+
+            if (res.ok) {
+              const json = await res.json();
+              if (json.candidates && json.candidates[0] && json.candidates[0].content && json.candidates[0].content.parts && json.candidates[0].content.parts[0].text) {
+                aiText = json.candidates[0].content.parts[0].text.trim();
+                if (aiText.length > 100) {
+                  success = true;
+                  break;
+                }
+              }
+            }
+          } catch (err) {
+            console.warn(`Lỗi khi gọi model ${cand.name}:`, err);
           }
-        } catch (err) {
-          console.warn('API error, falling back to local pre-trained generator', err);
         }
       }
 
-      // Fallback local
-      updateOutputPreview();
+      // Restore button state
+      if (btn) {
+        btn.disabled = false;
+        btn.classList.remove('opacity-75', 'cursor-not-allowed');
+        if (btnIcon) btnIcon.className = 'fa-solid fa-wand-magic-sparkles';
+        if (btnText) btnText.textContent = 'Sinh Lại Bài Viết Theo Giọng Đã Chọn';
+      }
+
+      if (success && aiText) {
+        if (postElem) postElem.textContent = aiText;
+        const words = aiText.trim().split(/\s+/).length;
+        const charElem = document.getElementById('charCount');
+        if (charElem) charElem.innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
+        showToast(`✅ Đã sinh bài viết hoàn chỉnh (${words} từ) theo ${vName}!`);
+      } else {
+        // Fallback local
+        updateOutputPreview();
+        showToast(`Đã tải bài viết mẫu chuẩn của ${vName}`);
+      }
     }
 
     // Modal Inspect Active Prompt
