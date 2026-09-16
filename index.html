@@ -251,11 +251,17 @@
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
             <span class="text-xs font-bold text-slate-800" id="outputBadge">Bài Viết Đang Hiển Thị (Giọng 1)</span>
           </div>
-          <div class="flex items-center space-x-2">
-            <button onclick="copyPostContent()" class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1 transition shadow-2xs">
+          <div class="flex items-center space-x-1.5">
+            <button id="btnStarPost" onclick="toggleStarCurrentPost()" class="px-2.5 py-1 bg-white hover:bg-amber-50 border border-slate-200 text-slate-700 hover:text-amber-700 hover:border-amber-300 rounded-lg text-xs font-semibold flex items-center gap-1 transition shadow-2xs cursor-pointer" title="Lưu bài viết này vào Kho Bài Viết Hay">
+              <i id="starIcon" class="fa-regular fa-star text-amber-500"></i> <span id="starText">Lưu bài hay</span>
+            </button>
+            <button onclick="openHistoryModal()" class="px-2.5 py-1 bg-white hover:bg-indigo-50 border border-slate-200 text-slate-700 hover:text-indigo-700 hover:border-indigo-300 rounded-lg text-xs font-semibold flex items-center gap-1 transition shadow-2xs cursor-pointer" title="Xem lịch sử các phiên bản đã sinh của đề tài này">
+              <i class="fa-solid fa-clock-rotate-left text-indigo-600"></i> <span>Lịch sử (<span id="historyCountBadge">v1</span>)</span>
+            </button>
+            <button onclick="copyPostContent()" class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1 transition shadow-2xs cursor-pointer">
               <i class="fa-regular fa-copy text-blue-600"></i> Sao chép
             </button>
-            <button onclick="downloadPostTxt()" class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1 transition shadow-2xs">
+            <button onclick="downloadPostTxt()" class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1 transition shadow-2xs cursor-pointer">
               <i class="fa-solid fa-download text-indigo-600"></i> Tải .txt
             </button>
           </div>
@@ -1251,6 +1257,55 @@ python3 scripts/sync_brain.py --export</pre>
       </div>
 
     </div>
+  <!-- ===================================================================== -->
+  <!-- POPUP MODAL: LỊCH SỬ PHIÊN BẢN BÀI VIẾT & KHO BÀI VIẾT HAY              -->
+  <!-- ===================================================================== -->
+  <div id="articleHistoryModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-lg shadow-sm">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-slate-900">LỊCH SỬ PHIÊN BẢN & KHO BÀI VIẾT HAY</h3>
+            <p class="text-xs text-slate-500">Xem lại các bản thảo đã tạo, khôi phục bài viết cũ và lưu trữ bài tâm đắc</p>
+          </div>
+        </div>
+        <button onclick="closeHistoryModal()" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center text-slate-600 transition cursor-pointer">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Filter Subtabs -->
+      <div class="px-6 py-2.5 bg-slate-100/70 border-b border-slate-200 flex items-center gap-2">
+        <button onclick="switchHistoryTab('topic')" id="tabHistTopic" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-white text-indigo-700 shadow-2xs border border-indigo-200 cursor-pointer">
+          <i class="fa-solid fa-file-lines mr-1"></i> Đề tài hiện tại (<span id="countHistTopic">0</span>)
+        </button>
+        <button onclick="switchHistoryTab('starred')" id="tabHistStarred" class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:bg-white transition cursor-pointer">
+          <i class="fa-solid fa-star text-amber-500 mr-1"></i> ⭐ Kho Bài Viết Hay (<span id="countHistStarred">0</span>)
+        </button>
+        <button onclick="switchHistoryTab('all')" id="tabHistAll" class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:bg-white transition cursor-pointer">
+          <i class="fa-solid fa-layer-group mr-1"></i> Tất cả bài đã sinh (<span id="countHistAll">0</span>)
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto space-y-4 text-xs flex-1" id="historyListContainer">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-3.5 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
+        <span class="text-[11px] text-slate-500">Mẹo: Bấm "Khôi phục bài này" để đưa bài viết tâm đắc trở lại khung làm việc ngay lập tức</span>
+        <button onclick="closeHistoryModal()" class="px-5 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-black transition shadow-sm cursor-pointer">
+          Đóng
+        </button>
+      </div>
+
+    </div>
   </div>
 
 
@@ -2014,6 +2069,11 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
         if (charElem) charElem.innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
       }
 
+      if (articleContent) {
+        saveArticleVersion(title, voiceKey, channelVal, articleContent, targetDay, targetIdx, false);
+      }
+      updateHistoryUI();
+
       switchMainView('workspace');
       showToast(`Đã nạp bài viết Ngày ${targetDay} (${voiceNamesShort[voiceKey] || voiceKey}): "${title.substring(0, 30)}..."!`);
     }
@@ -2141,10 +2201,17 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
           localStorage.setItem(`simon_custom_post_${currentDay}_${currentPostIndex}_${currentVoice}`, JSON.stringify(cacheObj));
         } catch(e) { console.warn('LocalStorage error:', e); }
 
+        // Save into version history
+        saveArticleVersion(topic, currentVoice, channel, aiText, currentDay, currentPostIndex, false);
+
         showToast(`✅ Đã sinh bài viết hoàn chỉnh (${words} từ) theo ${vName}!`);
       } else {
         // Fallback to topic-adaptive generator (NEVER leaks Day 1 27kg article)
         updateOutputPreview();
+        const fallbackText = postElem ? postElem.textContent : '';
+        if (fallbackText) {
+          saveArticleVersion(topic, currentVoice, channel, fallbackText, currentDay, currentPostIndex, false);
+        }
         showToast(`⚠️ Đã tải bản thảo chuẩn y khoa cho đề tài theo ${vName}`);
       }
     }
@@ -2208,6 +2275,11 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       const list = getEvaluations();
       const nowStr = new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
 
+      const curPostElem = document.getElementById('postTextContent');
+      const curArticleText = curPostElem ? curPostElem.textContent.trim() : '';
+      const curTopic = document.getElementById('topicInput') ? document.getElementById('topicInput').value.trim() : 'Chăm sóc cột sống';
+      const curChannel = document.getElementById('channelSelect') ? document.getElementById('channelSelect').value : 'fb_personal';
+
       const newEntry = {
         id: Date.now(),
         timestamp: nowStr,
@@ -2215,12 +2287,19 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
         voiceKey: currentVoice,
         voiceName: vName,
         score: score,
+        topic: curTopic,
+        articleContent: curArticleText,
         blacklist: blacklist,
         caseStudy: caseStudy,
         feedback: feedback || 'Độc giả phản hồi tích cực',
         rules: rules,
         goldSample: rewrite
       };
+
+      // If user scores high (>= 8.5) or provided a gold sample, auto-save to Best Posts!
+      if (score >= 8.5 && curArticleText) {
+        saveArticleVersion(curTopic, currentVoice, curChannel, curArticleText, currentDay, currentPostIndex, true, score);
+      }
 
       list.push(newEntry);
       saveEvaluationsList(list);
@@ -2530,6 +2609,15 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       } else {
         list.forEach(r => {
           md += `| **Ngày ${r.day}** | ${r.timestamp || ''} | **${r.voiceName}** | **${r.score.toFixed(1)}/10** | ${(r.goldSample || '-').replace(/\|/g, '-').replace(/\n/g, ' ')} | ${(r.blacklist || '-').replace(/\|/g, '-')} | ${(r.caseStudy || '-').replace(/\|/g, '-')} | ${(r.rules || '-').replace(/\|/g, '-')} | ${(r.feedback || '-').replace(/\|/g, '-')} |\n`;
+        });
+      }
+
+      const evaluatedArticles = list.filter(r => r.articleContent && r.articleContent.trim());
+      if (evaluatedArticles.length > 0) {
+        md += `\n---\n\n## 📝 KHO BÀI VIẾT ĐÃ ĐƯỢC CHẤM ĐIỂM (LƯU NGUYÊN VĂN BẢN THẢO)\n\n`;
+        evaluatedArticles.forEach((r, i) => {
+          md += `### ${i+1}. [${r.voiceName}] ${r.topic ? `"${r.topic}"` : `Ngày ${r.day}`} - Đánh giá: ${r.score ? r.score.toFixed(1) : '9.0'}/10 (${r.timestamp || ''})\n\n`;
+          md += `\`\`\`text\n${r.articleContent.trim()}\n\`\`\`\n\n`;
         });
       }
 
@@ -3103,6 +3191,323 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       showToast('Đã tải file bài viết về máy!');
     }
 
+    // =========================================================================
+    // 12.1 ARTICLE VERSION HISTORY & STARRED POSTS (QUẢN LÝ PHIÊN BẢN & BÀI HAY)
+    // =========================================================================
+    let currentHistoryTab = 'topic'; // 'topic' | 'starred' | 'all'
+
+    function getArticleHistory() {
+      try {
+        const raw = localStorage.getItem('simon_article_history');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) return parsed;
+        }
+      } catch(e) { console.warn('History read error:', e); }
+      return [];
+    }
+
+    function saveArticleHistoryList(list) {
+      try {
+        localStorage.setItem('simon_article_history', JSON.stringify(list));
+      } catch(e) { console.warn('History write error:', e); }
+    }
+
+    function saveArticleVersion(topic, voiceKey, channelVal, content, dayNum = 1, postIdx = 0, isFav = false, score = null) {
+      if (!content || !content.trim()) return null;
+      topic = topic ? topic.trim() : 'Chăm sóc cột sống';
+      dayNum = Number(dayNum) || 1;
+      postIdx = Number(postIdx) || 0;
+
+      const history = getArticleHistory();
+
+      // Check if top item is identical
+      if (history.length > 0) {
+        const top = history[0];
+        if (top.content.trim() === content.trim() && top.voiceKey === voiceKey && top.topic === topic) {
+          if (isFav && !top.isFavorite) {
+            top.isFavorite = true;
+            saveArticleHistoryList(history);
+            updateHistoryUI();
+          }
+          return top;
+        }
+      }
+
+      const now = new Date();
+      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} - ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}`;
+      const words = content.trim().split(/\s+/).filter(Boolean).length;
+
+      const entry = {
+        id: Date.now() + Math.floor(Math.random() * 1000),
+        timestamp: Date.now(),
+        timeStr: timeStr,
+        day: dayNum,
+        postIdx: postIdx,
+        voiceKey: voiceKey,
+        voiceName: voiceNamesShort[voiceKey] || voiceKey,
+        channel: channelVal,
+        topic: topic,
+        content: content.trim(),
+        wordCount: words,
+        isFavorite: Boolean(isFav),
+        score: score
+      };
+
+      history.unshift(entry);
+      if (history.length > 200) history.pop(); // keep up to 200 versions
+      saveArticleHistoryList(history);
+      updateHistoryUI();
+      return entry;
+    }
+
+    function updateHistoryUI() {
+      const history = getArticleHistory();
+      const curTopic = document.getElementById('topicInput') ? document.getElementById('topicInput').value.trim() : '';
+      const topicVersions = curTopic ? history.filter(h => h.topic === curTopic) : [];
+      const starredVersions = history.filter(h => h.isFavorite);
+
+      // Update badge on output header
+      const badge = document.getElementById('historyCountBadge');
+      if (badge) {
+        badge.textContent = `v${Math.max(1, topicVersions.length)}`;
+      }
+
+      // Update counts in modal tabs
+      const countTopic = document.getElementById('countHistTopic');
+      if (countTopic) countTopic.textContent = topicVersions.length;
+
+      const countStarred = document.getElementById('countHistStarred');
+      if (countStarred) countStarred.textContent = starredVersions.length;
+
+      const countAll = document.getElementById('countHistAll');
+      if (countAll) countAll.textContent = history.length;
+
+      // Update Star Button in Output Header
+      const postText = document.getElementById('postTextContent') ? document.getElementById('postTextContent').textContent.trim() : '';
+      const isCurrentStarred = history.some(h => h.isFavorite && h.content.trim() === postText);
+      const starIcon = document.getElementById('starIcon');
+      const starText = document.getElementById('starText');
+      const btnStar = document.getElementById('btnStarPost');
+      if (starIcon && starText) {
+        if (isCurrentStarred) {
+          starIcon.className = 'fa-solid fa-star text-amber-500';
+          starText.textContent = 'Đã lưu hay';
+          if (btnStar) btnStar.className = 'px-2.5 py-1 bg-amber-50 border border-amber-300 text-amber-800 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow-2xs cursor-pointer';
+        } else {
+          starIcon.className = 'fa-regular fa-star text-amber-500';
+          starText.textContent = 'Lưu bài hay';
+          if (btnStar) btnStar.className = 'px-2.5 py-1 bg-white hover:bg-amber-50 border border-slate-200 text-slate-700 hover:text-amber-700 hover:border-amber-300 rounded-lg text-xs font-semibold flex items-center gap-1 transition shadow-2xs cursor-pointer';
+        }
+      }
+    }
+
+    function toggleStarCurrentPost() {
+      const postText = document.getElementById('postTextContent') ? document.getElementById('postTextContent').textContent.trim() : '';
+      if (!postText) return;
+      const curTopic = document.getElementById('topicInput') ? document.getElementById('topicInput').value.trim() : 'Chăm sóc cột sống';
+      const chSel = document.getElementById('channelSelect');
+      const chVal = chSel ? chSel.value : 'fb_personal';
+
+      const history = getArticleHistory();
+      const existing = history.find(h => h.content.trim() === postText);
+
+      if (existing) {
+        existing.isFavorite = !existing.isFavorite;
+        saveArticleHistoryList(history);
+        showToast(existing.isFavorite ? '⭐ Đã lưu bài viết vào Kho Bài Viết Hay!' : 'Đã bỏ lưu bài viết khỏi Kho bài hay!');
+      } else {
+        saveArticleVersion(curTopic, currentVoice, chVal, postText, currentDay, currentPostIndex, true);
+        showToast('⭐ Đã lưu bài viết vào Kho Bài Viết Hay!');
+      }
+      updateHistoryUI();
+      if (!document.getElementById('articleHistoryModal').classList.contains('hidden')) {
+        renderHistoryList();
+      }
+    }
+
+    function toggleStarById(id) {
+      const history = getArticleHistory();
+      const item = history.find(h => h.id === id);
+      if (item) {
+        item.isFavorite = !item.isFavorite;
+        saveArticleHistoryList(history);
+        updateHistoryUI();
+        renderHistoryList();
+        showToast(item.isFavorite ? '⭐ Đã lưu bài viết vào Kho Bài Viết Hay!' : 'Đã bỏ lưu bài viết!');
+      }
+    }
+
+    function restoreArticleVersion(id) {
+      const history = getArticleHistory();
+      const item = history.find(h => h.id === id);
+      if (!item) return;
+
+      const postElem = document.getElementById('postTextContent');
+      if (postElem) {
+        postElem.textContent = item.content;
+      }
+      const charElem = document.getElementById('charCount');
+      if (charElem) {
+        charElem.innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${item.wordCount} từ • ~${Math.ceil(item.wordCount/180)} phút đọc`;
+      }
+
+      // Update topic and voice if different
+      if (item.topic) {
+        const topicInput = document.getElementById('topicInput');
+        if (topicInput) topicInput.value = item.topic;
+        const displayTopic = document.getElementById('displayTopicTitle');
+        if (displayTopic) displayTopic.textContent = `Chủ đề: "${item.topic}"`;
+      }
+      if (item.voiceKey && item.voiceKey !== currentVoice) {
+        selectVoice(item.voiceKey, true);
+      }
+      if (item.channel) {
+        const chSel = document.getElementById('channelSelect');
+        if (chSel) chSel.value = item.channel;
+      }
+
+      closeHistoryModal();
+      updateHistoryUI();
+      showToast(`✅ Đã khôi phục bản thảo "${(item.topic || '').substring(0, 30)}..." (${item.timeStr})!`);
+
+      // Scroll to post
+      setTimeout(() => {
+        if (postElem) postElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+
+    function deleteArticleVersion(id) {
+      if (!confirm('Bạn có chắc muốn xóa phiên bản này khỏi lịch sử không?')) return;
+      let history = getArticleHistory();
+      history = history.filter(h => h.id !== id);
+      saveArticleHistoryList(history);
+      updateHistoryUI();
+      renderHistoryList();
+      showToast('Đã xóa phiên bản bài viết!');
+    }
+
+    function openHistoryModal() {
+      updateHistoryUI();
+      renderHistoryList();
+      document.getElementById('articleHistoryModal').classList.remove('hidden');
+    }
+
+    function closeHistoryModal() {
+      document.getElementById('articleHistoryModal').classList.add('hidden');
+    }
+
+    function switchHistoryTab(tabName) {
+      currentHistoryTab = tabName;
+      ['tabHistTopic', 'tabHistStarred', 'tabHistAll'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:bg-white transition cursor-pointer';
+        }
+      });
+
+      const activeId = tabName === 'topic' ? 'tabHistTopic' : (tabName === 'starred' ? 'tabHistStarred' : 'tabHistAll');
+      const activeBtn = document.getElementById(activeId);
+      if (activeBtn) {
+        activeBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-white text-indigo-700 shadow-2xs border border-indigo-200 cursor-pointer';
+      }
+
+      renderHistoryList();
+    }
+
+    function renderHistoryList() {
+      const container = document.getElementById('historyListContainer');
+      if (!container) return;
+      const history = getArticleHistory();
+      const curTopic = document.getElementById('topicInput') ? document.getElementById('topicInput').value.trim() : '';
+
+      let list = [];
+      if (currentHistoryTab === 'topic') {
+        list = curTopic ? history.filter(h => h.topic === curTopic) : history;
+      } else if (currentHistoryTab === 'starred') {
+        list = history.filter(h => h.isFavorite);
+      } else {
+        list = history;
+      }
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-slate-400 space-y-2">
+            <i class="fa-solid fa-folder-open text-3xl text-slate-300"></i>
+            <p class="text-xs font-semibold">Chưa có bài viết nào trong danh mục này</p>
+            <p class="text-[11px] text-slate-400">Mỗi khi bạn sinh bài hoặc bấm "Lưu bài hay ⭐", bài viết sẽ tự động xuất hiện tại đây!</p>
+          </div>
+        `;
+        return;
+      }
+
+      const postText = document.getElementById('postTextContent') ? document.getElementById('postTextContent').textContent.trim() : '';
+
+      let html = '';
+      list.forEach((item, index) => {
+        const isCurrent = (item.content.trim() === postText);
+        const voiceBadgeClass = item.voiceKey === 'voice1' ? 'bg-blue-100 text-blue-800' : (item.voiceKey === 'voice2' ? 'bg-indigo-100 text-indigo-800' : 'bg-emerald-100 text-emerald-800');
+        const starClass = item.isFavorite ? 'fa-solid fa-star text-amber-500' : 'fa-regular fa-star text-slate-300 hover:text-amber-500';
+
+        html += `
+          <div class="border ${isCurrent ? 'border-indigo-400 ring-2 ring-indigo-100 bg-indigo-50/20' : 'border-slate-200 bg-white'} rounded-2xl p-4 shadow-2xs space-y-3 transition">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${voiceBadgeClass}">${item.voiceName || item.voiceKey}</span>
+                  <span class="text-[11px] text-slate-500 font-semibold">${item.timeStr}</span>
+                  <span class="text-[11px] text-slate-400">• ${item.wordCount} từ</span>
+                  ${item.score ? `<span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded">SOP: ${item.score}/10</span>` : ''}
+                  ${isCurrent ? `<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded flex items-center gap-1"><i class="fa-solid fa-check"></i> Đang hiển thị</span>` : ''}
+                </div>
+                <h4 class="text-xs font-bold text-slate-900">${escapeHtml(item.topic)}</h4>
+              </div>
+              <div class="flex items-center gap-1">
+                <button onclick="toggleStarById(${item.id})" class="p-1.5 hover:bg-slate-100 rounded-lg text-sm transition cursor-pointer" title="Lưu bài hay">
+                  <i class="${starClass}"></i>
+                </button>
+                <button onclick="deleteArticleVersion(${item.id})" class="p-1.5 text-slate-300 hover:text-red-600 hover:bg-red-50 rounded-lg text-xs transition cursor-pointer" title="Xóa bản thảo này">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 max-h-36 overflow-y-auto whitespace-pre-wrap font-sans text-[11px] text-slate-700 leading-relaxed">
+${escapeHtml(item.content)}
+            </div>
+
+            <div class="flex items-center justify-between pt-1">
+              <span class="text-[10px] text-slate-400">ID: #${item.id.toString().slice(-4)}</span>
+              <div class="flex items-center gap-2">
+                <button onclick="copyHistoryContent(${item.id})" class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1 transition cursor-pointer">
+                  <i class="fa-regular fa-copy text-blue-600"></i> Sao chép
+                </button>
+                ${!isCurrent ? `
+                  <button onclick="restoreArticleVersion(${item.id})" class="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold flex items-center gap-1 transition shadow-sm cursor-pointer">
+                    <i class="fa-solid fa-arrow-rotate-left"></i> Khôi phục bản này →
+                  </button>
+                ` : `
+                  <span class="text-xs text-emerald-600 font-bold px-2 py-1"><i class="fa-solid fa-circle-check"></i> Đang mở trên bàn làm việc</span>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function copyHistoryContent(id) {
+      const history = getArticleHistory();
+      const item = history.find(h => h.id === id);
+      if (item && item.content) {
+        navigator.clipboard.writeText(item.content).then(() => {
+          showToast('Đã sao chép nội dung bài viết!');
+        });
+      }
+    }
+
     function addBrainRule() {
       const input = document.getElementById('newRuleInput');
       const val = input.value.trim();
@@ -3159,6 +3564,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       inspectDay(1);
       checkSavedApiKey();
       renderBrainScoreView();
+      updateHistoryUI();
     });
   </script>
 </body>
