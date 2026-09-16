@@ -885,13 +885,20 @@
           <i class="fa-brands fa-markdown text-slate-700 text-lg"></i>
           <h3 class="text-sm font-bold text-slate-900">XEM TRỰC TIẾP TẬP TIN BRAIN_SCORE.MD (LIVE MARKDOWN EXPORT)</h3>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 flex-wrap">
           <button onclick="copyBrainScoreMd()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
             <i class="fa-regular fa-copy"></i> Sao chép
           </button>
           <button onclick="downloadBrainScoreMd()" class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
             <i class="fa-solid fa-download"></i> Tải về (.md)
           </button>
+          <button onclick="exportBrainMemory()" class="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-2xs" title="Tải file sao lưu toàn bộ tri thức của não bộ">
+            <i class="fa-solid fa-cloud-arrow-down text-purple-600"></i> Sao Lưu Não Bộ (JSON)
+          </button>
+          <label class="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-2xs cursor-pointer" title="Khôi phục lại tri thức đã lưu mà không bị mất">
+            <i class="fa-solid fa-cloud-arrow-up text-emerald-600"></i> Khôi Phục Não Bộ (JSON)
+            <input type="file" accept=".json" class="hidden" onchange="importBrainMemory(event)">
+          </label>
         </div>
       </div>
       <pre class="bg-slate-900 text-slate-200 font-mono text-[11px] p-4 rounded-xl overflow-x-auto max-h-96 leading-relaxed border border-slate-800 whitespace-pre" id="rawMarkdownDisplay">
@@ -956,6 +963,9 @@
       </button>
       <button id="subtabBtnComparison" onclick="switchAdminSubtab('comparison')" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
         <i class="fa-solid fa-chart-pie text-amber-600"></i> 5. Bảng So Sánh Tiến Hóa (Gốc vs Hiện Tại)
+      </button>
+      <button id="subtabBtnBackup" onclick="switchAdminSubtab('backup')" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+        <i class="fa-solid fa-database text-purple-600"></i> 6. Bảo Vệ Tri Thức & Sao Lưu Não Bộ
       </button>
     </div>
 
@@ -1074,6 +1084,93 @@
             <!-- Dynamically populated -->
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- SUBTAB 6: DATA PERSISTENCE & BACKUP -->
+    <div id="adminSubtabBackup" class="hidden space-y-5">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="border-b pb-3 flex items-center justify-between">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-database text-purple-600"></i>
+              TRUNG TÂM BẢO VỆ DỮ LIỆU & ĐỒNG BỘ TRI THỨC (DATA PERSISTENCE & BACKUP)
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5">Tách biệt tuyệt đối giữa "Mã nguồn phần mềm" và "Dữ liệu học tập của Brain" để không bao giờ bị ghi đè</p>
+          </div>
+          <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold flex items-center gap-1.5">
+            <i class="fa-solid fa-shield-check text-emerald-600"></i> Dữ Liệu Được Bảo Vệ An Toàn
+          </span>
+        </div>
+
+        <!-- 3 Architecture Pillars -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 rounded-xl bg-blue-50/60 border border-blue-200 space-y-2">
+            <div class="font-bold text-blue-900 flex items-center gap-1.5 text-xs">
+              <i class="fa-solid fa-layer-group text-blue-600"></i> 1. Tách Rời Code & Data
+            </div>
+            <p class="text-slate-600 leading-relaxed text-[11px]">
+              Mỗi lần lập trình viên cập nhật phiên bản mới (Git update, deploy), chỉ có các file giao diện và logic phần mềm được làm mới. Toàn bộ tri thức của bạn được bảo vệ độc lập, không bị ghi đè.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-purple-50/60 border border-purple-200 space-y-2">
+            <div class="font-bold text-purple-900 flex items-center gap-1.5 text-xs">
+              <i class="fa-solid fa-code-merge text-purple-600"></i> 2. Hợp Nhất Thông Minh (Merge)
+            </div>
+            <p class="text-slate-600 leading-relaxed text-[11px]">
+              Hệ thống áp dụng cơ chế <em>Non-destructive Append</em>: Dữ liệu mới chỉ được nạp nối tiếp vào kho tri thức, kiểm tra trùng lặp tự động, tuyệt đối không bao giờ chạy lệnh xóa hay gán đè.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200 space-y-2">
+            <div class="font-bold text-emerald-900 flex items-center gap-1.5 text-xs">
+              <i class="fa-solid fa-cloud-arrow-down text-emerald-600"></i> 3. Sao Lưu Độc Lập 1-Click
+            </div>
+            <p class="text-slate-600 leading-relaxed text-[11px]">
+              Bạn luôn có quyền tải về bản sao lưu toàn bộ não bộ (.json / .md) về máy tính cá nhân để lưu giữ hoặc khôi phục lại bất cứ lúc nào trên mọi thiết bị mới.
+            </p>
+          </div>
+        </div>
+
+        <!-- Action Panel -->
+        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
+          <div class="font-bold text-slate-800 text-xs flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-purple-600"></i> THAO TÁC SAO LƯU & KHÔI PHỤC TRI THỨC NGAY LẬP TỨC:
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <button onclick="exportBrainMemory()" class="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
+              <i class="fa-solid fa-cloud-arrow-down"></i> Tải Gói Sao Lưu Não Bộ (Backup JSON)
+            </button>
+
+            <label class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm cursor-pointer">
+              <i class="fa-solid fa-cloud-arrow-up"></i> Khôi Phục & Hợp Nhất Tri Thức (Import JSON)
+              <input type="file" accept=".json" class="hidden" onchange="importBrainMemory(event)">
+            </label>
+
+            <button onclick="downloadBrainScoreMd()" class="px-4 py-2.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-2xs">
+              <i class="fa-solid fa-file-arrow-down text-blue-600"></i> Tải Báo Cáo brain_score.md
+            </button>
+          </div>
+        </div>
+
+        <!-- Sync with SQLite brain.db Section -->
+        <div class="p-4 bg-amber-50/60 rounded-2xl border border-amber-200 space-y-2 text-xs">
+          <div class="font-bold text-amber-900 flex items-center gap-1.5">
+            <i class="fa-solid fa-terminal text-amber-700"></i> Đồng bộ với file SQLite `brain.db` trên máy chủ:
+          </div>
+          <p class="text-slate-600 text-[11px]">
+            Nếu bạn muốn đồng bộ tri thức từ file JSON đã xuất vào trực tiếp cơ sở dữ liệu SQLite <code class="bg-amber-100 px-1 py-0.5 rounded font-mono text-amber-800">brain.db</code>, hãy mở terminal và chạy lệnh:
+          </p>
+          <pre class="bg-slate-900 text-emerald-400 font-mono text-[11px] p-3 rounded-xl overflow-x-auto leading-relaxed">
+# 1. Nạp an toàn file JSON vào SQLite brain.db (không ghi đè dữ liệu cũ)
+python3 scripts/sync_brain.py --import brain_backup_*.json
+
+# 2. Hoặc trích xuất toàn bộ dữ liệu từ brain.db ra file JSON
+python3 scripts/sync_brain.py --export</pre>
+        </div>
+
       </div>
     </div>
 
@@ -2456,6 +2553,72 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       showToast('Đã tải tập tin brain_score.md về máy!');
     }
 
+    function exportBrainMemory() {
+      const evaluations = getEvaluations();
+      const config = getBrandVoiceConfig();
+      const exportData = {
+        appName: "Simon Center Second Brain",
+        version: "2.5",
+        exportedAt: new Date().toISOString(),
+        evaluations: evaluations,
+        brandVoiceConfig: config
+      };
+
+      const jsonStr = JSON.stringify(exportData, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      const dateStr = new Date().toISOString().slice(0, 10);
+      a.download = `brain_backup_${dateStr}.json`;
+      a.click();
+      showToast('✅ Đã xuất gói tri thức não bộ (JSON) thành công!');
+    }
+
+    function importBrainMemory(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (!data || (!data.evaluations && !data.brandVoiceConfig)) {
+            alert('Tập tin không đúng định dạng sao lưu của Simon Second Brain.');
+            return;
+          }
+
+          let importedCount = 0;
+          if (Array.isArray(data.evaluations) && data.evaluations.length > 0) {
+            const currentList = getEvaluations();
+            const existingKeys = new Set(currentList.map(item => item.id || `${item.day}_${item.voiceKey}_${item.score}_${item.timestamp}`));
+            
+            data.evaluations.forEach(item => {
+              const checkKey = item.id || `${item.day}_${item.voiceKey}_${item.score}_${item.timestamp}`;
+              if (!existingKeys.has(checkKey)) {
+                currentList.push(item);
+                existingKeys.add(checkKey);
+                importedCount++;
+              }
+            });
+            saveEvaluationsList(currentList);
+          }
+
+          if (data.brandVoiceConfig) {
+            saveBrandVoiceConfig(data.brandVoiceConfig);
+          }
+
+          renderBrainScoreView();
+          initAdminView();
+          showToast(`🎉 Khôi phục thành công! Đã nạp ${importedCount} tri thức mới vào não bộ.`);
+          alert(`Đã khôi phục thành công gói tri thức não bộ!\n- Bản ghi đánh giá & SOP nạp thêm: ${importedCount}\n- Cấu hình Brand Voice đã được đồng bộ chuẩn xác.`);
+        } catch(err) {
+          alert('Lỗi đọc tập tin backup: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
     // =========================================================================
     // 10. ADMIN TAB CONTROLLER & SUBTABS
     // =========================================================================
@@ -2477,7 +2640,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
 
     function switchAdminSubtab(subtab) {
       currentAdminSubtab = subtab;
-      const subtabs = ['foundation', 'voice1', 'voice2', 'voice3', 'comparison'];
+      const subtabs = ['foundation', 'voice1', 'voice2', 'voice3', 'comparison', 'backup'];
 
       subtabs.forEach(st => {
         const btn = document.getElementById('subtabBtn' + st.charAt(0).toUpperCase() + st.slice(1));
@@ -2493,16 +2656,20 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       const foundationPanel = document.getElementById('adminSubtabFoundation');
       const voiceContainer = document.getElementById('adminVoiceContainer');
       const comparisonPanel = document.getElementById('adminSubtabComparison');
+      const backupPanel = document.getElementById('adminSubtabBackup');
 
       if (foundationPanel) foundationPanel.classList.add('hidden');
       if (voiceContainer) voiceContainer.classList.add('hidden');
       if (comparisonPanel) comparisonPanel.classList.add('hidden');
+      if (backupPanel) backupPanel.classList.add('hidden');
 
       if (subtab === 'foundation') {
         if (foundationPanel) foundationPanel.classList.remove('hidden');
       } else if (subtab === 'comparison') {
         if (comparisonPanel) comparisonPanel.classList.remove('hidden');
         renderAdminComparisonTable();
+      } else if (subtab === 'backup') {
+        if (backupPanel) backupPanel.classList.remove('hidden');
       } else {
         if (voiceContainer) {
           voiceContainer.classList.remove('hidden');
