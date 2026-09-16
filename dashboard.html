@@ -1267,6 +1267,13 @@ python3 scripts/sync_brain.py --export</pre>
     let currentDay = 1;
     let selectedCalendarDay = 1;
 
+    const voiceNamesShort = { voice1: 'Giọng 1', voice2: 'Giọng 2', voice3: 'Giọng 3' };
+    const voiceNamesFull = { 
+      voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', 
+      voice2: 'Giọng 2 (Học Thuật First Principles)', 
+      voice3: 'Giọng 3 (Sale Y Đức Chốt Deal)' 
+    };
+
     // 1. DATA SOURCES
     const plan7DaysData = [
       {
@@ -3013,7 +3020,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
               <p class="text-xs font-semibold text-slate-900">${p.title}</p>
               <div class="flex items-center justify-between pt-1 text-[11px] text-slate-500">
                 <span>CTA: ${p.cta}</span>
-                <button onclick="applyPlanTopic('${p.title.replace(/'/g, "\\'") }', '${p.voice}', '${p.channel}', ${d.day}, ${idx})" class="text-blue-600 font-bold hover:underline">
+                <button onclick="applyPlanByDayAndIdx(${d.day}, ${idx})" class="text-blue-600 font-bold hover:underline flex items-center gap-1 cursor-pointer">
                   Chọn đề tài này →
                 </button>
               </div>
@@ -3045,9 +3052,38 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       document.getElementById('planModal').classList.add('hidden');
     }
 
-    function applyPlanTopic(topic, voice, channel, dayNum, postIdx = 0) {
-      loadPostToWorkspace(topic, voice, channel, dayNum, postIdx);
+    function applyPlanByDayAndIdx(dayNum, postIdx = 0) {
+      dayNum = Number(dayNum) || 1;
+      postIdx = Number(postIdx) || 0;
       closePlanModal();
+      
+      const dayData = plan7DaysData.find(d => d.day === dayNum);
+      let targetPost = (dayData && dayData.posts) ? dayData.posts[postIdx] : null;
+      if (targetPost) {
+        loadPostToWorkspace(targetPost.title, targetPost.voice, targetPost.channel, dayNum, postIdx);
+      } else {
+        loadPostToWorkspace('', 'voice1', 'fb_personal', dayNum, postIdx);
+      }
+      
+      switchMainView('workspace');
+      setTimeout(() => {
+        const postElem = document.getElementById('postTextContent');
+        if (postElem) {
+          postElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 150);
+    }
+
+    function applyPlanTopic(topic, voice, channel, dayNum, postIdx = 0) {
+      closePlanModal();
+      loadPostToWorkspace(topic, voice, channel, dayNum, postIdx);
+      switchMainView('workspace');
+      setTimeout(() => {
+        const postElem = document.getElementById('postTextContent');
+        if (postElem) {
+          postElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 150);
     }
 
     function copyPostContent() {
