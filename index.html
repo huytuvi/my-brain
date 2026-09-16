@@ -1546,7 +1546,8 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
 2. MỞ ĐẦU (HOOK): Bắt đầu bằng lời chào ('Dạ em chào anh/chị nhé ạ' hoặc câu chuyện/trăn trở thật), chạm ngay vào nỗi đau hoặc băn khoăn tâm lý của người đọc, xưng hô gần gũi như người bạn hoặc chuyên gia tận tâm.
 3. THÂN BÀI SÂU SẮC: Đi thẳng vào nguyên lý gốc rễ, phân tích giữa 'chi phí' và 'giá trị lâu dài cho sức khỏe', dùng kiến thức giải phẫu dễ hiểu, không sáo rỗng, không dùng từ ngữ giật gân.
 4. KÊU GỌI HÀNH ĐỘNG (CTA): Nhẹ nhàng mời điền Form Danh Sách Chờ (Waitlist) Buổi Đánh Giá Cột Sống 1-1 Chuyên Sâu để giữ chỗ ưu tiên (không giục giã, không ép mua hàng).
-5. KẾT BÀI: Luôn có 1 dòng ghi chú miễn trừ trách nhiệm y khoa trang trọng ở cuối bài: '*(Lưu ý: Chia sẻ mang tính tham khảo y khoa, không thay thế cho việc thăm khám trực tiếp từ bác sĩ chuyên khoa ạ.)*'`;
+5. KẾT BÀI: Luôn có 1 dòng ghi chú miễn trừ trách nhiệm y khoa trang trọng ở cuối bài: '*(Lưu ý: Chia sẻ mang tính tham khảo y khoa, không thay thế cho việc thăm khám trực tiếp từ bác sĩ chuyên khoa ạ.)*'
+6. ĐỊNH DẠNG XUẤT BẢN: CHỈ TRẢ VỀ DUY NHẤT NỘI DUNG BÀI VIẾT HOÀN CHỈNH (từ tiêu đề đến câu kết). TUYỆT ĐỐI KHÔNG CHÀO HỎI AI, KHÔNG NÓI 'Dưới đây là...', KHÔNG CHÈN CODE BLOCK HAY LỜI BÌNH NGOÀI.`;
 
       return p;
     }
@@ -1650,14 +1651,36 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
         const _DEFAULT_KEY = atob('QVEuQWI4Uk42THFscXpIZ0pKeldjREZ5bGVRU2I0eGZkODUxS2IxbzlwOGY1VnR6RjVxdXc=');
         const apiKey = localStorage.getItem('simon_gemini_api_key') || (document.getElementById('geminiApiKeyInput') ? document.getElementById('geminiApiKeyInput').value.trim() : '') || _DEFAULT_KEY;
 
+        showToast(`Đang chuyển sang ${voiceNamesFull[voiceKey]} & tạo bài viết phù hợp...`);
         if (curTopic && apiKey) {
-          showToast(`Đang tự động sinh bài viết cho đề tài theo ${voiceNamesFull[voiceKey]}...`);
           generateLiveArticle();
         } else {
           updateOutputPreview();
         }
       } else {
-        showToast(`Đã chuyển sang: ${voiceNamesFull[voiceKey]}`);
+        showToast(`Đã chọn: ${voiceNamesFull[voiceKey]}`);
+      }
+    }
+
+    function cleanGeneratedText(text) {
+      if (!text) return '';
+      let cleaned = text.trim();
+      cleaned = cleaned.replace(/^```[a-zA-Z]*\n?/, '').replace(/\n?```$/, '').trim();
+      cleaned = cleaned.replace(/^(?:Dưới đây là|Chào bạn|Đây là bài viết|Sau đây là|Tôi xin gửi|Gửi bạn)[^\n]*\n+/i, '');
+      cleaned = cleaned.replace(/^\*{3,}[^\n]*\n+/i, '');
+      return cleaned.trim();
+    }
+
+    function generateTopicAdaptiveFallback(topic, voiceKey, channel) {
+      if (!topic) topic = 'Chăm sóc và bảo vệ sức khỏe cột sống chuẩn y khoa';
+      const cleanTopic = topic.replace(/^[0-9]+\.\s*/, '').trim();
+
+      if (voiceKey === 'voice1') {
+        return `Dạ em chào anh/chị${channel && channel.includes('Group') ? ' trong nhóm' : ''},\n\nCó một câu chuyện mà em gặp rất nhiều ở những anh chị làm văn phòng khi chia sẻ về chủ đề: "${cleanTopic}".\n\nNhiều người trong chúng ta thường có thói quen cố gắng gồng mình chịu đựng, xem những cơn đau mỏi, nhức buốt hay căng thẳng là điều "bình thường" phải chấp nhận mỗi ngày. Cứ mỏi thì đổi tư thế, nhức quá thì xoa dầu hay uống vội viên thuốc giảm đau để tiếp tục hoàn thành công việc.\n\nNhưng cơ thể chúng ta không được sinh ra để gánh chịu những tổn thương âm thầm ấy.\n\nCơn đau không bao giờ là kẻ thù. Đó là tiếng chuông cảnh báo chân thực nhất mà hệ thần kinh gửi đến, nhắc nhở rằng cấu trúc trục cột sống đang bị quá tải và cần được phục hồi đúng cách.\n\nCột sống đã nâng đỡ bạn đi qua biết bao dự án và trách nhiệm. Đã đến lúc bạn lắng nghe và chăm sóc lại chính cơ thể mình.\n\nTuần này, Simon Center dành riêng các suất đánh giá cơ xương khớp 1-1 chuyên sâu cho anh/chị. Hãy điền form danh sách chờ bên dưới để chuyên gia đồng hành cùng bạn nhé ạ.\n👉 Link đăng ký: [ĐIỀN FORM TẠI ĐÂY]\n\n*(Chia sẻ mang tính tham khảo y khoa, không thay thế thăm khám trực tiếp từ bác sĩ chuyên khoa ạ.)*`;
+      } else if (voiceKey === 'voice2') {
+        return `[GÓC KHOA HỌC & NGUYÊN LÝ GỐC: ${cleanTopic.toUpperCase()}]\n\nBạn có bao giờ tự hỏi bản chất cơ sinh học (Biomechanics) đằng sau vấn đề này là gì không?\n\nHãy cùng bóc tách từ Nguyên lý gốc (First Principles):\n\n1. Cơ chế tải trọng và phân bổ lực:\nCột sống con người là một hệ đòn bẩy hoàn hảo. Khi tư thế sinh hoạt hay vận động bị sai lệch dù chỉ 15 - 30 độ, áp lực đè nén lên các đĩa đệm và diện khớp liên mấu sẽ tăng gấp 3 đến 5 lần so với trạng thái cân bằng giải phẫu.\n\n2. Phản ứng bù trừ của hệ cơ thần kinh:\nKhi một đốt sống trượt nhẹ khỏi trục chuẩn (Subluxation), tủy sống lập tức gửi tín hiệu co thắt các khối cơ xung quanh để tạo thành một lớp bảo vệ cơ học. Đây là lý do vì sao các biện pháp xoa bóp hay giảm đau bề mặt chỉ giúp đỡ tạm thời 1-2 hôm, rồi cơ bắp sẽ co cứng trở lại vì trục bên dưới chưa được nắn chỉnh chuẩn xác.\n\n3. Hướng tiếp cận y khoa bền vững:\nPhục hồi chức năng và giải phóng chèn ép rễ thần kinh tận gốc. Đưa cột sống về đúng đường cong sinh lý tự nhiên để cơ thể tự kích hoạt cơ chế chữa lành.\n\nNếu bạn muốn hiểu rõ chỉ số cơ xương khớp và trục cột sống thực tế của mình, Simon Center đang mở cổng đánh giá 1-1 cùng chuyên gia y khoa.\n👉 Đăng ký vào Form Danh Sách Chờ tại đây: [ĐIỀN FORM TẠI ĐÂY]\n\n*(Thông tin mang tính tham khảo y khoa, không thay thế chẩn đoán chuyên sâu từ bác sĩ ạ.)*`;
+      } else {
+        return `Dạ em chào anh/chị,\n\nKhi đối diện với vấn đề "${cleanTopic}", rất nhiều anh chị từng thẳng thắn băn khoăn về chi phí và thời gian điều trị khi đến với Simon Center (Feel).\n\nMọi người thường so sánh chi phí nắn chỉnh chuyên sâu với những giải pháp xoa bóp thư giãn hay dán cao thông thường ngoài thị trường (Felt).\n\nNhưng sau khi hoàn thành buổi thăm khám và trải nghiệm nắn chỉnh chuẩn y khoa, 100% khách hàng đều nhận ra sự khác biệt (Found): Chi phí lớn nhất không nằm ở liệu trình, mà nằm ở thời gian bạn phải chịu đựng cơn đau và những hao tổn sức khỏe khi chữa sai phương pháp kéo dài.\n\nTại Simon Center, bạn không phải mua một gói liệu trình mơ hồ. Chúng tôi đề xuất một bước đi rất minh bạch:\nBắt đầu bằng 1 Buổi Đánh Giá Cột Sống Chuyên Sâu 1-1 với chuyên gia. Bác sĩ sẽ chỉ rõ căn nguyên vấn đề của bạn nằm ở đâu, cần làm gì và điều gì không cần thiết. Anh/chị hoàn toàn nắm rõ bức tranh sức khỏe của mình rồi mới quyết định, không có bất kỳ áp lực nào.\n\n👉 Anh/chị đăng ký giữ chỗ sớm qua Form Danh Sách Chờ tại đây nhé: [ĐIỀN FORM TẠI ĐÂY]\n\n*(Thông tin mang tính tham khảo y khoa, không thay thế chẩn đoán chuyên sâu trực tiếp ạ.)*`;
       }
     }
 
@@ -1669,9 +1692,38 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       if (bannerElem) bannerElem.innerHTML = `<i class="${vData.icon}"></i> Đang áp dụng: ${vData.badge}`;
 
       const postElem = document.getElementById('postTextContent');
-      if (postElem) postElem.textContent = vData.content;
+      if (!postElem) return;
+
+      const topicInput = document.getElementById('topicInput');
+      const curTopic = topicInput ? topicInput.value.trim() : '';
+
+      // Check if Day 1 default
+      if (currentDay === 1 && (!curTopic || curTopic.includes('chịu đựng cơn đau') || curTopic.includes('Cúi đầu nhìn điện thoại'))) {
+        postElem.textContent = vData.content;
+      } else {
+        // Look in plan7DaysData for this day
+        const dayData = plan7DaysData.find(d => d.day === currentDay);
+        let matchedContent = null;
+        if (dayData && dayData.posts) {
+          // If current post index matches voice
+          if (dayData.posts[currentPostIndex] && dayData.posts[currentPostIndex].voice === currentVoice && dayData.posts[currentPostIndex].content) {
+            matchedContent = dayData.posts[currentPostIndex].content;
+          } else {
+            const found = dayData.posts.find(p => p.voice === currentVoice && (!curTopic || p.title === curTopic));
+            if (found && found.content) matchedContent = found.content;
+          }
+        }
+
+        if (matchedContent) {
+          postElem.textContent = matchedContent;
+        } else {
+          const chSel = document.getElementById('channelSelect');
+          const channel = (chSel && chSel.selectedOptions && chSel.selectedOptions[0]) ? chSel.selectedOptions[0].text : '';
+          postElem.textContent = generateTopicAdaptiveFallback(curTopic, currentVoice, channel);
+        }
+      }
       
-      const words = vData.content.trim().split(/\s+/).length;
+      const words = postElem.textContent.trim().split(/\s+/).filter(Boolean).length;
       const charElem = document.getElementById('charCount');
       if (charElem) charElem.innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
     }
@@ -1774,24 +1826,24 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       let targetDay = Number(dayNum) || currentDay;
       let targetIdx = Number(postIdx) || 0;
 
-      // Priority 1: Match by exact title across plan7DaysData
-      for (const d of plan7DaysData) {
-        if (d.posts) {
-          const foundIdx = d.posts.findIndex(p => p.title.trim() === title.trim());
-          if (foundIdx !== -1) {
-            targetPost = d.posts[foundIdx];
-            targetDay = d.day;
-            targetIdx = foundIdx;
-            break;
-          }
-        }
+      // Priority 1: Match by day and postIdx
+      const dData = plan7DaysData.find(d => d.day === targetDay);
+      if (dData && dData.posts && dData.posts[targetIdx]) {
+        targetPost = dData.posts[targetIdx];
       }
 
-      // Priority 2: Match by day and postIdx
-      if (!targetPost) {
-        const dData = plan7DaysData.find(d => d.day === targetDay);
-        if (dData && dData.posts && dData.posts[targetIdx]) {
-          targetPost = dData.posts[targetIdx];
+      // Priority 2: Match by exact title across plan7DaysData if mismatch
+      if (!targetPost || (title && targetPost.title.trim() !== title.trim())) {
+        for (const d of plan7DaysData) {
+          if (d.posts) {
+            const foundIdx = d.posts.findIndex(p => p.title.trim() === title.trim());
+            if (foundIdx !== -1) {
+              targetPost = d.posts[foundIdx];
+              targetDay = d.day;
+              targetIdx = foundIdx;
+              break;
+            }
+          }
         }
       }
 
@@ -1803,6 +1855,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
 
       currentDay = targetDay;
       currentPostIndex = targetIdx;
+      currentVoice = voiceKey;
       
       const topicInput = document.getElementById('topicInput');
       if (topicInput) topicInput.value = title;
@@ -1823,33 +1876,42 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       const evalDayBadge = document.getElementById('evaluatingDayBadge');
       if (evalDayBadge) evalDayBadge.textContent = `Ngày ${targetDay}`;
 
-      // Update voice selection UI without overwriting article with Day 1 template
+      // Update voice selection UI without triggering re-generation
       selectVoice(voiceKey, true);
 
-      // Check if there is cached custom generated article for this post
-      const cachedKey = `simon_custom_post_${targetDay}_${targetIdx}`;
-      const cachedContent = localStorage.getItem(cachedKey);
-
+      // Check if there is valid cached custom generated article for this specific post & voice
+      const cachedKey = `simon_custom_post_${targetDay}_${targetIdx}_${voiceKey}`;
       let articleContent = '';
-      if (cachedContent && cachedContent.trim()) {
-        articleContent = cachedContent.trim();
-      } else if (targetPost && targetPost.content) {
+      try {
+        const cachedRaw = localStorage.getItem(cachedKey);
+        if (cachedRaw) {
+          const parsed = cachedRaw.startsWith('{') ? JSON.parse(cachedRaw) : null;
+          if (parsed && parsed.text && parsed.topic === title) {
+            articleContent = parsed.text;
+          } else if (!cachedRaw.startsWith('{') && !cachedRaw.includes('27 KILOGAM') && !cachedRaw.includes('ĐẬP TAN LẦM TƯỞNG CỘT SỐNG')) {
+            articleContent = cachedRaw.trim();
+          }
+        }
+      } catch(e) { console.warn(e); }
+
+      // If no valid cache, ALWAYS use targetPost.content from plan7DaysData
+      if (!articleContent && targetPost && targetPost.content) {
         articleContent = targetPost.content;
-      } else if (voiceDataStore[voiceKey]) {
-        articleContent = voiceDataStore[voiceKey].content;
+      } else if (!articleContent) {
+        articleContent = generateTopicAdaptiveFallback(title, voiceKey, channelVal);
       }
 
       // Display dedicated article immediately
       const postElem = document.getElementById('postTextContent');
       if (postElem && articleContent) {
         postElem.textContent = articleContent;
-        const words = articleContent.trim().split(/\s+/).length;
+        const words = articleContent.trim().split(/\s+/).filter(Boolean).length;
         const charElem = document.getElementById('charCount');
         if (charElem) charElem.innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
       }
 
       switchMainView('workspace');
-      showToast(`Đã nạp bài viết chuẩn Ngày ${targetDay}: "${title.substring(0, 35)}..."!`);
+      showToast(`Đã nạp bài viết Ngày ${targetDay} (${voiceNamesShort[voiceKey] || voiceKey}): "${title.substring(0, 30)}..."!`);
     }
 
     function calendarRegenerateTopic() {
@@ -1904,7 +1966,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
 
       showToast(`Đang kết nối Gemini AI viết bài theo ${vName}...`);
       if (postElem) {
-        postElem.textContent = `⏳ Đang kết nối Gemini AI để sáng tạo bài viết hoàn chỉnh (350 - 550 từ) theo đúng ${vName}...\n\nÁp dụng bộ 5 câu hỏi SOP, văn mẫu người sáng lập và các bài học trong não bộ. Vui lòng đợi trong giây lát...`;
+        postElem.textContent = `⏳ Đang kết nối Gemini AI để sáng tạo bài viết hoàn chỉnh (350 - 550 từ) theo đúng ${vName}...\n\nChủ đề: "${topic}"\n\nÁp dụng bộ 5 câu hỏi SOP, văn mẫu người sáng lập và các bài học trong não bộ. Vui lòng đợi trong giây lát...`;
       }
 
       const _DEFAULT_KEY = atob('QVEuQWI4Uk42THFscXpIZ0pKeldjREZ5bGVRU2I0eGZkODUxS2IxbzlwOGY1VnR6RjVxdXc=');
@@ -1918,15 +1980,18 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       if (apiKey) {
         // High speed + high quality model chain
         const candidateModels = [
-          { name: 'gemini-3.5-flash-lite', config: { temperature: 0.7, maxOutputTokens: 4096 } },
-          { name: 'gemini-3.6-flash', config: { temperature: 0.7, maxOutputTokens: 4096, thinkingConfig: { thinkingBudget: 0 } } }
+          { name: 'gemini-3.5-flash-lite', config: { temperature: 0.7, maxOutputTokens: 3000 } },
+          { name: 'gemini-3.6-flash', config: { temperature: 0.7, maxOutputTokens: 3000, thinkingConfig: { thinkingBudget: 0 } } }
         ];
 
         for (const cand of candidateModels) {
           try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 12000);
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${cand.name}:generateContent?key=${apiKey}`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
+              signal: controller.signal,
               body: JSON.stringify({
                 contents: [{
                   parts: [{ text: fullPrompt }]
@@ -1934,12 +1999,13 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
                 generationConfig: cand.config
               })
             });
+            clearTimeout(timeoutId);
 
             if (res.ok) {
               const json = await res.json();
               if (json.candidates && json.candidates[0] && json.candidates[0].content && json.candidates[0].content.parts && json.candidates[0].content.parts[0].text) {
-                aiText = json.candidates[0].content.parts[0].text.trim();
-                if (aiText.length > 100) {
+                aiText = cleanGeneratedText(json.candidates[0].content.parts[0].text);
+                if (aiText.length > 80) {
                   success = true;
                   break;
                 }
@@ -1961,20 +2027,21 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
 
       if (success && aiText) {
         if (postElem) postElem.textContent = aiText;
-        const words = aiText.trim().split(/\s+/).length;
+        const words = aiText.trim().split(/\s+/).filter(Boolean).length;
         const charElem = document.getElementById('charCount');
         if (charElem) charElem.innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
         
-        // Save into persistent cache for current post
+        // Save into persistent cache for current post & voice
         try {
-          localStorage.setItem(`simon_custom_post_${currentDay}_${currentPostIndex}`, aiText);
+          const cacheObj = { topic: topic, voice: currentVoice, text: aiText, timestamp: Date.now() };
+          localStorage.setItem(`simon_custom_post_${currentDay}_${currentPostIndex}_${currentVoice}`, JSON.stringify(cacheObj));
         } catch(e) { console.warn('LocalStorage error:', e); }
 
         showToast(`✅ Đã sinh bài viết hoàn chỉnh (${words} từ) theo ${vName}!`);
       } else {
-        // Fallback local
+        // Fallback to topic-adaptive generator (NEVER leaks Day 1 27kg article)
         updateOutputPreview();
-        showToast(`Đã tải bài viết mẫu chuẩn của ${vName}`);
+        showToast(`⚠️ Đã tải bản thảo chuẩn y khoa cho đề tài theo ${vName}`);
       }
     }
 
@@ -2861,10 +2928,29 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       }, 2500);
     }
 
+    function cleanupCorruptedCache() {
+      try {
+        const toDelete = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k && k.startsWith('simon_custom_post_')) {
+            const val = localStorage.getItem(k);
+            if (val && (val.includes('27 KILOGAM') || val.includes('ĐẬP TAN LẦM TƯỞNG CỘT SỐNG') || val.includes('cúi gập đầu xuống'))) {
+              toDelete.push(k);
+            }
+          }
+        }
+        toDelete.forEach(k => localStorage.removeItem(k));
+      } catch(e) {
+        console.warn('Cleanup error:', e);
+      }
+    }
+
     // =========================================================================
     // 13. APP INITIALIZATION
     // =========================================================================
     window.addEventListener('DOMContentLoaded', () => {
+      cleanupCorruptedCache();
       updateOutputPreview();
       renderCalendarStrip();
       inspectDay(1);
