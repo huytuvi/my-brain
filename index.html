@@ -70,10 +70,23 @@
       </div>
 
       <!-- Button to Open 7-Day Plan Popup -->
-      <button onclick="openPlanModal()" class="px-3.5 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-bold flex items-center gap-2 transition shadow-2xs">
+      <button onclick="openPlanModal()" class="px-3.5 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-bold flex items-center gap-2 transition shadow-2xs cursor-pointer">
         <i class="fa-solid fa-table-list text-indigo-600"></i>
         <span>Kế Hoạch 21 Bài (7 Ngày)</span>
       </button>
+
+      <!-- 1-Click Brain Backup & Restore Group (Always Visible on Header) -->
+      <div class="flex items-center gap-1 bg-purple-50/80 border border-purple-200 p-1 rounded-xl shadow-2xs">
+        <button onclick="exportBrainMemory()" class="px-2.5 py-1 bg-white hover:bg-purple-100 text-purple-700 border border-purple-100 rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-2xs cursor-pointer" title="Tải file sao lưu toàn bộ tri thức của não bộ (JSON)">
+          <i class="fa-solid fa-cloud-arrow-down text-purple-600"></i>
+          <span>Sao Lưu Não Bộ (JSON)</span>
+        </button>
+        <label class="px-2.5 py-1 bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-2xs cursor-pointer" title="Khôi phục & Hợp nhất tri thức từ file JSON mà không bị mất dữ liệu">
+          <i class="fa-solid fa-cloud-arrow-up text-emerald-600"></i>
+          <span>Khôi Phục (JSON)</span>
+          <input type="file" accept=".json" class="hidden" onchange="importBrainMemory(event)">
+        </label>
+      </div>
 
       <!-- Gemini API Key Bar (Auto-Hide when Saved) -->
       <div id="headerApiBox" class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200">
@@ -2651,12 +2664,14 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
     function exportBrainMemory() {
       const evaluations = getEvaluations();
       const config = getBrandVoiceConfig();
+      const history = getArticleHistory();
       const exportData = {
         appName: "Simon Center Second Brain",
-        version: "2.5",
+        version: "2.6",
         exportedAt: new Date().toISOString(),
         evaluations: evaluations,
-        brandVoiceConfig: config
+        brandVoiceConfig: config,
+        articleHistory: history
       };
 
       const jsonStr = JSON.stringify(exportData, null, 2);
@@ -2666,7 +2681,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       const dateStr = new Date().toISOString().slice(0, 10);
       a.download = `brain_backup_${dateStr}.json`;
       a.click();
-      showToast('✅ Đã xuất gói tri thức não bộ (JSON) thành công!');
+      showToast('✅ Đã xuất gói sao lưu tri thức não bộ (JSON) thành công!');
     }
 
     function importBrainMemory(event) {
@@ -2677,7 +2692,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       reader.onload = function(e) {
         try {
           const data = JSON.parse(e.target.result);
-          if (!data || (!data.evaluations && !data.brandVoiceConfig)) {
+          if (!data || (!data.evaluations && !data.brandVoiceConfig && !data.articleHistory)) {
             alert('Tập tin không đúng định dạng sao lưu của Simon Second Brain.');
             return;
           }
@@ -2702,10 +2717,27 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
             saveBrandVoiceConfig(data.brandVoiceConfig);
           }
 
+          let importedArticles = 0;
+          if (Array.isArray(data.articleHistory) && data.articleHistory.length > 0) {
+            const currentHistory = getArticleHistory();
+            const existingHistKeys = new Set(currentHistory.map(h => h.id || `${h.timestamp}_${h.topic}`));
+            data.articleHistory.forEach(h => {
+              const hKey = h.id || `${h.timestamp}_${h.topic}`;
+              if (!existingHistKeys.has(hKey)) {
+                currentHistory.push(h);
+                existingHistKeys.add(hKey);
+                importedArticles++;
+              }
+            });
+            saveArticleHistoryList(currentHistory);
+            updateHistoryUI();
+          }
+
           renderBrainScoreView();
           initAdminView();
-          showToast(`🎉 Khôi phục thành công! Đã nạp ${importedCount} tri thức mới vào não bộ.`);
-          alert(`Đã khôi phục thành công gói tri thức não bộ!\n- Bản ghi đánh giá & SOP nạp thêm: ${importedCount}\n- Cấu hình Brand Voice đã được đồng bộ chuẩn xác.`);
+          updateHistoryUI();
+          showToast(`🎉 Khôi phục thành công! Đã nạp ${importedCount} bài học & ${importedArticles} bài viết vào não bộ.`);
+          alert(`Đã khôi phục & hợp nhất thành công gói tri thức não bộ!\n- Bản ghi đánh giá & SOP nạp thêm: ${importedCount}\n- Bài viết & phiên bản nạp thêm: ${importedArticles}\n- Cấu hình Brand Voice đã được đồng bộ chuẩn xác.`);
         } catch(err) {
           alert('Lỗi đọc tập tin backup: ' + err.message);
         }
