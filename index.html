@@ -2372,10 +2372,13 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
     // =========================================================================
     // 7. GENERATE LIVE ARTICLE (CALLING GEMINI 3.6 FLASH WITH REAL PROMPT)
     // =========================================================================
-    async function generateLiveArticle() {
+    async function generateLiveArticle(overridePrompt = null) {
       const topicInput = document.getElementById('topicInput');
       const topic = (topicInput && topicInput.value.trim()) ? topicInput.value.trim() : 'Chăm sóc và phục hồi cột sống chuẩn y khoa';
-      const customPrompt = document.getElementById('customPromptInput') ? document.getElementById('customPromptInput').value.trim() : '';
+      let customPrompt = document.getElementById('customPromptInput') ? document.getElementById('customPromptInput').value.trim() : '';
+      if (overridePrompt) {
+        customPrompt = overridePrompt + (customPrompt ? ('\n' + customPrompt) : '');
+      }
       const channelSelect = document.getElementById('channelSelect');
       const channel = (channelSelect && channelSelect.selectedOptions && channelSelect.selectedOptions[0]) ? channelSelect.selectedOptions[0].text : 'Facebook Cá Nhân';
       
@@ -2597,6 +2600,13 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
         });
       } catch(e) {}
 
+      // 4. TỰ ĐỘNG VIẾT LẠI BÀI VIẾT THEO ĐÚNG GÓP Ý VÀ VĂN MẪU VỪA HUẤN LUYỆN
+      let rewriteGuidance = 'HÃY VIẾT LẠI BÀI VIẾT HIỆN TẠI VÀ ÁP DỤNG TRIỆT ĐỂ CÁC GÓP Ý VỪA HUẤN LUYỆN:';
+      if (blacklist) rewriteGuidance += `\n- BẮT BUỘC LOẠI BỎ CÁC TỪ NGỮ CẤM: "${blacklist}".`;
+      if (caseStudy) rewriteGuidance += `\n- BỔ SUNG CHI TIẾT/CÂU CHUYỆN THỰC TẾ: "${caseStudy}".`;
+      if (rules) rewriteGuidance += `\n- TUÂN THỦ LUẬT MỚI: "${rules}".`;
+      if (rewrite) rewriteGuidance += `\n- BẮT CHƯỚC CHUẨN VĂN PHONG VĂN MẪU CỦA FOUNDER: "${rewrite}".`;
+
       // Clear input fields so placeholders display cleanly
       document.getElementById('blacklistInput').value = '';
       document.getElementById('caseStudyInput').value = '';
@@ -2613,10 +2623,15 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       if (btn) {
         btn.className = 'w-full py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm';
         if (btnIcon) btnIcon.className = 'fa-solid fa-circle-check text-white';
-        if (btnText) btnText.textContent = 'Đã Nạp Thành Công! Gemini AI Đã Tiếp Thu';
+        if (btnText) btnText.textContent = 'Đã Nạp! Đang Dùng Góp Ý Viết Lại Bài...';
       }
 
-      showToast(`Đã nạp 5 câu hỏi & văn mẫu cho [${vName}]! AI sẽ bắt chước văn phong này ngay lần tới.`);
+      showToast(`Đã nạp 5 câu hỏi vào não bộ! Đang kích hoạt viết lại bài viết theo đúng góp ý mới...`);
+
+      // Tự động kích hoạt viết lại bài viết ngay lập tức
+      setTimeout(() => {
+        generateLiveArticle(rewriteGuidance);
+      }, 350);
 
       // 3. Revert button after 2.5s
       setTimeout(() => {
