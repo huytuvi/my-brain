@@ -152,7 +152,7 @@
           <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
             <i class="fa-solid fa-sliders text-blue-600"></i> 1. Chọn Brand Voice
           </h2>
-          <button onclick="openRulesInspectorModal(currentVoice)" class="text-[11px] font-bold text-blue-700 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition cursor-pointer shadow-2xs" title="Xem danh sách từ cấm, luật ngầm và tri thức của từng voice">
+          <button type="button" id="btnOpenVoiceRulesTop" onclick="openRulesInspectorModal()" class="text-[11px] font-bold text-blue-700 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition cursor-pointer shadow-2xs" title="Xem danh sách từ cấm, luật ngầm và tri thức của từng voice">
             <i class="fa-solid fa-shield-halved text-blue-600"></i> Xem Rules Từng Voice
           </button>
         </div>
@@ -288,7 +288,7 @@
               <i class="fa-solid fa-heart-pulse text-blue-600"></i> Đang áp dụng: Giọng 1 (Tư Vấn & Đồng Cảm)
             </span>
             <div class="flex items-center gap-2">
-              <button onclick="openRulesInspectorModal(currentVoice)" class="text-[11px] font-bold bg-white hover:bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg border border-blue-200 transition flex items-center gap-1.5 shadow-2xs cursor-pointer">
+              <button type="button" id="btnOpenVoiceRulesBanner" onclick="openRulesInspectorModal()" class="text-[11px] font-bold bg-white hover:bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg border border-blue-200 transition flex items-center gap-1.5 shadow-2xs cursor-pointer" title="Xem bảng quy tắc và từ cấm đang áp dụng cho voice này">
                 <i class="fa-solid fa-shield-halved text-blue-600"></i> Rules & Blacklist
               </button>
               <span class="text-[10px] font-mono bg-white px-2 py-0.5 rounded border border-blue-200 text-blue-700">brain.db query</span>
@@ -1303,6 +1303,7 @@ python3 scripts/sync_brain.py --export</pre>
       </div>
 
     </div>
+  </div>
   <!-- ===================================================================== -->
   <!-- POPUP MODAL: LỊCH SỬ PHIÊN BẢN BÀI VIẾT & KHO BÀI VIẾT HAY              -->
   <!-- ===================================================================== -->
@@ -1358,7 +1359,7 @@ python3 scripts/sync_brain.py --export</pre>
   <!-- ===================================================================== -->
   <!-- POPUP MODAL: QUẢN LÝ QUY TẮC & TỪ CẤM THEO BRAND VOICE (VOICE INSPECTOR) -->
   <!-- ===================================================================== -->
-  <div id="rulesInspectorModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+  <div id="rulesInspectorModal" onclick="if(event.target === this) closeRulesInspectorModal()" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-[999] hidden">
     <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
       
       <!-- Modal Header -->
@@ -4060,18 +4061,39 @@ ${escapeHtml(item.content)}
     let activeRulesModalTab = 'voice1';
 
     function openRulesInspectorModal(initialVoice = null) {
-      if (initialVoice) activeRulesModalTab = initialVoice;
-      else activeRulesModalTab = currentVoice || 'voice1';
+      if (initialVoice && ['global', 'voice1', 'voice2', 'voice3'].includes(initialVoice)) {
+        activeRulesModalTab = initialVoice;
+      } else {
+        activeRulesModalTab = (typeof currentVoice !== 'undefined' && currentVoice) ? currentVoice : 'voice1';
+      }
 
       switchRulesModalTab(activeRulesModalTab);
       const modal = document.getElementById('rulesInspectorModal');
-      if (modal) modal.classList.remove('hidden');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+      }
     }
 
     function closeRulesInspectorModal() {
       const modal = document.getElementById('rulesInspectorModal');
-      if (modal) modal.classList.add('hidden');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+      }
     }
+
+    // Attach to window for global access
+    window.openRulesInspectorModal = openRulesInspectorModal;
+    window.closeRulesInspectorModal = closeRulesInspectorModal;
+    window.switchRulesModalTab = switchRulesModalTab;
+    window.addBlacklistWord = addBlacklistWord;
+    window.removeBlacklistWord = removeBlacklistWord;
+    window.addLearnedRule = addLearnedRule;
+    window.addCaseStudyDirect = addCaseStudyDirect;
+    window.removeEvaluationEntry = removeEvaluationEntry;
+    window.downloadRulesBackupJson = downloadRulesBackupJson;
+    window.syncRulesToBrainDb = syncRulesToBrainDb;
 
     function switchRulesModalTab(tabKey) {
       activeRulesModalTab = tabKey;
@@ -4438,6 +4460,12 @@ ${escapeHtml(item.content)}
       checkSavedApiKey();
       renderBrainScoreView();
       updateHistoryUI();
+
+      // Explicit click event bindings for Rules Inspector buttons
+      const btnTop = document.getElementById('btnOpenVoiceRulesTop');
+      if (btnTop) btnTop.addEventListener('click', (e) => { e.preventDefault(); openRulesInspectorModal(); });
+      const btnBanner = document.getElementById('btnOpenVoiceRulesBanner');
+      if (btnBanner) btnBanner.addEventListener('click', (e) => { e.preventDefault(); openRulesInspectorModal(); });
     });
   </script>
 </body>
