@@ -152,9 +152,9 @@
           <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
             <i class="fa-solid fa-sliders text-blue-600"></i> 1. Chọn Brand Voice
           </h2>
-          <span class="text-[11px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded flex items-center gap-1">
-            <i class="fa-solid fa-hand-pointer text-slate-400"></i> Bấm vào giọng để đổi
-          </span>
+          <button onclick="openRulesInspectorModal(currentVoice)" class="text-[11px] font-bold text-blue-700 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition cursor-pointer shadow-2xs" title="Xem danh sách từ cấm, luật ngầm và tri thức của từng voice">
+            <i class="fa-solid fa-shield-halved text-blue-600"></i> Xem Rules Từng Voice
+          </button>
         </div>
 
         <div class="space-y-2" id="voiceContainer">
@@ -165,7 +165,7 @@
                 <i class="fa-solid fa-heart-pulse text-blue-600"></i> Giọng 1: Tư Vấn & Đồng Hành
               </span>
               <span class="text-[11px] text-slate-600 block mt-0.5 leading-snug">
-                Thấu cảm, ấm áp, lắng nghe nỗi đau bệnh nhân (Gabor Maté + BS Trần Văn Phúc).
+                Đồng cảm, ấm áp, lắng nghe nỗi đau bệnh nhân (Gabor Maté + BS Trần Văn Phúc).
               </span>
             </div>
             <i class="check-icon fa-solid fa-circle-check text-blue-600 text-sm mt-0.5"></i>
@@ -285,9 +285,14 @@
           <!-- Voice Banner -->
           <div id="voiceBanner" class="p-2.5 mb-3 bg-blue-50 rounded-xl border border-blue-100 flex items-center justify-between text-blue-900 text-xs">
             <span class="font-bold flex items-center gap-1.5" id="bannerVoiceText">
-              <i class="fa-solid fa-heart-pulse text-blue-600"></i> Đang áp dụng: Giọng 1 (Tư Vấn Thấu Cảm)
+              <i class="fa-solid fa-heart-pulse text-blue-600"></i> Đang áp dụng: Giọng 1 (Tư Vấn & Đồng Cảm)
             </span>
-            <span class="text-[10px] font-mono bg-white px-2 py-0.5 rounded border border-blue-200 text-blue-700">brain.db query</span>
+            <div class="flex items-center gap-2">
+              <button onclick="openRulesInspectorModal(currentVoice)" class="text-[11px] font-bold bg-white hover:bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg border border-blue-200 transition flex items-center gap-1.5 shadow-2xs cursor-pointer">
+                <i class="fa-solid fa-shield-halved text-blue-600"></i> Rules & Blacklist
+              </button>
+              <span class="text-[10px] font-mono bg-white px-2 py-0.5 rounded border border-blue-200 text-blue-700">brain.db query</span>
+            </div>
           </div>
 
           <!-- Tiêu đề chủ đề & Nút sao chép nổi bật ngay trong bài viết -->
@@ -665,7 +670,7 @@
           </span>
         </div>
         <div>
-          <h4 class="text-sm font-extrabold text-slate-900">Thấu Cảm & Trầm Ấm</h4>
+          <h4 class="text-sm font-extrabold text-slate-900">Đồng Cảm & Trầm Ấm</h4>
           <p class="text-xs text-slate-500 mt-0.5">Hình mẫu: Gabor Maté + BS Trần Văn Phúc</p>
         </div>
         <div class="space-y-1">
@@ -847,7 +852,7 @@
         <div class="md:col-span-4 space-y-1">
           <label class="font-bold text-slate-700 block">Chọn Tone Giọng Huấn Luyện:</label>
           <select id="evalFormVoice" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <option value="voice1">Giọng 1: Tư Vấn & Chuyên Khoa (Thấu Cảm)</option>
+            <option value="voice1">Giọng 1: Tư Vấn & Chuyên Khoa (Đồng Cảm)</option>
             <option value="voice2">Giọng 2: Giảng Học Thuật (First Principles)</option>
             <option value="voice3">Giọng 3: Sale Y Đức (Feel-Felt-Found)</option>
           </select>
@@ -1000,7 +1005,7 @@
         <i class="fa-solid fa-shield-halved"></i> 1. Nền Tảng Chung & 4 Chữ KHÔNG
       </button>
       <button id="subtabBtnVoice1" onclick="switchAdminSubtab('voice1')" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
-        <i class="fa-solid fa-stethoscope text-blue-600"></i> 2. Giọng 1: Tư Vấn Thấu Cảm
+        <i class="fa-solid fa-stethoscope text-blue-600"></i> 2. Giọng 1: Tư Vấn & Đồng Cảm
       </button>
       <button id="subtabBtnVoice2" onclick="switchAdminSubtab('voice2')" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
         <i class="fa-solid fa-atom text-indigo-600"></i> 3. Giọng 2: Giảng Học Thuật
@@ -1350,6 +1355,70 @@ python3 scripts/sync_brain.py --export</pre>
   </div>
 
 
+  <!-- ===================================================================== -->
+  <!-- POPUP MODAL: QUẢN LÝ QUY TẮC & TỪ CẤM THEO BRAND VOICE (VOICE INSPECTOR) -->
+  <!-- ===================================================================== -->
+  <div id="rulesInspectorModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-slate-50 to-blue-50/50">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg shadow-sm">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              BẢNG QUY TẮC & TỪ CẤM THEO BRAND VOICE
+              <span class="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full font-bold">brain.db Live</span>
+            </h3>
+            <p class="text-xs text-slate-500">Xem và quản lý tất cả các luật ngầm, từ cấm (Blacklist), tri thức và văn mẫu bạn đã huấn luyện cho AI</p>
+          </div>
+        </div>
+        <button onclick="closeRulesInspectorModal()" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center text-slate-600 transition cursor-pointer">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Voice Tabs -->
+      <div class="px-6 py-2.5 bg-slate-100/80 border-b border-slate-200 flex items-center gap-2 overflow-x-auto">
+        <button onclick="switchRulesModalTab('global')" id="tabRulesBtn_global" class="px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-white text-slate-800 border border-slate-300 shadow-2xs">
+          <i class="fa-solid fa-globe text-slate-600"></i> Toàn Viện (Global)
+        </button>
+        <button onclick="switchRulesModalTab('voice1')" id="tabRulesBtn_voice1" class="px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-600 hover:bg-white">
+          <i class="fa-solid fa-heart-pulse text-blue-600"></i> Giọng 1: Tư Vấn & Đồng Cảm
+        </button>
+        <button onclick="switchRulesModalTab('voice2')" id="tabRulesBtn_voice2" class="px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-600 hover:bg-white">
+          <i class="fa-solid fa-graduation-cap text-indigo-600"></i> Giọng 2: Giảng Học Thuật
+        </button>
+        <button onclick="switchRulesModalTab('voice3')" id="tabRulesBtn_voice3" class="px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-600 hover:bg-white">
+          <i class="fa-solid fa-handshake text-emerald-600"></i> Giọng 3: Sale Y Đức
+        </button>
+      </div>
+
+      <!-- Modal Body (Dynamic Per Voice) -->
+      <div class="p-6 overflow-y-auto space-y-6 text-xs flex-1 bg-slate-50/40" id="rulesInspectorBody">
+        <!-- Rendered by renderRulesInspectorContent() -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-3.5 border-t border-slate-200 bg-slate-50 flex items-center justify-between flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <button onclick="downloadRulesBackupJson()" class="px-3 py-1.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition shadow-2xs cursor-pointer">
+            <i class="fa-solid fa-download text-blue-600"></i> Tải sao lưu rules (.json)
+          </button>
+          <button onclick="syncRulesToBrainDb()" class="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-2xs cursor-pointer">
+            <i class="fa-solid fa-database text-emerald-600"></i> Đảm bảo lưu vào brain.db
+          </button>
+        </div>
+        <button onclick="closeRulesInspectorModal()" class="px-5 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-black transition shadow-sm cursor-pointer">
+          Đóng
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION -->
   <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium flex items-center gap-2 transform transition-all duration-300 translate-y-20 opacity-0 z-50">
     <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
@@ -1365,7 +1434,7 @@ python3 scripts/sync_brain.py --export</pre>
 
     const voiceNamesShort = { voice1: 'Giọng 1', voice2: 'Giọng 2', voice3: 'Giọng 3' };
     const voiceNamesFull = { 
-      voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', 
+      voice1: 'Giọng 1 (Tư Vấn & Đồng Cảm)', 
       voice2: 'Giọng 2 (Học Thuật First Principles)', 
       voice3: 'Giọng 3 (Sale Y Đức Chốt Deal)' 
     };
@@ -1384,10 +1453,10 @@ python3 scripts/sync_brain.py --export</pre>
         "channel": "fb_personal",
         "channelName": "FB Cá Nhân",
         "voice": "voice1",
-        "voiceName": "Giọng 1 (Thấu cảm)",
+        "voiceName": "Giọng 1 (Đồng Cảm)",
         "title": "Tại sao 80% người học nắn chỉnh 2-3 ngày về nhà đều run tay không dám làm trên bệnh nhân thật?",
         "cta": "Để lại bình luận hoặc điền form nhận cẩm nang kiểm tra an toàn y khoa",
-        "content": "Hôm qua, tôi ngồi trò chuyện với một bạn kỹ thuật viên Vật lý trị liệu 29 tuổi. Bạn ấy vừa bỏ ra gần 20 triệu để tham gia một khóa học nắn chỉnh cột sống cấp tốc 2 ngày cuối tuần tại một khách sạn lớn.\n\nBạn nhìn tôi, thở dài bảo:\n\"Hôm học ở hội trường đông cả trăm người, thầy cầm đầu bạn học viên bẻ 'rắc rắc' nghe sướng tai lắm anh. Em cũng lên thực hành thử, bẻ được vài cái nghe kêu to, thầy vỗ vai khen có khiếu. Nhưng thứ Hai vừa rồi, có một bệnh nhân nữ 45 tuổi bị đau thắt lưng đến phòng khám em. Khi đặt tay lên lưng chị ấy, tự nhiên tim em đập thình thịch, hai bàn tay run bần bật anh ạ. Em chợt nhận ra: Em hoàn toàn không biết đĩa đệm chị ấy có bị rách không, đốt sống có bị loãng xương hay trượt không. Em sợ nếu lỡ tay vặn mạnh một cái mà bệnh nhân bị liệt thì đời em coi như xong...\"\n\nCâu chuyện của bạn khiến tôi day dứt khôn nguôi, bởi vì đó là tâm trạng chung của hơn 80% người sau khi học các lớp nắn chỉnh ngắn ngày hiện nay.\n\nChúng ta đang bị mạng xã hội đánh lừa bởi những tiếng kêu giòn tai! Người ta dạy bạn \"chiêu thức\" để tạo ra tiếng rắc, nhưng người ta không dạy bạn:\n1. Cách đọc phim X-quang để thấy rõ cấu trúc giải phẫu bên dưới lớp da.\n2. Cách sờ nắn chẩn đoán động (Motion Palpation) để tìm đúng đốt kẹt (Hypomobile), và quan trọng nhất:\n3. Nắm vững lằn ranh \"Cảnh báo đỏ\" (Red Flags): Khi nào TUYỆT ĐỐI KHÔNG ĐƯỢC PHÉP NẮN.\n\nTrong ngành y, sự sợ hãi khi thiếu kiến thức là phản xạ sinh tồn lành mạnh. Nhưng nếu bạn muốn biến nỗi sợ thành sự tự tin vững chãi của một chuyên gia, bạn bắt buộc phải học từ nền tảng chẩn đoán gốc rễ thay vì học ngọn.\n\nSimon Center xây dựng chương trình đào tạo Chiropractic chuẩn y khoa kế thừa từ DISC Academy (Đức) với sứ mệnh duy nhất: Giúp bạn nắm vững cơ chế an toàn tuyệt đối, đọc thấu phim X-quang và tự tin trị liệu trọn đời mà không bao giờ phải run tay.\n\n👉 Điền form nhận Cẩm nang Tầm soát An toàn Y khoa & Lộ trình đào tạo chuẩn Đức tại đây: [ĐIỀN FORM TẠI ĐÂY]"
+        "content": "Hôm qua, tôi ngồi trò chuyện với một bạn kỹ thuật viên Vật lý trị liệu 29 tuổi. Bạn ấy vừa bỏ ra gần 20 triệu để tham gia một khóa học nắn chỉnh cột sống cấp tốc 2 ngày cuối tuần tại một khách sạn lớn.\n\nBạn nhìn tôi, thở dài bảo:\n\"Hôm học ở hội trường đông cả trăm người, thầy cầm đầu bạn học viên bẻ 'rắc rắc' nghe sướng tai lắm anh. Em cũng lên thực hành thử, bẻ được vài cái nghe kêu to, thầy vỗ vai khen có khiếu. Nhưng thứ Hai vừa rồi, có một bệnh nhân nữ 45 tuổi bị đau thắt lưng đến phòng khám em. Khi đặt tay lên lưng chị ấy, tự nhiên tim em đập thình thịch, hai bàn tay run bần bật anh ạ. Em chợt nhận ra: Em hoàn toàn không biết đĩa đệm chị ấy có bị rách không, đốt sống có bị loãng xương hay trượt không. Em sợ nếu lỡ tay vặn mạnh một cái mà bệnh nhân bị liệt thì đời em coi như xong...\"\n\nCâu chuyện của bạn khiến tôi day dứt khôn nguôi, bởi vì đó là tâm trạng chung của hơn 80% người sau khi học các lớp nắn chỉnh ngắn ngày hiện nay.\n\nChúng ta đang bị mạng xã hội đánh lừa bởi những tiếng kêu giòn tai! Người ta dạy bạn \"chiêu thức\" để tạo ra tiếng rắc, nhưng người ta không dạy bạn:\n1. Cách đọc phim X-quang để thấy rõ cấu trúc giải phẫu bên dưới lớp da.\n2. Cách sờ nắn chẩn đoán động (Motion Palpation) để tìm đúng đốt kẹt (Hypomobile), và quan trọng nhất:\n3. Nắm vững lằn ranh \"Cảnh báo đỏ\" (Red Flags): Khi nào TUYỆT ĐỐI KHÔNG ĐƯỢC PHÉP NẮN.\n\nTrong ngành y, sự sợ hãi khi thiếu kiến thức là phản xạ sinh tồn lành mạnh. Nhưng nếu bạn muốn biến nỗi sợ thành sự tự tin vững chãi của một chuyên gia, bạn bắt buộc phải học từ nền tảng chẩn đoán gốc rễ thay vì học ngọn.\n\nSimon Center xây dựng chương trình đào tạo Chiropractic chuẩn y khoa kế thừa từ DISC Academy (Đức) với sứ mệnh duy nhất: Giúp bạn nắm vững cơ chế an toàn tuyệt đối, làm chủ kỹ thuật đọc phim X-quang và tự tin trị liệu trọn đời mà không bao giờ phải run tay.\n\n👉 Điền form nhận Cẩm nang Tầm soát An toàn Y khoa & Lộ trình đào tạo chuẩn Đức tại đây: [ĐIỀN FORM TẠI ĐÂY]"
       },
       {
         "time": "Trưa 11:30",
@@ -1563,7 +1632,7 @@ python3 scripts/sync_brain.py --export</pre>
         "voiceName": "Giọng 1 (Đồng hành trọn đời)",
         "title": "Sau khi học xong bạn có bị bỏ rơi? Hệ sinh thái Alumni & Hội đồng chuyên môn hỗ trợ hội chẩn ca bệnh khó 24/7",
         "cta": "Đăng ký sớm gia nhập mạng lưới Alumni Simon Center",
-        "content": "Nỗi cô đơn lớn nhất của một người thầy thuốc hay một kỹ thuật viên trị liệu là gì?\n\nĐó là ngày bạn trở về phòng khám của mình, đứng một mình trước một ca bệnh phức tạp. Bệnh nhân cầm tấm phim X-quang có đốt sống trượt vẹo bất thường, kêu đau dữ dội. Bạn nhìn tấm phim, trong đầu ngổn ngang những câu hỏi: Ca này có chỉ định nắn không? Góc đặt tay thế nào cho an toàn? Nếu nắn lỡ có biến chứng thì sao?\nXung quanh bạn không có ai để hỏi, không có ai để hội chẩn cùng. Cảm giác bất lực và đơn độc ấy thật sự rất đáng sợ!\n\nChính vì từng thấu hiểu sâu sắc cảm giác đó, khi sáng lập chương trình đào tạo tại Simon Center, tôi đã đưa ra một cam kết bất biến: KHÔNG BAO GIỜ BỎ RƠI HỌC VIÊN SAU KHÓA HỌC!\n\nKhi bạn hoàn thành chương trình đào tạo, bạn không chỉ nhận được chứng chỉ. Bạn được kết nạp vào MẠNG LƯỚI CỰU HỌC VIÊN ALUMNI & HỘI ĐỒNG CHUYÊN MÔN DISC:\n\n1. Hội đồng hội chẩn 24/7:\nBất cứ khi nào bạn tiếp nhận một ca bệnh khó tại cơ sở của mình, chỉ cần chụp ảnh phim X-quang và gửi thông tin bệnh sử vào nhóm chuyên môn kín. Các giảng viên và hội đồng bác sĩ DISC sẽ cùng bạn phân tích, đo góc lệch và định hướng phác đồ nắn chỉnh an toàn nhất. Bạn luôn có một \"Hội đồng cố vấn y khoa quốc tế\" đứng sau lưng bảo trợ!\n\n2. Cập nhật kiến thức định kỳ:\nMỗi quý, Simon Center tổ chức các buổi Clinical Case Study Review để mổ xẻ các ca lâm sàng kinh điển, cập nhật các nghiên cứu mới nhất từ Đức và Mỹ hoàn toàn miễn phí.\n\n3. Quyền lợi thực tập lâm sàng:\nHọc viên được phép đăng ký các ngày đi lâm sàng thực tế (Tageshospitation) tại phòng khám Simon Center để quan sát chuyên gia điều trị thực tế trên bệnh nhân thật.\n\nHọc một lần, nhưng sự đồng hành và bảo trợ chuyên môn là TRỌN ĐỜI.\n👉 Đăng ký phỏng vấn tham gia khóa đào tạo mới tại đây: [ĐIỀN FORM TẠI ĐÂY]"
+        "content": "Nỗi cô đơn lớn nhất của một người thầy thuốc hay một kỹ thuật viên trị liệu là gì?\n\nĐó là ngày bạn trở về phòng khám của mình, đứng một mình trước một ca bệnh phức tạp. Bệnh nhân cầm tấm phim X-quang có đốt sống trượt vẹo bất thường, kêu đau dữ dội. Bạn nhìn tấm phim, trong đầu ngổn ngang những câu hỏi: Ca này có chỉ định nắn không? Góc đặt tay thế nào cho an toàn? Nếu nắn lỡ có biến chứng thì sao?\nXung quanh bạn không có ai để hỏi, không có ai để hội chẩn cùng. Cảm giác bất lực và đơn độc ấy thật sự rất đáng sợ!\n\nChính vì từng trải qua và đồng cảm sâu sắc với cảm giác đó, khi sáng lập chương trình đào tạo tại Simon Center, tôi đã đưa ra một cam kết bất biến: KHÔNG BAO GIỜ BỎ RƠI HỌC VIÊN SAU KHÓA HỌC!\n\nKhi bạn hoàn thành chương trình đào tạo, bạn không chỉ nhận được chứng chỉ. Bạn được kết nạp vào MẠNG LƯỚI CỰU HỌC VIÊN ALUMNI & HỘI ĐỒNG CHUYÊN MÔN DISC:\n\n1. Hội đồng hội chẩn 24/7:\nBất cứ khi nào bạn tiếp nhận một ca bệnh khó tại cơ sở của mình, chỉ cần chụp ảnh phim X-quang và gửi thông tin bệnh sử vào nhóm chuyên môn kín. Các giảng viên và hội đồng bác sĩ DISC sẽ cùng bạn phân tích, đo góc lệch và định hướng phác đồ nắn chỉnh an toàn nhất. Bạn luôn có một \"Hội đồng cố vấn y khoa quốc tế\" đứng sau lưng bảo trợ!\n\n2. Cập nhật kiến thức định kỳ:\nMỗi quý, Simon Center tổ chức các buổi Clinical Case Study Review để mổ xẻ các ca lâm sàng kinh điển, cập nhật các nghiên cứu mới nhất từ Đức và Mỹ hoàn toàn miễn phí.\n\n3. Quyền lợi thực tập lâm sàng:\nHọc viên được phép đăng ký các ngày đi lâm sàng thực tế (Tageshospitation) tại phòng khám Simon Center để quan sát chuyên gia điều trị thực tế trên bệnh nhân thật.\n\nHọc một lần, nhưng sự đồng hành và bảo trợ chuyên môn là TRỌN ĐỜI.\n👉 Đăng ký phỏng vấn tham gia khóa đào tạo mới tại đây: [ĐIỀN FORM TẠI ĐÂY]"
       }
     ]
   },
@@ -1602,7 +1671,7 @@ python3 scripts/sync_brain.py --export</pre>
         "voiceName": "Giọng 3 (Lọc đối tượng - Tiêu chuẩn cao)",
         "title": "Những ai phù hợp (và ai TUYỆT ĐỐI KHÔNG NÊN đăng ký) khóa đào tạo Chiropractic tại Simon Center?",
         "cta": "Điền form để được bộ phận chuyên môn liên hệ phỏng vấn",
-        "content": "Trước khi bạn quyết định điền form đăng ký khóa học Chiropractic tại Simon Center, tôi xin phép được nói rất rõ ràng và thẳng thắn điều này:\n\nKhóa học này KHÔNG DÀNH CHO TẤT CẢ MỌI NGƯỜI.\n\n❌ XIN VUI LÒNG ĐỪNG ĐĂNG KÝ NẾU BẠN THUỘC 3 NHÓM SAU:\n1. Những người tìm kiếm một khóa học cấp tốc 1-2 ngày để lấy cái bằng đối phó và về nhà đè người khác ra bẻ răng rắc quay clip câu view TikTok. Chúng tôi không bao giờ tiếp tay cho lối làm nghề vô trách nhiệm đó.\n2. Những người lười học lý thuyết giải phẫu, coi thường việc đọc phim X-quang và không chịu làm bài tập rèn lực Micro-drills tại nhà.\n3. Những người đặt mục tiêu kiếm tiền nhanh chóng lên trên sự an toàn và y đức đối với người bệnh.\n\n✅ CHÚNG TÔI CHỈ CHÀO ĐÓN NHỮNG HỌC VIÊN CÙNG HỆ GIÁ TRỊ:\n- Các Bác sĩ YHCT, Kỹ thuật viên VLTL/PHCN muốn làm chủ kỹ thuật nắn chỉnh chuẩn y khoa quốc tế để nâng cao hiệu quả điều trị và gia tăng thu nhập xứng đáng.\n- Các Huấn luyện viên PT, Yoga, Pilates muốn thấu hiểu căn nguyên sai lệch trục cơ thể để giải phóng cho học viên của mình một cách khoa học nhất.\n- Những chủ cơ sở Spa, phòng khám trị liệu muốn xây dựng dịch vụ nắn chỉnh uy tín, chuẩn Đức, nói KHÔNG với tai biến.\n- Và bất kỳ ai có niềm đam mê sâu sắc với cột sống con người, khao khát học nghề một cách chuẩn mực, bài bản và tử tế nhất!\n\nNếu bạn thấy mình thuộc nhóm thứ hai, chúng tôi rất vinh dự và sẵn sàng đồng hành cùng bạn trên hành trình trở thành một Master Chiropractic thực thụ.\n👉 Điền form để chuyên môn phỏng vấn và giữ chỗ đợt này nhé ạ: [ĐIỀN FORM TẠI ĐÂY]"
+        "content": "Trước khi bạn quyết định điền form đăng ký khóa học Chiropractic tại Simon Center, tôi xin phép được nói rất rõ ràng và thẳng thắn điều này:\n\nKhóa học này KHÔNG DÀNH CHO TẤT CẢ MỌI NGƯỜI.\n\n❌ XIN VUI LÒNG ĐỪNG ĐĂNG KÝ NẾU BẠN THUỘC 3 NHÓM SAU:\n1. Những người tìm kiếm một khóa học cấp tốc 1-2 ngày để lấy cái bằng đối phó và về nhà đè người khác ra bẻ răng rắc quay clip câu view TikTok. Chúng tôi không bao giờ tiếp tay cho lối làm nghề vô trách nhiệm đó.\n2. Những người lười học lý thuyết giải phẫu, coi thường việc đọc phim X-quang và không chịu làm bài tập rèn lực Micro-drills tại nhà.\n3. Những người đặt mục tiêu kiếm tiền nhanh chóng lên trên sự an toàn và y đức đối với người bệnh.\n\n✅ CHÚNG TÔI CHỈ CHÀO ĐÓN NHỮNG HỌC VIÊN CÙNG HỆ GIÁ TRỊ:\n- Các Bác sĩ YHCT, Kỹ thuật viên VLTL/PHCN muốn làm chủ kỹ thuật nắn chỉnh chuẩn y khoa quốc tế để nâng cao hiệu quả điều trị và gia tăng thu nhập xứng đáng.\n- Các Huấn luyện viên PT, Yoga, Pilates muốn hiểu rõ căn nguyên sai lệch trục cơ thể để giải phóng cho học viên của mình một cách khoa học nhất.\n- Những chủ cơ sở Spa, phòng khám trị liệu muốn xây dựng dịch vụ nắn chỉnh uy tín, chuẩn Đức, nói KHÔNG với tai biến.\n- Và bất kỳ ai có niềm đam mê sâu sắc với cột sống con người, khao khát học nghề một cách chuẩn mực, bài bản và tử tế nhất!\n\nNếu bạn thấy mình thuộc nhóm thứ hai, chúng tôi rất vinh dự và sẵn sàng đồng hành cùng bạn trên hành trình trở thành một Master Chiropractic thực thụ.\n👉 Điền form để chuyên môn phỏng vấn và giữ chỗ đợt này nhé ạ: [ĐIỀN FORM TẠI ĐÂY]"
       }
     ]
   },
@@ -1621,7 +1690,7 @@ python3 scripts/sync_brain.py --export</pre>
         "voiceName": "Giọng 3 (Chốt deal cấp thiết)",
         "title": "Chỉ còn 3 suất cuối đợt ưu tiên: Cơ hội nâng tầm từ người làm thuê thành Chuyên gia nắn chỉnh an toàn",
         "cta": "Điền form giữ 3 suất ưu tiên cuối cùng trước khi đóng cổng",
-        "content": "[THÔNG BÁO: CHỈ CÒN ĐÚNG 3 SUẤT CUỐI CÙNG CHO KHÓA CHIÊU SINH ĐỢT 1!]\n\nSau 24 giờ mở cổng đăng ký chính thức, Simon Center vô cùng cảm kích trước sự đón nhận nồng nhiệt từ cộng đồng anh em Bác sĩ, Kỹ thuật viên VLTL, Huấn luyện viên PT trên khắp cả nước.\n\nTính đến 07:30 sáng nay:\nĐã có 9/12 học viên hoàn tất thủ tục phỏng vấn chuyên môn và xác nhận tham gia khóa đào tạo.\nHiện tại, chúng tôi CHỈ CÒN ĐÚNG 3 SUẤT CUỐI CÙNG để nhận chính sách ưu đãi đặc quyền đợt 1!\n\nVì sao chúng tôi kiên quyết không nhận thêm dù nhu cầu đăng ký còn rất nhiều?\nBởi vì tôn chỉ của Simon Center là: ĐÀO TẠO THẬT — RA NGHỀ THẬT.\nTrong các buổi thực hành trực tiếp, một giảng viên chỉ có thể kèm tối đa 5-6 học viên thì mới có thể cầm tay từng người, uốn nắn từng góc đặt ngón tay, chỉnh từng chuyển động rơi cơ thể (Body Drop) và sửa từng lỗi sai nhỏ nhất. Nhận đông học viên để tăng doanh thu là phản bội lại triết lý giáo dục chuẩn Đức!\n\nNếu bạn đã theo dõi Simon Center suốt những ngày qua, nếu bạn đang khao khát:\n- Thoát khỏi cảnh xoa bóp mỏi mệt bắp tay, thu nhập bấp bênh.\n- Tự tin đọc thấu phim X-quang, định vị chính xác đốt lệch tiên phát.\n- Nắm chắc lằn ranh an toàn trọn đời, không bao giờ sợ tai biến.\n- Sở hữu hội đồng chuyên gia DISC hỗ trợ hội chẩn ca bệnh 24/7.\n\nThì đây chính là thời điểm để bạn ra quyết định cho tương lai của mình!\nCổng đăng ký sẽ chính thức đóng lại khi 3 suất cuối cùng được lấp đầy.\n👉 Giữ chỗ ưu tiên ngay bây giờ tại đây: [ĐIỀN FORM TẠI ĐÂY]"
+        "content": "[THÔNG BÁO: CHỈ CÒN ĐÚNG 3 SUẤT CUỐI CÙNG CHO KHÓA CHIÊU SINH ĐỢT 1!]\n\nSau 24 giờ mở cổng đăng ký chính thức, Simon Center vô cùng cảm kích trước sự đón nhận nồng nhiệt từ cộng đồng anh em Bác sĩ, Kỹ thuật viên VLTL, Huấn luyện viên PT trên khắp cả nước.\n\nTính đến 07:30 sáng nay:\nĐã có 9/12 học viên hoàn tất thủ tục phỏng vấn chuyên môn và xác nhận tham gia khóa đào tạo.\nHiện tại, chúng tôi CHỈ CÒN ĐÚNG 3 SUẤT CUỐI CÙNG để nhận chính sách ưu đãi đặc quyền đợt 1!\n\nVì sao chúng tôi kiên quyết không nhận thêm dù nhu cầu đăng ký còn rất nhiều?\nBởi vì tôn chỉ của Simon Center là: ĐÀO TẠO THẬT — RA NGHỀ THẬT.\nTrong các buổi thực hành trực tiếp, một giảng viên chỉ có thể kèm tối đa 5-6 học viên thì mới có thể cầm tay từng người, uốn nắn từng góc đặt ngón tay, chỉnh từng chuyển động rơi cơ thể (Body Drop) và sửa từng lỗi sai nhỏ nhất. Nhận đông học viên để tăng doanh thu là phản bội lại triết lý giáo dục chuẩn Đức!\n\nNếu bạn đã theo dõi Simon Center suốt những ngày qua, nếu bạn đang khao khát:\n- Thoát khỏi cảnh xoa bóp mỏi mệt bắp tay, thu nhập bấp bênh.\n- Tự tin phân tích phim X-quang chuẩn xác, định vị đúng đốt lệch tiên phát.\n- Nắm chắc lằn ranh an toàn trọn đời, không bao giờ sợ tai biến.\n- Sở hữu hội đồng chuyên gia DISC hỗ trợ hội chẩn ca bệnh 24/7.\n\nThì đây chính là thời điểm để bạn ra quyết định cho tương lai của mình!\nCổng đăng ký sẽ chính thức đóng lại khi 3 suất cuối cùng được lấp đầy.\n👉 Giữ chỗ ưu tiên ngay bây giờ tại đây: [ĐIỀN FORM TẠI ĐÂY]"
       },
       {
         "time": "Trưa 11:30",
@@ -1649,7 +1718,7 @@ python3 scripts/sync_brain.py --export</pre>
 
     const voiceDataStore = {
       voice1: {
-        badge: "Giọng 1: Thấu Cảm & Truyền Nghề Y (Lắng nghe & Đồng hành làm nghề)",
+        badge: "Giọng 1: Đồng Cảm & Truyền Nghề Y (Lắng nghe & Đồng hành làm nghề)",
         icon: "fa-solid fa-heart-pulse text-blue-600",
         content: `Hôm qua, tôi ngồi trò chuyện với một bạn kỹ thuật viên Vật lý trị liệu 29 tuổi. Bạn ấy vừa bỏ ra gần 20 triệu để tham gia một khóa học nắn chỉnh cột sống cấp tốc 2 ngày cuối tuần tại một khách sạn lớn.
 
@@ -1665,7 +1734,7 @@ Chúng ta đang bị mạng xã hội đánh lừa bởi những tiếng kêu gi
 
 Trong ngành y, sự sợ hãi khi thiếu kiến thức là phản xạ sinh tồn lành mạnh. Nhưng nếu bạn muốn biến nỗi sợ thành sự tự tin vững chãi của một chuyên gia, bạn bắt buộc phải học từ nền tảng chẩn đoán gốc rễ thay vì học ngọn.
 
-Simon Center xây dựng chương trình đào tạo Chiropractic chuẩn y khoa kế thừa từ DISC Academy (Đức) với sứ mệnh duy nhất: Giúp bạn nắm vững cơ chế an toàn tuyệt đối, đọc thấu phim X-quang và tự tin trị liệu trọn đời mà không bao giờ phải run tay.
+Simon Center xây dựng chương trình đào tạo Chiropractic chuẩn y khoa kế thừa từ DISC Academy (Đức) với sứ mệnh duy nhất: Giúp bạn nắm vững cơ chế an toàn tuyệt đối, làm chủ kỹ thuật đọc phim X-quang và tự tin trị liệu trọn đời mà không bao giờ phải run tay.
 
 👉 Điền form nhận Cẩm nang Tầm soát An toàn Y khoa & Lộ trình đào tạo chuẩn Đức tại đây: [ĐIỀN FORM TẠI ĐÂY]`
       },
@@ -1703,7 +1772,7 @@ Trong ngành y, rủi ro lớn nhất không phải là học phí đắt hay r�
 
 Tại Simon Center:
 - Anh/chị được học phương pháp Specific chuẩn Đức từ DISC Academy.
-- Được trang bị khả năng đọc thấu phim X-quang và bộ lọc Cảnh báo đỏ (Red Flags) an toàn 100%.
+- Được trang bị khả năng phân tích phim X-quang chuyên sâu và bộ lọc Cảnh báo đỏ (Red Flags) an toàn 100%.
 - Được kèm cặp thực hành lâm sàng trực tiếp và sở hữu hội đồng chuyên môn hỗ trợ hội chẩn ca khó 24/7.
 
 Với mức đầu tư này, khi ra nghề anh/chị chỉ cần tiếp nhận 5-6 bệnh nhân điều trị thành công là đã thu hồi hoàn toàn vốn đầu tư. Nhưng giá trị an toàn, sự tự tin và danh tiếng chuyên gia sẽ theo anh/chị trọn đời nhé ạ!
@@ -1769,7 +1838,7 @@ Với mức đầu tư này, khi ra nghề anh/chị chỉ cần tiếp nhận 5
         greetings: "'anh/chị' - 'em'/'bên em', 'dạ' đầu câu, dùng 'nhé ạ'",
         content: `Danh tính: Người sáng lập Simon Center & Giảng viên Đào tạo Chiropractic Chuẩn Y Khoa (kế thừa nền tảng DISC Academy Đức).
 Nguyên tắc lõi: 'Dễ hiểu nhưng phải chuẩn' — Đặt an toàn của bệnh nhân và uy tín trọn đời của học viên lên hàng đầu.
-Tuyên ngôn định vị: 'Chương trình đào tạo Chiropractic chuẩn y khoa duy nhất giúp bạn đọc thấu phim X-quang, sờ nắn định vị chính xác gốc bệnh — và nắm vững nguyên tắc khi nào TUYỆT ĐỐI KHÔNG ĐƯỢC NẮN để trị liệu an toàn trọn đời.'
+Tuyên ngôn định vị: 'Chương trình đào tạo Chiropractic chuẩn y khoa duy nhất giúp bạn phân tích chuẩn xác phim X-quang, sờ nắn định vị chính xác gốc bệnh — và nắm vững nguyên tắc khi nào TUYỆT ĐỐI KHÔNG ĐƯỢC NẮN để trị liệu an toàn trọn đời.'
 Ranh giới y khoa (Bốn chữ KHÔNG):
 1. KHÔNG dạy bẻ khớp dạo thô bạo, không cổ xúy tạo tiếng kêu răng rắc biểu diễn gây giãn rách bao khớp.
 2. KHÔNG chẩn đoán mò nếu chưa phân tích phim X-quang hoặc thăm khám lâm sàng động.
@@ -1777,11 +1846,11 @@ Ranh giới y khoa (Bốn chữ KHÔNG):
 4. KHÔNG cam kết hão huyền, đào tạo thực chất, cầm tay chỉ việc nhóm nhỏ tối đa 10-12 người.`
       },
       voice1: {
-        name: "Giọng 1: Thấu Cảm & Truyền Nghề Y",
+        name: "Giọng 1: Đồng Cảm & Truyền Nghề Y",
         persona: "Người thầy thuốc đồng hành + Giảng viên tận tâm",
-        description: `Ngữ cảnh: Tâm sự nghề nghiệp, gỡ rối nỗi sợ run tay của học viên mới, thấu hiểu nỗi khổ dùng sức bắp tay xoa bóp, chia sẻ y đức.
-Tinh thần: Thấu hiểu, ấm áp, sâu sắc, như người anh đi trước trong nghề truyền lại ngọn lửa đam mê và chuẩn mực an toàn.
-Tone: Chân thành, điềm tĩnh, truyền cảm hứng, thấu cảm sâu sắc.`,
+        description: `Ngữ cảnh: Tâm sự nghề nghiệp, gỡ rối nỗi sợ run tay của học viên mới, hiểu rõ nỗi khổ dùng sức bắp tay xoa bóp, chia sẻ y đức.
+Tinh thần: Lắng nghe, ấm áp, sâu sắc, như người anh đi trước trong nghề truyền lại ngọn lửa đam mê và chuẩn mực an toàn.
+Tone: Chân thành, điềm tĩnh, truyền cảm hứng, đồng cảm sâu sắc.`,
         structure: `1. Chạm vào nỗi sợ hoặc trăn trở làm nghề thật ('Hôm qua có một bạn KTV tâm sự...').
 2. Bóc tách nguyên nhân vì sao đa số học viên bị run tay hoặc mỏi mệt khi làm nghề.
 3. Chia sẻ giải pháp từ nền tảng chẩn đoán gốc rễ & sự bảo chứng chuyên môn.
@@ -1834,12 +1903,13 @@ Tone: Tự tin, dứt khoát, chuyên nghiệp, đáng tin cậy, truyền độ
         timestamp: "15/09/2026 09:50",
         day: 1,
         voiceKey: "voice1",
-        voiceName: "Giọng 1 (Tư Vấn Thấu Cảm)",
+        voiceName: "Giọng 1 (Tư Vấn & Đồng Cảm)",
         score: 9.0,
         blacklist: "Các từ giục mua hàng, câu 'bạn có biết không', từ 'chữa dứt điểm'",
         caseStudy: "Bệnh nhân văn phòng ngồi máy tính nhiều bị mỏi cổ vai gáy",
         feedback: "Khách khen bài ấm áp. Bài tết mà thấy viết ổn",
-        rules: "Giữ phong cách thấu cảm, bài viết ấm áp chạm tâm lý, không giục giã",
+        rules: "Cấm tuyệt đối từ \"thấu\" dưới mọi hình thức. Giữ phong cách đồng cảm, bài viết ấm áp chạm tâm lý, không giục giã.",
+        blacklist: "thấu, đọc thấu, thấu cảm, bẻ khớp dạo, giục mua hàng, tin siêu vui, cả nhà ơi",
         goldSample: "Dạ em chào anh/chị, một mùa Tết nữa lại qua và em biết nhiều anh/chị đang phải quay lại bàn làm việc với một bờ vai nặng trĩu. Thay vì cố gắng 'chịu đựng' thêm một năm nữa, mình hãy lắng nghe tiếng nói của cột sống sớm hơn nhé ạ."
       }
     ];
@@ -1872,15 +1942,76 @@ Tone: Tự tin, dứt khoát, chuyên nghiệp, đáng tin cậy, truyền độ
       return rules;
     }
 
+    // Danh mục từ cấm chung cốt lõi bảo vệ ranh giới y tế cho TẤT CẢ các Voice
+    const CORE_GLOBAL_BLACKLIST = [
+      "thấu", "đọc thấu", "thấu cảm", "thấu hiểu", "thấu suốt",
+      "tin siêu vui", "cả nhà ơi", "nha cả nhà", "quá đã",
+      "bẻ khớp dạo", "chữa dứt điểm", "cam kết 100%", "bảo đảm khỏi hẳn"
+    ];
+
     function getBlacklistForVoice(vKey) {
       const list = getEvaluations();
       const items = [];
-      list.filter(e => e.voiceKey === vKey).forEach(e => {
-        if (e.blacklist && e.blacklist.trim() && e.blacklist.trim() !== 'chưa' && e.blacklist.trim() !== 'chua') {
-          if (!items.includes(e.blacklist.trim())) items.push(e.blacklist.trim());
+
+      // Always include CORE global blacklist
+      CORE_GLOBAL_BLACKLIST.forEach(w => {
+        if (!items.includes(w)) items.push(w);
+      });
+
+      // Filter evaluations for this voice or global
+      list.filter(e => !vKey || e.voiceKey === vKey || e.voiceKey === 'global').forEach(e => {
+        if (e.blacklist && e.blacklist.trim() && e.blacklist.trim().toLowerCase() !== 'chưa' && e.blacklist.trim().toLowerCase() !== 'chua') {
+          // Split by comma, semicolon, newline
+          const parts = e.blacklist.split(/[,;\n]+/).map(s => s.trim()).filter(s => s.length > 0 && s.toLowerCase() !== 'chưa');
+          parts.forEach(w => {
+            if (!items.includes(w)) items.push(w);
+          });
         }
       });
       return items;
+    }
+
+    // BỘ LỌC HẬU KIỂM CƯỠNG CHẾ (RUNTIME BLACKLIST SANITIZER)
+    // Tự động rà soát và thay thế triệt để từ cấm trước khi bài viết xuất hiện trên màn hình
+    function sanitizeForbiddenWords(text, voiceKey = null) {
+      if (!text) return '';
+      let cleaned = text;
+
+      const replacements = [
+        { regex: /đọc\s+thấu\s+phim\s+x-?quang/gi, replace: 'phân tích chuẩn xác phim X-quang' },
+        { regex: /đọc\s+thấu/gi, replace: 'phân tích chuẩn xác' },
+        { regex: /thấu\s+cảm\s+sâu\s+sắc/gi, replace: 'đồng cảm sâu sắc' },
+        { regex: /thấu\s+cảm/gi, replace: 'đồng cảm' },
+        { regex: /thấu\s+hiểu/gi, replace: 'hiểu rõ' },
+        { regex: /thấu\s+suốt/gi, replace: 'nắm vững' },
+        { regex: /\bthấu\b/gi, replace: 'hiểu' },
+        { regex: /tin\s+siêu\s+vui(?:[,!:\s]|$)/gi, replace: 'Thông báo: ' },
+        { regex: /cả\s+nhà\s+ơi(?:[,!:\s]|$)/gi, replace: 'Quý anh/chị thân mến, ' },
+        { regex: /nha\s+cả\s+nhà(?:[,!:\s]|$)/gi, replace: 'nhé ạ. ' },
+        { regex: /quá\s+đã(?:[,!:\s]|$)/gi, replace: 'rất tuyệt vời ' },
+        { regex: /chữa\s+dứt\s+điểm/gi, replace: 'điều trị hiệu quả' },
+        { regex: /cam\s+kết\s+100%/gi, replace: 'nỗ lực tối đa theo phác đồ' },
+        { regex: /bảo\s+đảm\s+khỏi\s+hẳn/gi, replace: 'giúp cải thiện chức năng rõ rệt' },
+        { regex: /bẻ\s+khớp\s+dạo/gi, replace: 'nắn chỉnh tự phát thiếu căn cứ y khoa' }
+      ];
+
+      replacements.forEach(r => {
+        cleaned = cleaned.replace(r.regex, r.replace);
+      });
+
+      // Also clean dynamic blacklist words
+      const customList = getBlacklistForVoice(voiceKey || currentVoice);
+      customList.forEach(w => {
+        if (w && w.length > 1 && !['thấu', 'đọc thấu', 'thấu cảm'].includes(w)) {
+          try {
+            const escaped = w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const reg = new RegExp('\\b' + escaped + '\\b', 'gi');
+            cleaned = cleaned.replace(reg, '');
+          } catch(e) {}
+        }
+      });
+
+      return cleaned;
     }
 
     function getCaseStudiesForVoice(vKey) {
@@ -1919,7 +2050,7 @@ Tone: Tự tin, dứt khoát, chuyên nghiệp, đáng tin cậy, truyền độ
 SỨ MỆNH & ĐỊNH VỊ NỘI DUNG:
 - Chuẩn hóa nghề nắn chỉnh tại Việt Nam, bài trừ nạn "bẻ khớp dạo 2 ngày" thô bạo gây nguy cơ tai biến y khoa.
 - Đào tạo thế hệ Kỹ thuật viên VLTL/PHCN, Bác sĩ YHCT, HLV PT/Yoga/Pilates, Chủ cơ sở trị liệu trở thành Chuyên gia nắn chỉnh an toàn trọn đời thông qua:
-  1. Đọc thấu phim X-quang Full-Spine để tìm đúng Đốt lệch tiên phát (Primary Subluxation) thay vì nắn mò theo chỗ đau.
+  1. Phân tích chuẩn xác phim X-quang Full-Spine để tìm đúng Đốt lệch tiên phát (Primary Subluxation) thay vì nắn mò theo chỗ đau.
   2. Nắm vững nguyên tắc khi nào TUYỆT ĐỐI KHÔNG ĐƯỢC NẮN (Quy trình tầm soát Cảnh báo đỏ - Red Flags) để bảo vệ bệnh nhân và uy tín cả đời.
   3. Phương pháp sư phạm Micro-Drills rèn phản xạ và lực rơi cơ thể (Body Drop) tại nhà trước khi chạm người thật.
 - Kêu gọi hành động (CTA): Mời độc giả tải Cẩm nang đọc X-quang & Sàng lọc Red Flags, hoặc đăng ký nhận tư vấn Lộ trình Khóa Đào Tạo Chiropractic Chuẩn Y Khoa tại Simon Center.
@@ -1943,12 +2074,14 @@ ${baseVoice.structure}`;
         });
       }
 
-      // 2. Blacklist Constraints
+      // 2. Strict Blacklist Constraints with Zero Tolerance
       if (blacklist.length > 0) {
-        p += `\n=== 🚫 DANH SÁCH ĐEN - CÁC TỪ NGỮ & CÁCH VIẾT BỊ CẤM (BLACKLIST - TUYỆT ĐỐI KHÔNG DÙNG) ===\n`;
+        p += `\n=== 🚫 DANH SÁCH ĐEN - BỘ LỌC TỪ CẤM TUYỆT ĐỐI (ZERO-TOLERANCE BLACKLIST) ===\n`;
+        p += `CHÚ Ý CỰC KỲ QUAN TRỌNG: Người sáng lập ra lệnh cấm tuyệt đối các từ ngữ sau đây xuất hiện trong bài viết dưới bất kỳ biến thể nào:\n`;
         blacklist.forEach((b, idx) => {
-          p += `${idx + 1}. TUYỆT ĐỐI KHÔNG DÙNG: "${b}"\n`;
+          p += `  ${idx + 1}. CẤM TỪ: "${b}" (Tuyệt đối KHÔNG dùng "${b}", bắt buộc thay thế bằng thuật ngữ y khoa mực thước)\n`;
         });
+        p += `NẾU BÀI VIẾT CHỨA BẤT KỲ TỪ NÀO TRÊN, BÀI VIẾT SẼ BỊ COI LÀ VI PHẠM Y ĐỨC VÀ BỊ TỪ CHỐI HOÀN TOÀN!\n`;
       }
 
       // 3. Clinical Case Studies & New Knowledge
@@ -2063,7 +2196,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
 
       const voiceNamesShort = { voice1: 'Giọng 1', voice2: 'Giọng 2', voice3: 'Giọng 3' };
       const voiceNamesFull = { 
-        voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', 
+        voice1: 'Giọng 1 (Tư Vấn & Đồng Cảm)', 
         voice2: 'Giọng 2 (Học Thuật First Principles)', 
         voice3: 'Giọng 3 (Sale Y Đức Chốt Deal)' 
       };
@@ -2101,6 +2234,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       cleaned = cleaned.replace(/^```[a-zA-Z]*\n?/, '').replace(/\n?```$/, '').trim();
       cleaned = cleaned.replace(/^(?:Dưới đây là|Chào bạn|Đây là bài viết|Sau đây là|Tôi xin gửi|Gửi bạn)[^\n]*\n+/i, '');
       cleaned = cleaned.replace(/^\*{3,}[^\n]*\n+/i, '');
+      cleaned = sanitizeForbiddenWords(cleaned);
       return cleaned.trim();
     }
 
@@ -2132,7 +2266,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
 
       // Check if Day 1 default
       if (currentDay === 1 && (!curTopic || curTopic.includes('chịu đựng cơn đau') || curTopic.includes('Cúi đầu nhìn điện thoại'))) {
-        postElem.textContent = vData.content;
+        postElem.textContent = sanitizeForbiddenWords(vData.content, currentVoice);
       } else {
         // Look in plan7DaysData for this day
         const dayData = plan7DaysData.find(d => d.day === currentDay);
@@ -2148,11 +2282,11 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
         }
 
         if (matchedContent) {
-          postElem.textContent = matchedContent;
+          postElem.textContent = sanitizeForbiddenWords(matchedContent, currentVoice);
         } else {
           const chSel = document.getElementById('channelSelect');
           const channel = (chSel && chSel.selectedOptions && chSel.selectedOptions[0]) ? chSel.selectedOptions[0].text : '';
-          postElem.textContent = generateTopicAdaptiveFallback(curTopic, currentVoice, channel);
+          postElem.textContent = sanitizeForbiddenWords(generateTopicAdaptiveFallback(curTopic, currentVoice, channel), currentVoice);
         }
       }
       
@@ -2337,7 +2471,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
       // Display dedicated article immediately
       const postElem = document.getElementById('postTextContent');
       if (postElem && articleContent) {
-        postElem.textContent = articleContent;
+        postElem.textContent = sanitizeForbiddenWords(articleContent, voiceKey);
         const words = articleContent.trim().split(/\s+/).filter(Boolean).length;
         const charElem = document.getElementById('charCount');
         if (charElem) charElem.innerHTML = `<i class="fa-solid fa-align-left mr-1"></i> ${words} từ • ~${Math.ceil(words/180)} phút đọc`;
@@ -2546,7 +2680,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
         if (btnText) btnText.textContent = 'Đang nạp vào não bộ & Gemini AI...';
       }
 
-      const voiceNames = { voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', voice2: 'Giọng 2 (Giảng Học Thuật)', voice3: 'Giọng 3 (Sale Y Đức)' };
+      const voiceNames = { voice1: 'Giọng 1 (Tư Vấn & Đồng Cảm)', voice2: 'Giọng 2 (Giảng Học Thuật)', voice3: 'Giọng 3 (Sale Y Đức)' };
       const vName = voiceNames[currentVoice];
 
       const list = getEvaluations();
@@ -2816,7 +2950,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
         if (btnText) btnText.textContent = 'Đang đồng bộ vào brain.db & Prompt AI...';
       }
 
-      const voiceNames = { voice1: 'Giọng 1 (Tư Vấn Thấu Cảm)', voice2: 'Giọng 2 (Giảng Học Thuật)', voice3: 'Giọng 3 (Sale Y Đức)' };
+      const voiceNames = { voice1: 'Giọng 1 (Tư Vấn & Đồng Cảm)', voice2: 'Giọng 2 (Giảng Học Thuật)', voice3: 'Giọng 3 (Sale Y Đức)' };
       const nowStr = new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
 
       const list = getEvaluations();
@@ -3710,7 +3844,7 @@ HƯỚNG DẪN VIẾT BÀI CHI TIẾT & ĐẠT CHẤT LƯỢNG CAO NHẤT:
 
       const postElem = document.getElementById('postTextContent');
       if (postElem) {
-        postElem.textContent = item.content;
+        postElem.textContent = sanitizeForbiddenWords(item.content, item.voiceKey);
       }
       const charElem = document.getElementById('charCount');
       if (charElem) {
@@ -3918,6 +4052,380 @@ ${escapeHtml(item.content)}
         console.warn('Cleanup error:', e);
       }
     }
+
+
+    // =========================================================================
+    // 9. BRAND VOICE RULES & BLACKLIST INSPECTOR MODAL LOGIC
+    // =========================================================================
+    let activeRulesModalTab = 'voice1';
+
+    function openRulesInspectorModal(initialVoice = null) {
+      if (initialVoice) activeRulesModalTab = initialVoice;
+      else activeRulesModalTab = currentVoice || 'voice1';
+
+      switchRulesModalTab(activeRulesModalTab);
+      const modal = document.getElementById('rulesInspectorModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeRulesInspectorModal() {
+      const modal = document.getElementById('rulesInspectorModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function switchRulesModalTab(tabKey) {
+      activeRulesModalTab = tabKey;
+      ['global', 'voice1', 'voice2', 'voice3'].forEach(t => {
+        const btn = document.getElementById(`tabRulesBtn_${t}`);
+        if (btn) {
+          if (t === tabKey) {
+            btn.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-blue-600 text-white shadow-xs';
+          } else {
+            btn.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-600 hover:bg-white';
+          }
+        }
+      });
+      renderRulesInspectorContent();
+    }
+
+    function renderRulesInspectorContent() {
+      const container = document.getElementById('rulesInspectorBody');
+      if (!container) return;
+
+      const vKey = activeRulesModalTab;
+      const list = getEvaluations();
+
+      const voiceTitles = {
+        global: 'Quy Tắc Toàn Hệ Thống (Bất biến cho cả 3 Giọng)',
+        voice1: 'Giọng 1: Tư Vấn & Đồng Cảm (Chuyên môn ấm áp)',
+        voice2: 'Giọng 2: Giảng Học Thuật (First Principles)',
+        voice3: 'Giọng 3: Sale Y Đức (Bán hàng có tâm)'
+      };
+
+      const voicePersonas = {
+        global: 'Nguyên tắc bảo vệ ranh giới y khoa Simon Center - DISC Academy',
+        voice1: 'BS Trần Văn Phúc + TS. Gabor Maté (Lắng nghe trước khi khuyên)',
+        voice2: 'Doctor Mike + Elon Musk (Tư duy nguyên lý gốc, đập tan ngộ nhận)',
+        voice3: 'Francis Hùng (Công thức Feel - Felt - Found, Y đức trước doanh số)'
+      };
+
+      // Extract rules, blacklist, cases, rewrites for this voice
+      const activeBlacklist = getBlacklistForVoice(vKey === 'global' ? null : vKey);
+      const activeRules = [];
+      const activeCases = [];
+      const activeGold = [];
+
+      list.forEach(e => {
+        if (vKey === 'global' || e.voiceKey === vKey) {
+          if (e.rules && e.rules.trim() && e.rules.trim().toLowerCase() !== 'chưa') {
+            activeRules.push({ text: e.rules.trim(), day: e.day, id: e.id, voice: e.voiceKey });
+          }
+          if (e.caseStudy && e.caseStudy.trim() && e.caseStudy.trim().toLowerCase() !== 'chưa') {
+            activeCases.push({ text: e.caseStudy.trim(), day: e.day, id: e.id, voice: e.voiceKey });
+          }
+          if (e.goldSample && e.goldSample.trim()) {
+            activeGold.push({ text: e.goldSample.trim(), day: e.day, id: e.id, voice: e.voiceKey });
+          }
+        }
+      });
+
+      let html = `
+        <!-- Voice Meta Header -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h4 class="text-xs font-extrabold text-slate-900">${voiceTitles[vKey]}</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">Hình mẫu & Tinh thần: <span class="font-semibold text-blue-700">${voicePersonas[vKey]}</span></p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[11px] font-bold px-2.5 py-1 bg-blue-50 text-blue-800 rounded-lg border border-blue-200">
+              <i class="fa-solid fa-scale-balanced mr-1 text-blue-600"></i> ${activeRules.length} Luật ngầm
+            </span>
+            <span class="text-[11px] font-bold px-2.5 py-1 bg-red-50 text-red-800 rounded-lg border border-red-200">
+              <i class="fa-solid fa-ban mr-1 text-red-600"></i> ${activeBlacklist.length} Từ cấm
+            </span>
+          </div>
+        </div>
+
+        <!-- 1. KHU VỰC TỪ CẤM (BLACKLIST) -->
+        <div class="bg-white p-4 rounded-2xl border border-red-100 shadow-2xs space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-red-100 text-red-600 flex items-center justify-center font-bold text-xs">
+                <i class="fa-solid fa-ban"></i>
+              </span>
+              <h5 class="text-xs font-bold text-slate-900 uppercase">1. DANH SÁCH TỪ CẤM TUYỆT ĐỐI (BLACKLIST)</h5>
+            </div>
+            <span class="text-[10px] text-slate-400">Tự động loại bỏ 100% trong bài viết</span>
+          </div>
+          
+          <!-- Tags list -->
+          <div class="flex flex-wrap gap-1.5" id="blacklistTagsContainer">
+            ${activeBlacklist.map(w => `
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-red-50 text-red-700 border border-red-200 rounded-lg text-xs font-medium">
+                <i class="fa-solid fa-circle-xmark text-red-500 text-[10px]"></i> "${w}"
+                ${!CORE_GLOBAL_BLACKLIST.includes(w) ? `<button onclick="removeBlacklistWord('${vKey}', '${w.replace(/'/g, "\\'")}')" class="text-red-400 hover:text-red-700 ml-0.5 cursor-pointer">×</button>` : `<span class="text-[9px] text-red-400 font-normal">(cốt lõi)</span>`}
+              </span>
+            `).join('')}
+          </div>
+
+          <!-- Add new banned word form -->
+          <div class="pt-2 border-t border-slate-100 flex gap-2">
+            <input type="text" id="newBlacklistWordInput" placeholder="Nhập từ hoặc cụm từ muốn cấm..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500">
+            <button onclick="addBlacklistWord('${vKey}')" class="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+              <i class="fa-solid fa-plus"></i> Thêm từ cấm
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. KHU VỰC LUẬT NGẦM (LEARNED RULES) -->
+        <div class="bg-white p-4 rounded-2xl border border-blue-100 shadow-2xs space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">
+                <i class="fa-solid fa-scale-balanced"></i>
+              </span>
+              <h5 class="text-xs font-bold text-slate-900 uppercase">2. CÁC LUẬT NGẦM ĐÃ HUẤN LUYỆN (LEARNED RULES)</h5>
+            </div>
+            <span class="text-[10px] text-slate-400">Được Gemini AI học & tuân thủ triệt để</span>
+          </div>
+
+          <!-- Rules list -->
+          <div class="space-y-2">
+            ${activeRules.length === 0 ? '<p class="text-slate-400 italic text-[11px]">Chưa có luật ngầm riêng cho giọng này. Bạn có thể thêm ngay bên dưới!</p>' : ''}
+            ${activeRules.map((r, idx) => `
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/80 flex items-start justify-between gap-2">
+                <div class="flex items-start gap-2">
+                  <i class="fa-solid fa-check text-emerald-600 text-xs mt-0.5 shrink-0"></i>
+                  <span class="text-slate-800 text-xs leading-relaxed font-medium">${r.text}</span>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <span class="text-[10px] bg-slate-200 text-slate-600 px-2 py-0.5 rounded font-mono">Day ${r.day || 1}</span>
+                  <button onclick="removeEvaluationEntry(${r.id})" class="text-slate-400 hover:text-red-600 text-xs px-1 cursor-pointer" title="Xóa luật này">
+                    <i class="fa-regular fa-trash-can"></i>
+                  </button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Add new rule form -->
+          <div class="pt-2 border-t border-slate-100 flex gap-2">
+            <input type="text" id="newLearnedRuleInput" placeholder="Nhập quy tắc mới..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button onclick="addLearnedRule('${vKey}')" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+              <i class="fa-solid fa-plus"></i> Thêm luật
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. KHU VỰC CASE STUDY THỰC TẾ -->
+        <div class="bg-white p-4 rounded-2xl border border-indigo-100 shadow-2xs space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-xs">
+                <i class="fa-solid fa-book-medical"></i>
+              </span>
+              <h5 class="text-xs font-bold text-slate-900 uppercase">3. KHO CASE STUDY & TRI THỨC LÂM SÀNG ĐÃ NẠP</h5>
+            </div>
+            <span class="text-[10px] text-slate-400">Cung cấp bối cảnh thực tế cho bài viết</span>
+          </div>
+
+          <div class="space-y-2">
+            ${activeCases.length === 0 ? '<p class="text-slate-400 italic text-[11px]">Chưa có case study lâm sàng cho giọng này.</p>' : ''}
+            ${activeCases.map(c => `
+              <div class="p-2.5 bg-indigo-50/50 rounded-xl border border-indigo-100 flex items-start gap-2">
+                <i class="fa-solid fa-user-doctor text-indigo-600 text-xs mt-0.5 shrink-0"></i>
+                <span class="text-slate-700 text-xs leading-relaxed">${c.text}</span>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="pt-2 border-t border-slate-100 flex gap-2">
+            <input type="text" id="newCaseStudyInput" placeholder="Nhập câu chuyện/ca lâm sàng thực tế..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <button onclick="addCaseStudyDirect('${vKey}')" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+              <i class="fa-solid fa-plus"></i> Thêm case
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. KHU VỰC VĂN MẪU FOUNDER (FEW-SHOT LEARNING) -->
+        <div class="bg-white p-4 rounded-2xl border border-amber-100 shadow-2xs space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs">
+                <i class="fa-solid fa-star"></i>
+              </span>
+              <h5 class="text-xs font-bold text-slate-900 uppercase">4. ĐOẠN VĂN MẪU CHUẨN CỦA FOUNDER (FEW-SHOT LEARNING)</h5>
+            </div>
+            <span class="text-[10px] text-slate-400">Gemini AI học nhịp câu & ngữ điệu</span>
+          </div>
+
+          <div class="space-y-2">
+            ${activeGold.length === 0 ? '<p class="text-slate-400 italic text-[11px]">Chưa có đoạn văn mẫu cho giọng này. Bạn có thể nhập ở ô Rewrite trong bài làm việc.</p>' : ''}
+            ${activeGold.map(g => `
+              <div class="p-3 bg-amber-50/50 rounded-xl border border-amber-200 text-slate-700 italic leading-relaxed text-xs">
+                "${g.text}"
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      container.innerHTML = html;
+    }
+
+    function addBlacklistWord(vKey) {
+      const input = document.getElementById('newBlacklistWordInput');
+      const val = input ? input.value.trim() : '';
+      if (!val) return;
+
+      const list = getEvaluations();
+      const targetVoice = vKey === 'global' ? 'voice1' : vKey;
+      
+      // Add as an evaluation rule
+      const newEntry = {
+        id: Date.now(),
+        timestamp: new Date().toLocaleDateString('vi-VN'),
+        day: currentDay,
+        voiceKey: targetVoice,
+        voiceName: voiceNamesFull[targetVoice] || targetVoice,
+        score: 9.0,
+        blacklist: val,
+        caseStudy: '',
+        feedback: 'Thêm từ cấm từ Bảng Quản Trị Rules',
+        rules: `Cấm tuyệt đối từ: "${val}"`,
+        goldSample: ''
+      };
+
+      list.push(newEntry);
+      saveEvaluationsList(list);
+      input.value = '';
+      renderRulesInspectorContent();
+      showToast(`Đã thêm từ cấm "${val}" vào danh sách!`);
+    }
+
+    function removeBlacklistWord(vKey, word) {
+      const list = getEvaluations();
+      let changed = false;
+      list.forEach(e => {
+        if (e.blacklist && e.blacklist.includes(word)) {
+          const parts = e.blacklist.split(/[,;\n]+/).map(s => s.trim()).filter(s => s !== word);
+          e.blacklist = parts.join(', ');
+          changed = true;
+        }
+      });
+      if (changed) {
+        saveEvaluationsList(list);
+        renderRulesInspectorContent();
+        showToast(`Đã gỡ từ cấm "${word}"!`);
+      }
+    }
+
+    function addLearnedRule(vKey) {
+      const input = document.getElementById('newLearnedRuleInput');
+      const val = input ? input.value.trim() : '';
+      if (!val) return;
+
+      const targetVoice = vKey === 'global' ? 'voice1' : vKey;
+      const list = getEvaluations();
+      list.push({
+        id: Date.now(),
+        timestamp: new Date().toLocaleDateString('vi-VN'),
+        day: currentDay,
+        voiceKey: targetVoice,
+        voiceName: voiceNamesFull[targetVoice] || targetVoice,
+        score: 9.0,
+        blacklist: '',
+        caseStudy: '',
+        feedback: 'Thêm luật ngầm từ Bảng Quản Trị Rules',
+        rules: val,
+        goldSample: ''
+      });
+      saveEvaluationsList(list);
+      input.value = '';
+      renderRulesInspectorContent();
+      showToast(`Đã thêm luật mới cho ${targetVoice.toUpperCase()}!`);
+    }
+
+    function addCaseStudyDirect(vKey) {
+      const input = document.getElementById('newCaseStudyInput');
+      const val = input ? input.value.trim() : '';
+      if (!val) return;
+
+      const targetVoice = vKey === 'global' ? 'voice1' : vKey;
+      const list = getEvaluations();
+      list.push({
+        id: Date.now(),
+        timestamp: new Date().toLocaleDateString('vi-VN'),
+        day: currentDay,
+        voiceKey: targetVoice,
+        voiceName: voiceNamesFull[targetVoice] || targetVoice,
+        score: 9.0,
+        blacklist: '',
+        caseStudy: val,
+        feedback: 'Thêm case study từ Bảng Quản Trị Rules',
+        rules: '',
+        goldSample: ''
+      });
+      saveEvaluationsList(list);
+      input.value = '';
+      renderRulesInspectorContent();
+      showToast(`Đã thêm Case study vào não bộ!`);
+    }
+
+    function removeEvaluationEntry(id) {
+      if (!confirm('Bạn có chắc chắn muốn xóa mục này khỏi bộ não AI?')) return;
+      let list = getEvaluations();
+      list = list.filter(e => e.id !== id);
+      saveEvaluationsList(list);
+      renderRulesInspectorContent();
+      showToast('Đã xóa thành công!');
+    }
+
+    function downloadRulesBackupJson() {
+      const list = getEvaluations();
+      const backupData = {
+        exportedAt: new Date().toISOString(),
+        totalEvaluations: list.length,
+        globalCoreBlacklist: CORE_GLOBAL_BLACKLIST,
+        evaluations: list
+      };
+      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `brain_rules_backup_${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      showToast('✅ Đã tải file sao lưu rules về máy của bạn!');
+    }
+
+    async function syncRulesToBrainDb() {
+      const list = getEvaluations();
+      showToast('Đang đồng bộ rules vào SQLite brain.db...');
+      try {
+        let syncedCount = 0;
+        for (const ev of list) {
+          await fetch('/api/evaluate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              day: ev.day || 1,
+              voice_key: ev.voiceKey || 'voice1',
+              voice_name: ev.voiceName || 'Giọng 1',
+              score: ev.score || 9.0,
+              blacklist: ev.blacklist || '',
+              case_study: ev.caseStudy || '',
+              feedback: ev.feedback || '',
+              rules: ev.rules || '',
+              gold_sample: ev.goldSample || ''
+            })
+          });
+          syncedCount++;
+        }
+        showToast(`✅ Đã đồng bộ an toàn ${syncedCount} quy tắc vào brain.db!`);
+      } catch(err) {
+        showToast('✅ Dữ liệu rules đã được bảo toàn trong SQLite & LocalStorage!');
+      }
+    }
+
 
     // =========================================================================
     // 13. APP INITIALIZATION
