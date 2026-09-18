@@ -36,7 +36,7 @@ def export_db_to_md():
     cur.execute("""
         SELECT id, chapter_num, chapter_title, section_code, section_title, 
                anatomical_region, topic, german_terms, red_flags, indications, 
-               techniques, content, source_file
+               techniques, content, source_file, german_title, content_de
         FROM medical_knowledge
         ORDER BY id ASC;
     """)
@@ -95,6 +95,10 @@ def export_db_to_md():
 
         md_lines.append("\n---\n\n### 📖 Nội Dung Chuyên Môn Chi Tiết:\n")
         md_lines.append(r["content"])
+
+        if r["content_de"]:
+            g_hdr = f"**{r['german_title']}**\n\n" if r["german_title"] else ""
+            md_lines.append(f"\n---\n\n### 🇩🇪 Nguyên Văn Tiếng Đức (Originaltext - Henrik Simon):\n{g_hdr}{r['content_de']}")
 
         with open(fpath, "w", encoding="utf-8") as f:
             f.write("\n".join(md_lines))
