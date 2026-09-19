@@ -7,6 +7,9 @@
     }
   </script>
   <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simon Center — Second Brain & Content Calendar</title>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -45,6 +48,9 @@
           <span class="px-2 py-0.5 text-[10px] font-semibold bg-emerald-100 text-emerald-700 rounded-full flex items-center gap-1">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
             brain.chiro.vn
+          </span>
+          <span class="px-2 py-0.5 text-[10px] font-extrabold bg-blue-100 text-blue-800 rounded-full border border-blue-300 flex items-center gap-1 shadow-2xs" title="Bản cập nhật v2.5 - Rules Inspector Live">
+            <i class="fa-solid fa-shield-halved text-blue-600"></i> v2.5
           </span>
         </div>
         <p class="text-xs text-slate-500">Quản lý Brand Voice • Cuốn Lịch Kế Hoạch 7 Ngày • Tự Động Hóa & Đánh Giá Tiến Hóa</p>
@@ -152,7 +158,7 @@
           <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
             <i class="fa-solid fa-sliders text-blue-600"></i> 1. Chọn Brand Voice
           </h2>
-          <button type="button" id="btnOpenVoiceRulesTop" onclick="openRulesInspectorModal()" class="text-[11px] font-bold text-blue-700 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition cursor-pointer shadow-2xs" title="Xem danh sách từ cấm, luật ngầm và tri thức của từng voice">
+          <button type="button" id="btnOpenVoiceRulesTop" onclick="openRulesInspectorModal(currentVoice)" class="text-[11px] font-bold text-blue-700 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition cursor-pointer shadow-2xs" title="Xem danh sách từ cấm, luật ngầm và tri thức của từng voice">
             <i class="fa-solid fa-shield-halved text-blue-600"></i> Xem Rules Từng Voice
           </button>
         </div>
@@ -288,7 +294,7 @@
               <i class="fa-solid fa-heart-pulse text-blue-600"></i> Đang áp dụng: Giọng 1 (Tư Vấn & Đồng Cảm)
             </span>
             <div class="flex items-center gap-2">
-              <button type="button" id="btnOpenVoiceRulesBanner" onclick="openRulesInspectorModal()" class="text-[11px] font-bold bg-white hover:bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg border border-blue-200 transition flex items-center gap-1.5 shadow-2xs cursor-pointer" title="Xem bảng quy tắc và từ cấm đang áp dụng cho voice này">
+              <button type="button" id="btnOpenVoiceRulesBanner" onclick="openRulesInspectorModal(currentVoice)" class="text-[11px] font-bold bg-white hover:bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg border border-blue-200 transition flex items-center gap-1.5 shadow-2xs cursor-pointer" title="Xem bảng quy tắc và từ cấm đang áp dụng cho voice này">
                 <i class="fa-solid fa-shield-halved text-blue-600"></i> Rules & Blacklist
               </button>
               <span class="text-[10px] font-mono bg-white px-2 py-0.5 rounded border border-blue-200 text-blue-700">brain.db query</span>
@@ -1359,8 +1365,8 @@ python3 scripts/sync_brain.py --export</pre>
   <!-- ===================================================================== -->
   <!-- POPUP MODAL: QUẢN LÝ QUY TẮC & TỪ CẤM THEO BRAND VOICE (VOICE INSPECTOR) -->
   <!-- ===================================================================== -->
-  <div id="rulesInspectorModal" onclick="if(event.target === this) closeRulesInspectorModal()" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-[999] hidden">
-    <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+  <div id="rulesInspectorModal" onclick="if(event.target === this) closeRulesInspectorModal()" style="display: none; z-index: 999999;" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden transition-all duration-150">
       
       <!-- Modal Header -->
       <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-slate-50 to-blue-50/50">
@@ -4061,17 +4067,43 @@ ${escapeHtml(item.content)}
     let activeRulesModalTab = 'voice1';
 
     function openRulesInspectorModal(initialVoice = null) {
+      console.log('openRulesInspectorModal triggered for voice:', initialVoice);
+      const modal = document.getElementById('rulesInspectorModal');
+      if (!modal) {
+        console.error('Modal #rulesInspectorModal not found in DOM!');
+        alert('Lỗi: Không tìm thấy cửa sổ Rules Inspector!');
+        return;
+      }
+
+      // 1. Force modal to display immediately
+      modal.classList.remove('hidden');
+      modal.style.setProperty('display', 'flex', 'important');
+      modal.style.visibility = 'visible';
+      modal.style.opacity = '1';
+      modal.style.zIndex = '999999';
+
+      // 2. Determine target tab
       if (initialVoice && ['global', 'voice1', 'voice2', 'voice3'].includes(initialVoice)) {
         activeRulesModalTab = initialVoice;
       } else {
         activeRulesModalTab = (typeof currentVoice !== 'undefined' && currentVoice) ? currentVoice : 'voice1';
       }
 
-      switchRulesModalTab(activeRulesModalTab);
-      const modal = document.getElementById('rulesInspectorModal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.style.display = 'flex';
+      // 3. Render content safely
+      try {
+        switchRulesModalTab(activeRulesModalTab);
+      } catch (err) {
+        console.error('Error in switchRulesModalTab:', err);
+        const container = document.getElementById('rulesInspectorBody');
+        if (container) {
+          container.innerHTML = `
+            <div class="p-6 bg-red-50 border border-red-200 rounded-2xl text-center space-y-3">
+              <h4 class="font-bold text-red-800 text-sm">Có sự cố khi hiển thị dữ liệu</h4>
+              <p class="text-xs text-red-600">${escapeHtml(err.message || 'Lỗi không xác định')}</p>
+              <button onclick="renderRulesInspectorContent()" class="px-4 py-1.5 bg-red-600 text-white rounded-xl text-xs font-bold hover:bg-red-700 cursor-pointer">Thử lại</button>
+            </div>
+          `;
+        }
       }
     }
 
@@ -4079,21 +4111,9 @@ ${escapeHtml(item.content)}
       const modal = document.getElementById('rulesInspectorModal');
       if (modal) {
         modal.classList.add('hidden');
-        modal.style.display = 'none';
+        modal.style.setProperty('display', 'none', 'important');
       }
     }
-
-    // Attach to window for global access
-    window.openRulesInspectorModal = openRulesInspectorModal;
-    window.closeRulesInspectorModal = closeRulesInspectorModal;
-    window.switchRulesModalTab = switchRulesModalTab;
-    window.addBlacklistWord = addBlacklistWord;
-    window.removeBlacklistWord = removeBlacklistWord;
-    window.addLearnedRule = addLearnedRule;
-    window.addCaseStudyDirect = addCaseStudyDirect;
-    window.removeEvaluationEntry = removeEvaluationEntry;
-    window.downloadRulesBackupJson = downloadRulesBackupJson;
-    window.syncRulesToBrainDb = syncRulesToBrainDb;
 
     function switchRulesModalTab(tabKey) {
       activeRulesModalTab = tabKey;
@@ -4114,7 +4134,7 @@ ${escapeHtml(item.content)}
       const container = document.getElementById('rulesInspectorBody');
       if (!container) return;
 
-      const vKey = activeRulesModalTab;
+      const vKey = activeRulesModalTab || 'voice1';
       const list = getEvaluations();
 
       const voiceTitles = {
@@ -4131,32 +4151,39 @@ ${escapeHtml(item.content)}
         voice3: 'Francis Hùng (Công thức Feel - Felt - Found, Y đức trước doanh số)'
       };
 
-      // Extract rules, blacklist, cases, rewrites for this voice
+      // Extract rules, blacklist, cases, rewrites for this voice safely
       const activeBlacklist = getBlacklistForVoice(vKey === 'global' ? null : vKey);
       const activeRules = [];
       const activeCases = [];
       const activeGold = [];
 
-      list.forEach(e => {
-        if (vKey === 'global' || e.voiceKey === vKey) {
-          if (e.rules && e.rules.trim() && e.rules.trim().toLowerCase() !== 'chưa') {
-            activeRules.push({ text: e.rules.trim(), day: e.day, id: e.id, voice: e.voiceKey });
+      if (Array.isArray(list)) {
+        list.forEach(e => {
+          if (!e) return;
+          const eVoice = String(e.voiceKey || 'voice1');
+          if (vKey === 'global' || eVoice === vKey) {
+            const rulesStr = String(e.rules || '').trim();
+            if (rulesStr && rulesStr.toLowerCase() !== 'chưa' && rulesStr.toLowerCase() !== 'chua') {
+              activeRules.push({ text: rulesStr, day: e.day || 1, id: e.id || Date.now(), voice: eVoice });
+            }
+            const caseStr = String(e.caseStudy || '').trim();
+            if (caseStr && caseStr.toLowerCase() !== 'chưa' && caseStr.toLowerCase() !== 'chua') {
+              activeCases.push({ text: caseStr, day: e.day || 1, id: e.id || Date.now(), voice: eVoice });
+            }
+            const goldStr = String(e.goldSample || '').trim();
+            if (goldStr && goldStr.toLowerCase() !== 'chưa') {
+              activeGold.push({ text: goldStr, day: e.day || 1, id: e.id || Date.now(), voice: eVoice });
+            }
           }
-          if (e.caseStudy && e.caseStudy.trim() && e.caseStudy.trim().toLowerCase() !== 'chưa') {
-            activeCases.push({ text: e.caseStudy.trim(), day: e.day, id: e.id, voice: e.voiceKey });
-          }
-          if (e.goldSample && e.goldSample.trim()) {
-            activeGold.push({ text: e.goldSample.trim(), day: e.day, id: e.id, voice: e.voiceKey });
-          }
-        }
-      });
+        });
+      }
 
       let html = `
         <!-- Voice Meta Header -->
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h4 class="text-xs font-extrabold text-slate-900">${voiceTitles[vKey]}</h4>
-            <p class="text-[11px] text-slate-500 mt-0.5">Hình mẫu & Tinh thần: <span class="font-semibold text-blue-700">${voicePersonas[vKey]}</span></p>
+            <h4 class="text-xs font-extrabold text-slate-900">${escapeHtml(voiceTitles[vKey] || vKey)}</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">Hình mẫu & Tinh thần: <span class="font-semibold text-blue-700">${escapeHtml(voicePersonas[vKey] || '')}</span></p>
           </div>
           <div class="flex items-center gap-2">
             <span class="text-[11px] font-bold px-2.5 py-1 bg-blue-50 text-blue-800 rounded-lg border border-blue-200">
@@ -4182,18 +4209,23 @@ ${escapeHtml(item.content)}
           
           <!-- Tags list -->
           <div class="flex flex-wrap gap-1.5" id="blacklistTagsContainer">
-            ${activeBlacklist.map(w => `
+            ${activeBlacklist.map(w => {
+              const isCore = CORE_GLOBAL_BLACKLIST.includes(w);
+              return `
               <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-red-50 text-red-700 border border-red-200 rounded-lg text-xs font-medium">
-                <i class="fa-solid fa-circle-xmark text-red-500 text-[10px]"></i> "${w}"
-                ${!CORE_GLOBAL_BLACKLIST.includes(w) ? `<button onclick="removeBlacklistWord('${vKey}', '${w.replace(/'/g, "\\'")}')" class="text-red-400 hover:text-red-700 ml-0.5 cursor-pointer">×</button>` : `<span class="text-[9px] text-red-400 font-normal">(cốt lõi)</span>`}
+                <i class="fa-solid fa-circle-xmark text-red-500 text-[10px]"></i> &ldquo;${escapeHtml(w)}&rdquo;
+                ${!isCore ? `
+                  <button type="button" data-vkey="${escapeHtml(vKey)}" data-word="${encodeURIComponent(w)}" onclick="handleRemoveBlacklistTag(this)" class="text-red-400 hover:text-red-700 ml-0.5 font-bold cursor-pointer" title="Gỡ từ cấm này">×</button>
+                ` : `<span class="text-[9px] text-red-400 font-normal">(cốt lõi)</span>`}
               </span>
-            `).join('')}
+              `;
+            }).join('')}
           </div>
 
           <!-- Add new banned word form -->
           <div class="pt-2 border-t border-slate-100 flex gap-2">
             <input type="text" id="newBlacklistWordInput" placeholder="Nhập từ hoặc cụm từ muốn cấm..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500">
-            <button onclick="addBlacklistWord('${vKey}')" class="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+            <button type="button" onclick="addBlacklistWord('${escapeHtml(vKey)}')" class="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
               <i class="fa-solid fa-plus"></i> Thêm từ cấm
             </button>
           </div>
@@ -4214,15 +4246,15 @@ ${escapeHtml(item.content)}
           <!-- Rules list -->
           <div class="space-y-2">
             ${activeRules.length === 0 ? '<p class="text-slate-400 italic text-[11px]">Chưa có luật ngầm riêng cho giọng này. Bạn có thể thêm ngay bên dưới!</p>' : ''}
-            ${activeRules.map((r, idx) => `
+            ${activeRules.map((r) => `
               <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/80 flex items-start justify-between gap-2">
                 <div class="flex items-start gap-2">
                   <i class="fa-solid fa-check text-emerald-600 text-xs mt-0.5 shrink-0"></i>
-                  <span class="text-slate-800 text-xs leading-relaxed font-medium">${r.text}</span>
+                  <span class="text-slate-800 text-xs leading-relaxed font-medium">${escapeHtml(r.text)}</span>
                 </div>
                 <div class="flex items-center gap-1.5 shrink-0">
-                  <span class="text-[10px] bg-slate-200 text-slate-600 px-2 py-0.5 rounded font-mono">Day ${r.day || 1}</span>
-                  <button onclick="removeEvaluationEntry(${r.id})" class="text-slate-400 hover:text-red-600 text-xs px-1 cursor-pointer" title="Xóa luật này">
+                  <span class="text-[10px] bg-slate-200 text-slate-600 px-2 py-0.5 rounded font-mono">Day ${escapeHtml(String(r.day || 1))}</span>
+                  <button type="button" onclick="handleRemoveEvaluationRule('${r.id}')" class="text-slate-400 hover:text-red-600 text-xs px-1 cursor-pointer" title="Xóa luật này">
                     <i class="fa-regular fa-trash-can"></i>
                   </button>
                 </div>
@@ -4233,7 +4265,7 @@ ${escapeHtml(item.content)}
           <!-- Add new rule form -->
           <div class="pt-2 border-t border-slate-100 flex gap-2">
             <input type="text" id="newLearnedRuleInput" placeholder="Nhập quy tắc mới..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button onclick="addLearnedRule('${vKey}')" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+            <button type="button" onclick="addLearnedRule('${escapeHtml(vKey)}')" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
               <i class="fa-solid fa-plus"></i> Thêm luật
             </button>
           </div>
@@ -4256,14 +4288,14 @@ ${escapeHtml(item.content)}
             ${activeCases.map(c => `
               <div class="p-2.5 bg-indigo-50/50 rounded-xl border border-indigo-100 flex items-start gap-2">
                 <i class="fa-solid fa-user-doctor text-indigo-600 text-xs mt-0.5 shrink-0"></i>
-                <span class="text-slate-700 text-xs leading-relaxed">${c.text}</span>
+                <span class="text-slate-700 text-xs leading-relaxed">${escapeHtml(c.text)}</span>
               </div>
             `).join('')}
           </div>
 
           <div class="pt-2 border-t border-slate-100 flex gap-2">
             <input type="text" id="newCaseStudyInput" placeholder="Nhập câu chuyện/ca lâm sàng thực tế..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <button onclick="addCaseStudyDirect('${vKey}')" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+            <button type="button" onclick="addCaseStudyDirect('${escapeHtml(vKey)}')" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
               <i class="fa-solid fa-plus"></i> Thêm case
             </button>
           </div>
@@ -4285,7 +4317,7 @@ ${escapeHtml(item.content)}
             ${activeGold.length === 0 ? '<p class="text-slate-400 italic text-[11px]">Chưa có đoạn văn mẫu cho giọng này. Bạn có thể nhập ở ô Rewrite trong bài làm việc.</p>' : ''}
             ${activeGold.map(g => `
               <div class="p-3 bg-amber-50/50 rounded-xl border border-amber-200 text-slate-700 italic leading-relaxed text-xs">
-                "${g.text}"
+                &ldquo;${escapeHtml(g.text)}&rdquo;
               </div>
             `).join('')}
           </div>
@@ -4295,6 +4327,19 @@ ${escapeHtml(item.content)}
       container.innerHTML = html;
     }
 
+    function handleRemoveBlacklistTag(btn) {
+      if (!btn) return;
+      const vKey = btn.getAttribute('data-vkey');
+      const word = decodeURIComponent(btn.getAttribute('data-word'));
+      removeBlacklistWord(vKey, word);
+    }
+    window.handleRemoveBlacklistTag = handleRemoveBlacklistTag;
+
+    function handleRemoveEvaluationRule(id) {
+      removeEvaluationEntry(id);
+    }
+    window.handleRemoveEvaluationRule = handleRemoveEvaluationRule;
+
     function addBlacklistWord(vKey) {
       const input = document.getElementById('newBlacklistWordInput');
       const val = input ? input.value.trim() : '';
@@ -4303,11 +4348,10 @@ ${escapeHtml(item.content)}
       const list = getEvaluations();
       const targetVoice = vKey === 'global' ? 'voice1' : vKey;
       
-      // Add as an evaluation rule
       const newEntry = {
         id: Date.now(),
         timestamp: new Date().toLocaleDateString('vi-VN'),
-        day: currentDay,
+        day: currentDay || 1,
         voiceKey: targetVoice,
         voiceName: voiceNamesFull[targetVoice] || targetVoice,
         score: 9.0,
@@ -4329,8 +4373,10 @@ ${escapeHtml(item.content)}
       const list = getEvaluations();
       let changed = false;
       list.forEach(e => {
-        if (e.blacklist && e.blacklist.includes(word)) {
-          const parts = e.blacklist.split(/[,;\n]+/).map(s => s.trim()).filter(s => s !== word);
+        if (!e) return;
+        const bl = String(e.blacklist || '');
+        if (bl.includes(word)) {
+          const parts = bl.split(/[,;\n]+/).map(s => s.trim()).filter(s => s !== word);
           e.blacklist = parts.join(', ');
           changed = true;
         }
@@ -4352,7 +4398,7 @@ ${escapeHtml(item.content)}
       list.push({
         id: Date.now(),
         timestamp: new Date().toLocaleDateString('vi-VN'),
-        day: currentDay,
+        day: currentDay || 1,
         voiceKey: targetVoice,
         voiceName: voiceNamesFull[targetVoice] || targetVoice,
         score: 9.0,
@@ -4378,7 +4424,7 @@ ${escapeHtml(item.content)}
       list.push({
         id: Date.now(),
         timestamp: new Date().toLocaleDateString('vi-VN'),
-        day: currentDay,
+        day: currentDay || 1,
         voiceKey: targetVoice,
         voiceName: voiceNamesFull[targetVoice] || targetVoice,
         score: 9.0,
@@ -4397,7 +4443,8 @@ ${escapeHtml(item.content)}
     function removeEvaluationEntry(id) {
       if (!confirm('Bạn có chắc chắn muốn xóa mục này khỏi bộ não AI?')) return;
       let list = getEvaluations();
-      list = list.filter(e => e.id !== id);
+      const numId = Number(id);
+      list = list.filter(e => e && e.id !== numId && String(e.id) !== String(id));
       saveEvaluationsList(list);
       renderRulesInspectorContent();
       showToast('Đã xóa thành công!');
@@ -4425,6 +4472,7 @@ ${escapeHtml(item.content)}
       try {
         let syncedCount = 0;
         for (const ev of list) {
+          if (!ev) continue;
           await fetch('/api/evaluate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -4448,6 +4496,19 @@ ${escapeHtml(item.content)}
       }
     }
 
+    // Attach to window for global access
+    window.openRulesInspectorModal = openRulesInspectorModal;
+    window.closeRulesInspectorModal = closeRulesInspectorModal;
+    window.switchRulesModalTab = switchRulesModalTab;
+    window.renderRulesInspectorContent = renderRulesInspectorContent;
+    window.addBlacklistWord = addBlacklistWord;
+    window.removeBlacklistWord = removeBlacklistWord;
+    window.addLearnedRule = addLearnedRule;
+    window.addCaseStudyDirect = addCaseStudyDirect;
+    window.removeEvaluationEntry = removeEvaluationEntry;
+    window.downloadRulesBackupJson = downloadRulesBackupJson;
+    window.syncRulesToBrainDb = syncRulesToBrainDb;
+
 
     // =========================================================================
     // 13. APP INITIALIZATION
@@ -4463,9 +4524,20 @@ ${escapeHtml(item.content)}
 
       // Explicit click event bindings for Rules Inspector buttons
       const btnTop = document.getElementById('btnOpenVoiceRulesTop');
-      if (btnTop) btnTop.addEventListener('click', (e) => { e.preventDefault(); openRulesInspectorModal(); });
+      if (btnTop) btnTop.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openRulesInspectorModal(typeof currentVoice !== 'undefined' ? currentVoice : 'voice1'); });
       const btnBanner = document.getElementById('btnOpenVoiceRulesBanner');
-      if (btnBanner) btnBanner.addEventListener('click', (e) => { e.preventDefault(); openRulesInspectorModal(); });
+      if (btnBanner) btnBanner.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openRulesInspectorModal(typeof currentVoice !== 'undefined' ? currentVoice : 'voice1'); });
+    });
+
+    // Delegated click listener as a 100% reliable fallback across all devices and dynamically rendered DOM
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('#btnOpenVoiceRulesTop, #btnOpenVoiceRulesBanner');
+      if (btn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const v = (typeof currentVoice !== 'undefined' && currentVoice) ? currentVoice : 'voice1';
+        openRulesInspectorModal(v);
+      }
     });
   </script>
 </body>
