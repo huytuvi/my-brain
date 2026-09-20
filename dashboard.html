@@ -1906,31 +1906,110 @@ Tone: Tự tin, dứt khoát, chuyên nghiệp, đáng tin cậy, truyền độ
     // =========================================================================
     const initialRealEvaluations = [
       {
-        id: 1,
+        id: 101,
         timestamp: "15/09/2026 09:50",
         day: 1,
         voiceKey: "voice1",
         voiceName: "Giọng 1 (Tư Vấn & Đồng Cảm)",
-        score: 9.0,
-        blacklist: "Các từ giục mua hàng, câu 'bạn có biết không', từ 'chữa dứt điểm'",
-        caseStudy: "Bệnh nhân văn phòng ngồi máy tính nhiều bị mỏi cổ vai gáy",
-        feedback: "Khách khen bài ấm áp. Bài tết mà thấy viết ổn",
-        rules: "Cấm tuyệt đối từ \"thấu\" dưới mọi hình thức. Giữ phong cách đồng cảm, bài viết ấm áp chạm tâm lý, không giục giã.",
-        blacklist: "thấu, đọc thấu, thấu cảm, bẻ khớp dạo, giục mua hàng, tin siêu vui, cả nhà ơi",
-        goldSample: "Dạ em chào anh/chị, một mùa Tết nữa lại qua và em biết nhiều anh/chị đang phải quay lại bàn làm việc với một bờ vai nặng trĩu. Thay vì cố gắng 'chịu đựng' thêm một năm nữa, mình hãy lắng nghe tiếng nói của cột sống sớm hơn nhé ạ."
+        score: 9.5,
+        blacklist: "thấu, đọc thấu, thấu cảm, bẻ khớp dạo, giục mua hàng, chữa dứt điểm, khỏi ngay sau 1 lần, cam kết 100%",
+        caseStudy: "Nữ kế toán trưởng 42 tuổi đau cổ vai gáy dai dẳng 5 năm, cơ co cứng như gỗ do thói quen gồng mình gánh vác áp lực công việc và gia đình.",
+        feedback: "Bệnh nhân cảm nhận được sự lắng nghe sâu sắc, không bị ép mua liệu trình.",
+        rules: "Khắc họa bối cảnh tâm lý bệnh nhân trước khi phân tích cơ học. Nhịp câu điềm đạm, ân cần, lắng nghe trước khi khuyên. Tuyệt đối không dùng từ 'thấu', không hù dọa bệnh nhân.",
+        goldSample: "Có những cơn đau lưng hay mỏi cổ không hẳn bắt đầu từ chiếc ghế văn phòng, mà bắt đầu từ những ngày ta phải gồng mình chịu đựng quá nhiều áp lực mà không dám buông lơi. Cơ thể người là một người bạn trung thực đến nhói lòng: khi tâm trí bạn cố nói 'Tôi vẫn ổn', thì từng thớ cơ vùng vai gáy và đốt sống thắt lưng sẽ lên tiếng nói 'Không' thay cho bạn. Đừng vội tìm đến những tiếng bẻ khớp giòn tai chỉ để đổi lấy vài phút dễ chịu thoáng qua. Hãy ngồi xuống, hít một hơi thật sâu, và cho phép cơ thể được thăm khám từ nguyên căn tổn thương thật sự."
+      },
+      {
+        id: 102,
+        timestamp: "16/09/2026 14:20",
+        day: 3,
+        voiceKey: "voice1",
+        voiceName: "Giọng 1 (Tư Vấn & Đồng Cảm)",
+        score: 9.4,
+        blacklist: "thần dược, nắn phát khỏi luôn, cam kết 100%, tin siêu vui, cả nhà ơi",
+        caseStudy: "Bác cán bộ hưu trí 62 tuổi sợ hãi khi cầm tờ kết quả thoái hóa L4-L5, sau khi được bác sĩ giải thích cặn kẽ đã an tâm điều trị bảo tồn và tự tin tập luyện.",
+        feedback: "Văn phong mộc mạc, ví von hóm hỉnh như người thân dặn dò.",
+        rules: "Giải thích thoái hóa như quy luật thời gian tự nhiên, giải tỏa hoang mang cho người lớn tuổi. Dặn dò nâng niu đĩa đệm thay vì hù dọa phẫu thuật.",
+        goldSample: "Cột sống của mình cũng giống như chiếc cầu tre quê hương sau bao mùa mưa lũ, qua năm tháng gánh gồng thì vài khớp xương có mòn đi, vài đĩa đệm có xẹp bớt cũng là lẽ tự nhiên của tạo hóa. Đừng quá hoang mang khi cầm tờ giấy chẩn đoán thoái hóa trên tay. Quan trọng không phải là cột sống đã già đi bao nhiêu tuổi, mà là ta học cách nâng niu, giải tỏa áp lực cho từng đốt sống mỗi ngày như thế nào."
+      },
+      {
+        id: 201,
+        timestamp: "17/09/2026 10:15",
+        day: 2,
+        voiceKey: "voice2",
+        voiceName: "Giọng 2 (Học Thuật First Principles)",
+        score: 9.6,
+        blacklist: "bẻ xương gia truyền, đỉnh cao thần y, giật nắn siêu tốc, cam kết khỏi hẳn",
+        caseStudy: "Nam thanh niên 24 tuổi nghiện xem bẻ cổ giật cục trên mạng, đi nắn dạo về bị rách bao hoạt dịch C5-C6 gây chèn ép rễ thần kinh cánh tay.",
+        feedback: "Lập luận khoa học đanh thép, bóc trần đúng bản chất Cavitation vật lý.",
+        rules: "Bắt đầu bằng việc vạch trần một ngộ nhận phổ biến. Dùng nguyên lý cơ sinh học & vật lý giải phẫu bóc tách. Đanh thép phê phán các hành vi bẻ giật liều lĩnh không có phim X-quang.",
+        goldSample: "Hãy dừng việc để người khác bẻ giật cổ của bạn chỉ vì âm thanh 'rắc rắc' nghe đã tai trên mạng xã hội! Về mặt vật lý học cơ bản: âm thanh đó chỉ là hiện tượng sủi bọt khí Nitrogen do áp suất âm đột ngột trong dịch bao khớp (Cavitation) — nó chẳng liên quan gì đến việc đốt sống đã trở về vị trí sinh học chuẩn hay chưa. Một kỹ thuật nắn chỉnh Chiropractic chuẩn y khoa đòi hỏi đọc phim X-quang từng góc nghiêng Cobb, sờ nắn chẩn đoán động (Motion Palpation) và tính toán chính xác vector lực theo milimet, chứ không phải một cú giật mạnh liều lĩnh đánh cược với tủy sống."
+      },
+      {
+        id: 202,
+        timestamp: "18/09/2026 16:40",
+        day: 5,
+        voiceKey: "voice2",
+        voiceName: "Giọng 2 (Học Thuật First Principles)",
+        score: 9.5,
+        blacklist: "bẻ đâu cũng được, không cần chụp phim, nắn mò, cam kết 100%",
+        caseStudy: "Bệnh nhân nữ 58 tuổi đau thắt lưng do xẹp đốt sống loãng xương tiềm ẩn, suýt bị thợ nắn dạo đè ép gãy xương nếu không kịp dừng lại để tầm soát X-quang.",
+        feedback: "Độc giả chuyên môn (bác sĩ, kỹ thuật viên) đánh giá rất cao tính chuẩn mực y khoa.",
+        rules: "Tư duy First Principles: cơ thể là hệ thống chịu lực. Cấm tuyệt đối tác động lực khi chưa loại trừ 6 Cảnh báo đỏ (Red Flags: u xương, loãng xương nặng, trượt đốt sống nặng, phình mạch, chùm đuôi ngựa).",
+        goldSample: "Nếu tư duy theo nguyên lý gốc (First Principles): cơ thể con người là một hệ cơ sinh học đòn bẩy chịu tải trọng, và cột sống là ống bảo vệ tủy thần kinh trung ương. Khi bạn chưa biết vật liệu bên dưới chịu lực thế nào — mật độ xương ra sao, đĩa đệm có rách rỉ nhân nhầy hay không — thì mọi hành động nắn ép thô bạo đều là vô trách nhiệm. Tại Simon Center kế thừa chuẩn DISC Academy (Đức), bài học đầu tiên không phải là cách làm khớp kêu, mà là học cách 'Từ chối nắn' khi phát hiện dấu hiệu cảnh báo đỏ (Red Flags). An toàn y khoa tuyệt đối luôn đi trước mọi màn biểu diễn."
+      },
+      {
+        id: 301,
+        timestamp: "19/09/2026 11:30",
+        day: 4,
+        voiceKey: "voice3",
+        voiceName: "Giọng 3 (Sale Y Đức Chốt Deal)",
+        score: 9.6,
+        blacklist: "siêu sale, giảm sốc, duy nhất hôm nay, nhanh tay kẻo lỡ, tin siêu vui, cả nhà ơi",
+        caseStudy: "Kỹ thuật viên VLTL 28 tuổi bỏ gần 20 triệu học lớp 2 ngày về không dám chạm bệnh nhân thật vì sợ liệt tủy; sau khi học Simon-Technik chuẩn Đức đã tự tin mở phòng trị liệu.",
+        feedback: "Học viên đồng cảm sâu sắc với cảm giác run tay, thấy rõ giá trị của đào tạo chuẩn mực.",
+        rules: "Áp dụng cấu trúc Feel - Felt - Found. Chẩn đoán rào cản tâm lý của học viên trước khi đưa ra giải pháp. Giữ vị thế Cố vấn uy tín, tuyệt đối không dùng chiêu trò FOMO giật gân.",
+        goldSample: "Tôi hiểu cảm giác bế tắc của bạn: vừa bỏ ra gần 20 triệu cho một khóa học nắn chỉnh 2 ngày cuối tuần, nhưng khi đứng trước bệnh nhân thật thì hai bàn tay run bần bật không dám chạm vào đốt sống cổ của họ. Đó là nỗi sợ hoàn toàn lành mạnh của một người có lương tâm. Khóa học ngắn ngày bán cho bạn 'chiêu thức giật khớp', nhưng họ không bán cho bạn năng lực chẩn đoán giải phẫu và quy trình an toàn. Simon Center không mở các lớp học cấp tốc cưỡi ngựa xem hoa. Chúng tôi cung cấp lộ trình chuẩn mực Đức DISC Academy: làm chủ đọc phim X-quang, rèn vi lực đòn bẩy Micro-drills để bạn trị liệu an toàn trọn đời với sự tự tin vững chãi của một chuyên gia thực thụ."
+      },
+      {
+        id: 302,
+        timestamp: "19/09/2026 17:00",
+        day: 7,
+        voiceKey: "voice3",
+        voiceName: "Giọng 3 (Sale Y Đức Chốt Deal)",
+        score: 9.4,
+        blacklist: "chữa khỏi bách bệnh, thần y tái thế, cam kết 100% vĩnh viễn, khỏi sau 1 nốt nhạc",
+        caseStudy: "Bệnh nhân thoát vị đĩa đệm L5-S1 từng đi nắn dạo bấm huyệt mất tiền oan mà bệnh thêm nặng; Simon Center từ chối nắn khi chưa có MRI và chỉ nhận điều trị khi đúng chỉ định.",
+        feedback: "Bệnh nhân cảm thấy an tâm và tôn trọng thái độ minh bạch của phòng khám.",
+        rules: "Bán sự an tâm và minh bạch. Bác sĩ đọc phim cùng bệnh nhân, chỉ nhận điều trị khi đúng chỉ định cơ sinh học. Y đức đi trước doanh số.",
+        goldSample: "Chúng tôi không bao giờ cam kết 'chữa khỏi 100% chỉ sau một lần nắn', bởi vì bất kỳ ai nói với bạn câu đó trong y khoa đều là sự giả dối. Điều Simon Center cam kết với bạn là sự minh bạch tuyệt đối: Bác sĩ sẽ trực tiếp đọc phim X-quang/MRI cùng bạn, giải thích cặn kẽ từng góc sai lệch cơ sinh học, và chỉ nhận can thiệp khi xác định phác đồ nắn chỉnh thực sự an toàn và hiệu quả cho bạn. Sự an toàn và phục hồi tự nhiên của bạn chính là danh dự y đức của chúng tôi."
       }
     ];
 
     function getEvaluations() {
       const stored = localStorage.getItem('simon_real_evaluations');
+      let list = [];
       if (stored) {
         try {
           const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          if (Array.isArray(parsed) && parsed.length > 0) list = parsed;
         } catch(e) {}
       }
-      localStorage.setItem('simon_real_evaluations', JSON.stringify(initialRealEvaluations));
-      return initialRealEvaluations;
+      
+      // Auto-merge seed evaluations if missing
+      const existingIds = new Set(list.map(e => e.id));
+      let added = false;
+      initialRealEvaluations.forEach(seed => {
+        if (!existingIds.has(seed.id)) {
+          list.push(seed);
+          existingIds.add(seed.id);
+          added = true;
+        }
+      });
+
+      if (added || !stored) {
+        localStorage.setItem('simon_real_evaluations', JSON.stringify(list));
+      }
+      return list;
     }
 
     function saveEvaluationsList(list) {
