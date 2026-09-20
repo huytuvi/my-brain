@@ -5,7 +5,7 @@
 
 ## I. CÂU ĐỊNH VỊ MẠNH NHẤT (KẾT HỢP GÓC 1 VÀ GÓC 4)
 
-> **"Chương trình đào tạo Chiropractic chuẩn y khoa duy nhất giúp bạn đọc thấu phim X-quang, sờ nắn định vị chính xác gốc bệnh — và nắm vững nguyên tắc khi nào TUYỆT ĐỐI KHÔNG ĐƯỢC NẮN để trị liệu an toàn trọn đời."**
+> **"Chương trình đào tạo Chiropractic chuẩn y khoa duy nhất giúp bạn đọc thấu phim X-quang, sờ nắn định vị chính xác gốc bệnh — và nắm vững nguyên tắc khi nào TUYỆT ĐỐI KHÔNG ĐƯỢC NẮN để trị liệu an toàn và bền vững."**
 
 ### 3 Điểm chứng minh vì sao chúng ta làm được điều này còn các nơi khác thì không:
 1. **Nền tảng lâm sàng Specific chuẩn Đức từ DISC Academy:**
@@ -27,7 +27,7 @@
 >  
 > *Trong ngành y, rủi ro lớn nhất không phải là học phí đắt hay rẻ, mà là nếu lỡ tay nắn sai vào một ca chống chỉ định thì hậu quả về sức khỏe người bệnh và uy tín nghề nghiệp cả đời của mình không gì bù đắp được.*  
 >  
-> *Khóa học tại Simon Center dạy bạn cách nhìn thấu gốc bệnh và bảo vệ bạn an toàn 100% trước mọi rủi ro tai biến. Với mức đầu tư này, anh/chị chỉ cần tiếp nhận 5–6 bệnh nhân là đã thu hồi hoàn toàn chi phí, nhưng giá trị an toàn và uy tín thì theo anh/chị trọn đời nhé ạ."*
+> *Khóa học tại Simon Center dạy bạn cách nhìn thấu gốc bệnh và bảo vệ bạn an toàn 100% trước mọi rủi ro tai biến. Với mức đầu tư này, anh/chị chỉ cần tiếp nhận 5–6 bệnh nhân là đã thu hồi hoàn toàn chi phí, nhưng giá trị an toàn và uy tín thì theo anh/chị suốt sự nghiệp nhé ạ."*
 
 ---
 
@@ -37,7 +37,7 @@
 >  
 > *Nếu chỉ học dồn dập 2–3 ngày tại hội trường đông người, khi trở về phòng khám không có công cụ ôn tập, phần lớn học viên đều gặp tình trạng run tay và không dám nắn trên bệnh nhân thật.*  
 >  
-> *Tại Simon Center, bên em có hệ thống E-Learning 4K đa góc xem lại trọn đời, bài tập drill rèn phản xạ tại nhà và bài test qua môn sau từng bài giảng để anh/chị nắm chắc 100% kiến thức. Hơn thế nữa, bên em có mạng lưới cựu học viên và giảng viên hỗ trợ hội chẩn đọc phim X-quang 24/7 cho các ca bệnh khó tại phòng khám của anh/chị, để anh/chị không bao giờ phải cô đơn trong quá trình hành nghề nhé ạ."*
+> *Tại Simon Center, bên em có hệ thống E-Learning Video với các góc quay khác nhau đa góc xem lại dài hạn 24/7 không giới hạn thời gian, bài tập drill rèn phản xạ tại nhà và bài test qua môn sau từng bài giảng để anh/chị nắm chắc 100% kiến thức. Hơn thế nữa, bên em có mạng lưới cựu học viên và giảng viên hỗ trợ hội chẩn đọc phim X-quang 24/7 cho các ca bệnh khó tại phòng khám của anh/chị, để anh/chị không bao giờ phải cô đơn trong quá trình hành nghề nhé ạ."*
 
 ---
 
@@ -63,7 +63,7 @@
 | :---: | :--- | :--- |
 | **1** | **An toàn y khoa (Safety First)** | *"Biết chính xác khi nào TUYỆT ĐỐI KHÔNG ĐƯỢC NẮN trước khi học cách nắn."* |
 | **2** | **Sư phạm chống quên (Motor Drills)** | *"Học phản xạ tại nhà qua Micro-drills & Test qua môn — Học là nhớ, không run tay."* |
-| **3** | **Đồng hành trọn đời (Mentorship)** | *"Không mua video xem rồi bỏ — Sở hữu hội đồng chuyên môn chuẩn Đức hỗ trợ trọn đời."* |
+| **3** | **Đồng hành dài hạn (Mentorship)** | *"Không mua video xem rồi bỏ — Sở hữu hội đồng chuyên môn chuẩn Đức hỗ trợ dài hạn."* |
 | **4** | **Chẩn đoán gốc rễ (Root Cause)** | **"Đọc được phim X-quang, học sờ nắn biết được chính xác vị trí bị sai lệch, học cách lập luận để biết gốc bệnh."** |
 | **5** | **Nắn êm ái (Gentle Precision)** | *"Không cần gồng cơ, không xoay vặn thô bạo — Bệnh nhân chưa kịp sợ khớp đã êm."* |
 | **6** | **Kinh tế phòng khám (High ROI)** | *"Thoát khỏi lao động tay chân vất vả, nâng tầm giá trị dịch vụ lên 500k–1tr/ca điều trị."* |
