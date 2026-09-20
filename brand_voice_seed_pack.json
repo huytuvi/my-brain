@@ -143,11 +143,11 @@
     "topic": "Minh bạch y khoa: Khám trước khi kê đơn, từ chối cam kết viển vông",
     "score": 9.4,
     "feedback": "Bệnh nhân cảm thấy an tâm và tôn trọng thái độ minh bạch của phòng khám.",
-    "rules": "Bán sự an tâm và minh bạch. Bác sĩ đọc phim cùng bệnh nhân, chỉ nhận điều trị khi đúng chỉ định cơ sinh học. Y đức đi trước doanh số.",
+    "rules": "Bán sự an tâm và rõ ràng, chân thực. Bác sĩ đọc phim cùng bệnh nhân, chỉ nhận điều trị khi đúng chỉ định cơ sinh học. Y đức đi trước doanh số. Tránh từ ngữ tự cao.",
     "reviewNotes": "Seed tri thức chuẩn hóa cho voice3",
     "blacklist": "chữa khỏi bách bệnh, thần y tái thế, cam kết 100% vĩnh viễn, khỏi sau 1 nốt nhạc, trọn đời, Đức DISC Academy, DISC Academy",
     "caseStudy": "Bệnh nhân thoát vị đĩa đệm L5-S1 từng đi nắn dạo bấm huyệt mất tiền oan mà bệnh thêm nặng; Simon Center từ chối nắn khi chưa có MRI và chỉ nhận điều trị khi đúng chỉ định.",
-    "goldSample": "Chúng tôi không bao giờ cam kết 'chữa khỏi 100% chỉ sau một lần nắn', bởi vì bất kỳ ai nói với bạn câu đó trong y khoa đều là sự giả dối. Điều Simon Center cam kết với bạn là sự minh bạch tuyệt đối: Bác sĩ sẽ trực tiếp đọc phim X-quang/MRI cùng bạn, giải thích cặn kẽ từng góc sai lệch cơ sinh học, và chỉ nhận can thiệp khi xác định phác đồ nắn chỉnh thực sự an toàn và hiệu quả cho bạn. Sự an toàn và phục hồi tự nhiên của bạn chính là danh dự y đức của chúng tôi."
+    "goldSample": "Chúng tôi không bao giờ cam kết 'chữa khỏi 100% chỉ sau một lần nắn', bởi vì bất kỳ ai nói với bạn câu đó trong y khoa đều là sự giả dối. Điều Simon Center mang đến cho bạn là sự trung thực và rõ ràng: Bác sĩ sẽ trực tiếp xem phim X-quang/MRI cùng bạn, giải thích cặn kẽ từng góc sai lệch cơ sinh học, và chỉ nhận can thiệp khi xác định phác đồ nắn chỉnh thực sự an toàn và hiệu quả cho bạn. Sự an toàn và phục hồi tự nhiên của bạn chính là danh dự y đức của chúng tôi."
   },
   {
     "id": 303,
@@ -157,11 +157,11 @@
     "channel": "Bản tin / Tuyên Ngôn",
     "topic": "Bảo vệ đôi bàn tay lao động bằng chuẩn mực Chiropractic y khoa",
     "score": 9.7,
-    "feedback": "Tuyên ngôn mạnh mẽ, định vị chuẩn y khoa từ đôi tay chuyên gia và dữ liệu hình ảnh.",
-    "rules": "Quy tắc Tầm nhìn Bảo vệ Sức Lao động: Khẳng định đôi bàn tay là tài sản vô giá, định vị Chiropractic chuẩn y khoa kết hợp sự nhạy bén của đôi tay kỹ thuật viên và dữ liệu X-quang minh bạch.",
+    "feedback": "Văn phong điềm tĩnh, khiêm nhường, không tự xưng chuẩn hóa hay chê bai ai, tập trung vào kỹ năng học dùng đôi bàn tay và phim X-quang.",
+    "rules": "Nguyên tắc Khiêm Nhường & Tránh Phô Trương: Tuyệt đối không dùng câu từ đao to búa lớn hoặc văn phong quá mạnh (như 'khuất phục', 'tài sản vô giá'). Không dùng từ 'chuẩn hóa' vì dễ gây hiểu nhầm là mình hơn người khác, người khác không chuẩn. Cấm tuyệt đối các từ: khuất phục, nguyên bản, minh bạch, chuẩn hóa. Giữ giọng văn điềm đạm, khiêm tốn, tập trung vào việc kỹ thuật viên được học dùng đôi tay cảm nhận cơ sinh học và phim X-quang giải tỏa điểm sai lệch.",
     "reviewNotes": "Khẳng định vị thế tiên phong dẫn dắt ngành nắn chỉnh cơ sinh học chuẩn mực.",
-    "blacklist": "khó khăn lắm, bất lực, chắc là, có lẽ, cam kết 100%, chữa dứt điểm, trọn đời, Đức DISC Academy, DISC Academy",
+    "blacklist": "khó khăn lắm, bất lực, chắc là, có lẽ, cam kết 100%, chữa dứt điểm, trọn đời, Đức DISC Academy, DISC Academy, khuất phục, nguyên bản, minh bạch, chuẩn hóa",
     "caseStudy": "Bảo vệ thế hệ người lao động hiện đại trước nguy cơ thoái hóa và chèn ép thần kinh cổ sớm.",
-    "goldSample": "Đôi bàn tay lao động và trí tuệ là tài sản vô giá của mỗi con người, không thể bị khuất phục trước những cơn đau mỏi hay tê bì dai dẳng. Việc tìm đến các giải pháp bề mặt chỉ tạm thời xoa dịu triệu chứng, trong khi cốt lõi của sức khỏe hệ thần kinh nằm ở cấu trúc trục cột sống nguyên bản.\n\nSimon Center kiên định theo đuổi sứ mệnh chuẩn hóa Chiropractic y khoa chính thống tại Việt Nam: nơi người kỹ thuật viên sử dụng chính đôi bàn tay nhạy bén để cảm nhận cơ sinh học lâm sàng, kết hợp chẩn đoán hình ảnh X-quang minh bạch để giải phóng tận gốc áp lực chèn ép. Trả lại sự thanh thoát cho đôi bàn tay và sức sống bền vững cho người bệnh chính là cam kết vững chắc nhất của một nền y học cơ xương khớp chuẩn mực."
+    "goldSample": "Đôi bàn tay là cầu nối quan trọng cho công việc và nhịp sống hằng ngày của mỗi chúng ta. Khi những cơn mỏi cơ hay cảm giác tê bì bắt đầu xuất hiện thường xuyên, cơ thể đang nhắc nhở chúng ta cần chăm sóc cột sống đúng cách từ sớm, thay vì chỉ tìm đến những giải pháp xoa dịu tạm thời bên ngoài.\n\nTại Simon Center, chúng tôi kiên định theo đuổi định hướng Chiropractic y khoa chính thống: nơi người kỹ thuật viên được học cách sử dụng chính đôi bàn tay nhạy bén để cảm nhận cơ sinh học lâm sàng, kết hợp chẩn đoán hình ảnh X-quang để giải phóng áp lực chèn ép tại các điểm sai lệch. Trả lại sự linh hoạt, nhẹ nhõm cho đôi bàn tay và sức sống khỏe khoắn cho người bệnh chính là mục tiêu mà chúng tôi luôn nỗ lực hướng tới mỗi ngày."
   }
 ]
