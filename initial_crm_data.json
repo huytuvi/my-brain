@@ -1,0 +1,78 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "The Full Online Collection (Trọn Bộ Toàn Diện Full-Spine + Micro-Drills + Chứng Chỉ Online)",
+      "type": "digital",
+      "price": 12900000.0,
+      "description": "Trọn bộ Full-Spine E-Learning Video 4K POV, Drills rèn lực, cấp chứng chỉ trọn đời",
+      "registered_count": 0,
+      "created_at": "2026-09-18 13:17:13"
+    },
+    {
+      "id": 2,
+      "name": "Level 1 Online — Nền Tảng Cột Sống Full-Spine (Modul A)",
+      "type": "digital",
+      "price": 7000000.0,
+      "description": "Nền tảng cơ sinh học, sờ nắn động Motion Palpation & nắn chỉnh cột sống Cổ - Ngực - Thắt lưng - Chậu",
+      "registered_count": 0,
+      "created_at": "2026-09-18 13:17:13"
+    },
+    {
+      "id": 3,
+      "name": "Level 2 Online — Tứ Chi & Phân Tích X-Quang Chuyên Sâu (Modul B)",
+      "type": "digital",
+      "price": 7000000.0,
+      "description": "Chuyên sâu nắn chỉnh Chi trên, Chi dưới & Phân tích phim X-Quang cơ sinh học Gonstead/Full-Spine",
+      "registered_count": 0,
+      "created_at": "2026-09-18 13:17:13"
+    },
+    {
+      "id": 4,
+      "name": "Module Lẻ Online — Cổ Vai Gáy hoặc Thắt Lưng - Chậu",
+      "type": "digital",
+      "price": 1000000.0,
+      "description": "Học 1 vùng chuyên biệt (HWS Cổ vai gáy hoặc LWS Thắt lưng - Chậu) thực chiến cấp tốc",
+      "registered_count": 0,
+      "created_at": "2026-09-18 13:17:13"
+    },
+    {
+      "id": 5,
+      "name": "Khóa Huấn Luyện Offline Cầm Tay Chỉ Việc (4–5 ngày cùng Thầy Henrik Simon)",
+      "type": "service",
+      "price": 36000000.0,
+      "description": "4–5 ngày thực hành lâm sàng trực tiếp cùng Bác sĩ Henrik Simon, khấu trừ 100% học phí Online",
+      "registered_count": 0,
+      "created_at": "2026-09-18 13:17:13"
+    },
+    {
+      "id": 6,
+      "name": "Tageshospitation — Đi Thực Tế Lâm Sàng Tại Simon Center",
+      "type": "service",
+      "price": 2500000.0,
+      "description": "1 ngày thực tế quan sát khám và điều trị bệnh nhân tại Simon Chiropractic Center",
+      "registered_count": 0,
+      "created_at": "2026-09-18 13:17:13"
+    },
+    {
+      "id": 7,
+      "name": "Giáo Trình Chiropractic Y Khoa & Thước Đo Cột Sống",
+      "type": "physical",
+      "price": 1500000.0,
+      "description": "Bộ giáo trình in màu chuẩn y khoa kèm thước đo Cobb và phim mẫu giải phẫu cơ sinh học",
+      "registered_count": 0,
+      "created_at": "2026-09-18 13:17:13"
+    },
+    {
+      "id": 8,
+      "name": "[TEST SEPAY] Khóa Học Test Thanh Toán Tự Động (2.000 VNĐ)",
+      "type": "digital",
+      "price": 2000.0,
+      "description": "Khóa học test tích hợp cổng thanh toán tự động ACB SePay quét mã QR 2.000đ",
+      "registered_count": 0,
+      "created_at": "2026-09-18 13:17:13"
+    }
+  ],
+  "customers": [],
+  "orders": []
+}
